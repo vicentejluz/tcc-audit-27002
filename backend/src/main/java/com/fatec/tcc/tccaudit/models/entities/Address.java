@@ -2,17 +2,23 @@ package com.fatec.tcc.tccaudit.models.entities;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Column(length = 60)
     private String street;
 
+    @Column(length = 60)
     private String city;
 
+    @Column(length = 60)
     private String state;
 
+    @Column(length = 9)
     private String postalCode;
 
     public Address() {

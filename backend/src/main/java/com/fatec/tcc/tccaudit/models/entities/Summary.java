@@ -3,6 +3,7 @@ package com.fatec.tcc.tccaudit.models.entities;
 import java.io.Serializable;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +23,7 @@ public class Summary implements Serializable {
     private String text;
 
     @ManyToOne()
-    @JoinColumn(name = "id_topic")
+    @JoinColumn(name = "id_topic", foreignKey = @ForeignKey(name = "fk_summary_id_topic"))
     private Topic topic;
 
     public Summary() {

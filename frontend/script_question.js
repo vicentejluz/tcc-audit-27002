@@ -2,6 +2,16 @@ let selectedSummary = 0;
 let currentPages = {};
 let currentSummary = 0;
 let summaries = [];
+const allowedExtensions = [
+  ".pdf",
+  ".doc",
+  ".docx",
+  ".xls",
+  ".xlsx",
+  ".ppt",
+  ".pptx",
+  ".txt",
+];
 
 //dropdown.value = selectedSummary.topic.idTopic; depois ver isso
 
@@ -54,7 +64,7 @@ prevButtonSummary.addEventListener("click", () => {
 async function fetchSummaries() {
   const url = "http://localhost:8080/questions";
   try {
-    const response = await fetch(url);
+    const response = await fetchWithInterceptor(url, { method: "GET" });
     const data = await response.json();
     const summariesObj = {}; // Criar um objeto vazio
     data.forEach((question) => {
@@ -90,11 +100,20 @@ const fetchQuestionsBySummaryAndPage = async (idSummary, page, pageSize) => {
   }
 };
 
-async function updateDropdown() {
+async function fetchTopics() {
   const url = "http://localhost:8080/topics";
   try {
     const response = await fetch(url);
     const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching topics: ${error.message}`);
+  }
+}
+
+async function updateDropdown() {
+  try {
+    const data = await fetchTopics();
     dropdown.innerHTML = "";
     data.forEach((topic) => {
       const option = document.createElement("option");
@@ -103,7 +122,7 @@ async function updateDropdown() {
       dropdown.appendChild(option);
     });
   } catch (error) {
-    console.error(`Error fetching topics: ${error.message}`);
+    console.error(`Error updating dropdown: ${error.message}`);
   }
 }
 
@@ -119,14 +138,13 @@ async function updateTable() {
       return;
     }
     selectedSummary = summaries[currentSummary];
-
     const data = await fetchQuestionsBySummaryAndPage(
       selectedSummary.idSummary,
       currentPages[selectedSummary.idSummary],
       rowsPerPage
     );
-    teste(data);
     displayQuestions(data);
+    await fillQuestionnaireWithAnswers(data);
   } catch (error) {
     console.error("Error while updating the table:", error);
   }
@@ -199,7 +217,23 @@ function createFileInputTd(index) {
   fileInput.type = "file";
   fileInput.name = `file${index}`;
   fileInput.accept = ".pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt";
-  fileInput.disabled = false;
+  fileInput.size = 5 * 1024 * 1024;
+  fileInput.addEventListener("change", async () => {
+    const file = fileInput.files[0];
+    if (file) {
+      if (
+        !allowedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))
+      ) {
+        alert("The selected file is not allowed.");
+        fileInput.value = "";
+      } else if (file.size > fileInput.size) {
+        alert("The selected file is larger than the maximum allowed size.");
+        fileInput.value = "";
+      } else {
+        await uploadFile(file, fileInput);
+      }
+    }
+  });
   cellTd.appendChild(fileInput);
   return cellTd;
 }
@@ -209,21 +243,27 @@ function createRadioInput(item, index, optionIndex) {
   radioInput.type = "radio";
   radioInput.name = `resp${index}`;
   radioInput.value = optionIndex;
-  console.log("function " + radioInput.name);
-  radioInput.addEventListener("click", () => {
-    const questionId = item.idQuestion;
-    const companyId = 1;
-    const value = getPropertyName(optionIndex);
-    const data = {
-      idQuestion: questionId,
-      idCompany: companyId,
-      notApplicable: value === "notApplicable" ? true : false,
-      notMet: value === "notMet" ? true : false,
-      partiallyMet: value === "partiallyMet" ? true : false,
-      fullyMet: value === "fullyMet" ? true : false,
-    };
-    createAnswer(data);
-  });
+
+  fetchEmployee()
+    .then((employee) => {
+      const companyId = employee.company.idCompany;
+      // rest of your code using companyId
+      radioInput.addEventListener("click", () => {
+        const questionId = item.idQuestion;
+        const data = {
+          idQuestion: questionId,
+          idCompany: companyId,
+          notApplicable: optionIndex === 1 ? true : false,
+          notMet: optionIndex === 2 ? true : false,
+          partiallyMet: optionIndex === 3 ? true : false,
+          fullyMet: optionIndex === 4 ? true : false,
+        };
+        createAnswer(data);
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   return radioInput;
 }
 
@@ -242,64 +282,7 @@ function getPropertyName(optionIndex) {
   }
 }
 
-async function createAnswer(data) {
-  const url = "http://localhost:8080/answers";
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error("Erro ao criar resposta");
-    }
-
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Erro ao criar resposta: ${error.message}`);
-    alert("Erro ao criar resposta");
-  }
-}
-
-async function fetchAnswers() {
-  const url = "http://localhost:8080/answers";
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Erro ao buscar respostas");
-    }
-
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Erro ao buscar respostas: ${error.message}`);
-    alert("Erro ao buscar respostas");
-  }
-}
-
-async function fetchQuestions() {
-  const url = "http://localhost:8080/questions";
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Erro ao buscar respostas");
-    }
-
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Erro ao buscar respostas: ${error.message}`);
-    alert("Erro ao buscar respostas");
-  }
-}
-
-async function teste(data) {
+async function fillQuestionnaireWithAnswers(data) {
   try {
     const answers = await fetchAnswers();
     const items = data.content;
@@ -309,9 +292,15 @@ async function teste(data) {
       const questionTitleCell = document.querySelector(
         `[data-question-id="${questionId}"]`
       );
-      const answer = answers.find(
-        (answer) => answer.question.idQuestion === questionId
-      );
+      const employee = await fetchEmployee();
+      const companyId = employee.company.idCompany;
+
+      const answer = answers.find((answer) => {
+        return (
+          answer.question.idQuestion === questionId &&
+          answer.company.idCompany === companyId
+        );
+      });
 
       if (answer) {
         const optionIndex = getOptionIndex(
@@ -323,22 +312,18 @@ async function teste(data) {
         const radioInput = document.querySelector(
           `input[name="resp${i}"][value="${optionIndex}"]`
         );
-        console.log("Teste: " + radioInput.name);
         if (questionTitleCell && radioInput) {
           radioInput.checked = true;
-          questionTitleCell.classList.add("has-response");
         }
       } else {
         const radioInput = document.querySelector(`input[name="resp${i}"]`);
-        console.log("Teste1: " + radioInput.name);
         if (questionTitleCell && radioInput) {
           radioInput.checked = false;
-          questionTitleCell.classList.remove("has-response");
         }
       }
     }
   } catch (error) {
-    console.error("Error in 'teste' function:", error);
+    console.error("Error in 'fillQuestionnaireWithAnswers' function:", error);
   }
 }
 
@@ -351,9 +336,120 @@ function getOptionIndex(notApplicable, notMet, partiallyMet, fullyMet) {
     return 3;
   } else if (fullyMet) {
     return 4;
-  } else {
-    return null;
   }
+}
+
+async function createAnswer(data) {
+  const url = "http://localhost:8080/answers";
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error creating answer");
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(`Error creating answer: ${error.message}`);
+    alert("Error creating answer");
+  }
+}
+
+async function fetchAnswers() {
+  const url = "http://localhost:8080/answers";
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Error fetching answers");
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(`Error fetching answers: ${error.message}`);
+    alert("Error fetching answers");
+  }
+}
+
+async function fetchQuestions() {
+  const url = "http://localhost:8080/questions";
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Error fetching questions");
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(`Error fetching questions: ${error.message}`);
+    alert("Error fetching questions");
+  }
+}
+
+async function uploadFile(file, fileInput) {
+  const url = "http://localhost:8080/upload";
+  const formData = new FormData();
+  formData.append("file", file);
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error("Error uploading file");
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(`Error uploading file: ${error.message}`);
+    alert("Error uploading file");
+    //fileInput.value = "";
+  }
+}
+
+const interceptor = {
+  async request(url, options) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      if (!options.headers) {
+        options.headers = {};
+      }
+      options.headers.Authorization = `Bearer ${token}`;
+    }
+    return [url, options];
+  },
+  response(response) {
+    return response;
+  },
+};
+
+async function fetchEmployee() {
+  const token = localStorage.getItem("token");
+  const employeeId = JSON.parse(atob(token.split(".")[1])).id;
+  const url = `http://localhost:8080/employee/${employeeId}`;
+  try {
+    const response = await fetchWithInterceptor(url, { method: "GET" });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching usuário: ${error.message}`);
+  }
+}
+
+async function fetchWithInterceptor(url, options) {
+  const [newUrl, newOptions] = await interceptor.request(url, options);
+  const response = await fetch(newUrl, newOptions);
+  return interceptor.response(response);
 }
 
 async function init() {

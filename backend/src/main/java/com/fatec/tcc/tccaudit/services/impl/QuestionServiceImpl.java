@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.fatec.tcc.tccaudit.models.entities.Question;
 import com.fatec.tcc.tccaudit.models.entities.Summary;
-import com.fatec.tcc.tccaudit.models.utils.QuestionSpecifications;
 import com.fatec.tcc.tccaudit.repositories.QuestionRepository;
 import com.fatec.tcc.tccaudit.services.QuestionService;
 import com.fatec.tcc.tccaudit.services.exceptions.ResourceNotFoundException;
+import com.fatec.tcc.tccaudit.services.utils.QuestionSpecifications;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {

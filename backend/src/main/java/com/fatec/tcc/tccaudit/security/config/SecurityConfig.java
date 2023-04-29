@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.fatec.tcc.tccaudit.models.entities.Role;
 import com.fatec.tcc.tccaudit.security.SecurityFilter;
 
 @Configuration
@@ -36,12 +37,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.headers(headers -> headers.frameOptions().sameOrigin())
-                .cors().and().csrf().disable().sessionManagement()
+                .csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                // .requestMatchers(HttpMethod.POST,
-                // "/sign-up")
-                // .hasAuthority(Role.ROLE_ADMIN.name())
+                .requestMatchers(HttpMethod.POST, "/sign-up").hasAuthority(Role.ROLE_ADMIN.name())
                 .requestMatchers(HttpMethod.POST, MATCHERS_POST).permitAll()
                 .requestMatchers(SWAGGER).permitAll()
                 .requestMatchers("/**").permitAll()

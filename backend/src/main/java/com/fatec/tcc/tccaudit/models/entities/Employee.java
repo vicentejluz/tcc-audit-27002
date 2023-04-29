@@ -13,43 +13,49 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_employee")
+@Table(name = "tb_employee", uniqueConstraints = @UniqueConstraint(name = "uk_email", columnNames = "email"))
 public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmployee;
 
     @NotBlank
+    @Column(length = 60)
     private String name;
 
     @Email
-    @Column(unique = true)
+    @Column(unique = true, length = 60)
     @NotBlank
     private String email;
 
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Size(min = 8, max = 60)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 30)
     private Role role;
 
     @ManyToOne()
-    @JoinColumn(name = "id_company", nullable = false)
+    @JoinColumn(name = "id_company", nullable = false, foreignKey = @ForeignKey(name = "fk_employee_id_company"))
     private Company company;
 
     @ManyToOne()
-    @JoinColumn(name = "id_department", nullable = false)
+    @JoinColumn(name = "id_department", nullable = false, foreignKey = @ForeignKey(name = "fk_employee_id_department"))
     private Department department;
 
     public Employee() {

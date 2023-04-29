@@ -1,4 +1,4 @@
-package com.fatec.tcc.tccaudit.models.utils;
+package com.fatec.tcc.tccaudit.services.utils;
 
 import org.springframework.data.jpa.domain.Specification;
 

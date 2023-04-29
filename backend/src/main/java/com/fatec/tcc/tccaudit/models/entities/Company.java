@@ -15,9 +15,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_company")
+@Table(name = "tb_company", uniqueConstraints = @UniqueConstraint(name = "uk_cnpj", columnNames = "cnpj"))
 public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -25,9 +27,11 @@ public class Company implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCompany;
 
+    @Column(length = 60)
     private String name;
 
     @Column(unique = true)
+    @Size(max = 18)
     private String cnpj;
 
     @Embedded

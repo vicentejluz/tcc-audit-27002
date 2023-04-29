@@ -14,4 +14,5 @@ public interface QuestionService {
     Page<Question> findBySummary(Summary summary, Pageable pageable);
 
     Question findById(Long id);
+
 }

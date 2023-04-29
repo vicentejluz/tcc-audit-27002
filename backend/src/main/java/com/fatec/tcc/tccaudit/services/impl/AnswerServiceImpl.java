@@ -10,8 +10,10 @@ import com.fatec.tcc.tccaudit.models.dto.AnswerDTO;
 import com.fatec.tcc.tccaudit.models.entities.Answer;
 import com.fatec.tcc.tccaudit.models.entities.Company;
 import com.fatec.tcc.tccaudit.models.entities.Question;
+import com.fatec.tcc.tccaudit.models.entities.Weight;
 import com.fatec.tcc.tccaudit.repositories.AnswerRepository;
 import com.fatec.tcc.tccaudit.repositories.CompanyRepository;
+import com.fatec.tcc.tccaudit.repositories.WeightRepository;
 import com.fatec.tcc.tccaudit.services.AnswerService;
 import com.fatec.tcc.tccaudit.services.QuestionService;
 import com.fatec.tcc.tccaudit.services.exceptions.ResourceNotFoundException;
@@ -29,6 +31,9 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private WeightRepository weightRepository;
+
     @Override
     @Transactional
     public AnswerDTO createOrUpdateAnswer(AnswerDTO answerDTO) {
@@ -39,13 +44,7 @@ public class AnswerServiceImpl implements AnswerService {
         } else {
             createAnswer(answerDTO);
         }
-
         return answerDTO;
-    }
-
-    @Override
-    public List<Answer> findAll() {
-        return answerRepository.findAll();
     }
 
     private Optional<Answer> findExistingAnswer(AnswerDTO answerDTO) {
@@ -58,6 +57,7 @@ public class AnswerServiceImpl implements AnswerService {
         Answer answer = new Answer(question, company, answerDTO.notApplicable(), answerDTO.notMet(),
                 answerDTO.partiallyMet(), answerDTO.fullyMet());
         answerRepository.save(answer);
+        setWeight(answerDTO, answer);
     }
 
     private void updateAnswer(Answer answer, AnswerDTO answerDTO) {
@@ -66,6 +66,7 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setPartiallyMet(answerDTO.partiallyMet());
         answer.setFullyMet(answerDTO.fullyMet());
         answerRepository.save(answer);
+        setWeight(answerDTO, answer);
     }
 
     private Question findQuestion(Long questionId) {
@@ -77,9 +78,46 @@ public class AnswerServiceImpl implements AnswerService {
                 .orElseThrow(() -> new ResourceNotFoundException(companyId));
     }
 
+    private void setWeight(AnswerDTO answerDTO, Answer answer) {
+        Optional<Weight> existingWeight = weightRepository.findByAnswer(answer);
+        if (existingWeight.isPresent()) {
+            updateWeight(existingWeight.get(), answerDTO);
+        } else {
+            createWeight(answerDTO, answer);
+        }
+    }
+
+    private void createWeight(AnswerDTO answerDTO, Answer answer) {
+        Weight weight = new Weight();
+        weight.setAnswer(answer);
+        setWeightValue(weight, answerDTO);
+        weightRepository.save(weight);
+    }
+
+    private void updateWeight(Weight weight, AnswerDTO answerDTO) {
+        setWeightValue(weight, answerDTO);
+        weightRepository.save(weight);
+    }
+
+    private void setWeightValue(Weight weight, AnswerDTO answerDTO) {
+        if (answerDTO.notApplicable()) {
+            weight.setWeight(0d);
+        } else if (answerDTO.notMet()) {
+            weight.setWeight(0.5d);
+        } else if (answerDTO.partiallyMet()) {
+            weight.setWeight(1d);
+        } else if (answerDTO.fullyMet()) {
+            weight.setWeight(1.5d);
+        }
+    }
+
+    @Override
+    public List<Answer> findAll() {
+        return answerRepository.findAll();
+    }
+
     @Override
     public Answer findById(Long id) {
         return answerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
-
 }

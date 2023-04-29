@@ -21,8 +21,8 @@ public class TokenService {
     public String generateToken(Employee employee) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.create()
-                    .withClaim("Id", employee.getIdEmployee())
+            return JWT.create().withIssuer("TCC")
+                    .withClaim("id", employee.getIdEmployee())
                     .withClaim("name", employee.getName())
                     .withSubject(employee.getEmail())
                     .withClaim("role", employee.getRole().name())
@@ -36,7 +36,7 @@ public class TokenService {
     public String getSubject(String tokenJWT) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm).build().verify(tokenJWT).getSubject();
+            return JWT.require(algorithm).withIssuer("TCC").build().verify(tokenJWT).getSubject();
 
         } catch (JWTVerificationException exception) {
             throw new RuntimeException("JWT Token invalid or expired!");

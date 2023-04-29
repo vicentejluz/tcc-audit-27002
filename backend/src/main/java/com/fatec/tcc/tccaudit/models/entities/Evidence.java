@@ -5,12 +5,16 @@ import java.util.Arrays;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -21,19 +25,21 @@ public class Evidence implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEvidence;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name = "id_answer")
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id_evidence", referencedColumnName = "idAnswer", foreignKey = @ForeignKey(name = "fk_evidence_id_answer"))
     private Answer answer;
 
+    @Column(length = 60)
     private String name;
 
     @Lob
     private byte[] file;
 
     @Transient
+    @JsonIgnore
     private MultipartFile multipartFile;
 
     public Evidence() {

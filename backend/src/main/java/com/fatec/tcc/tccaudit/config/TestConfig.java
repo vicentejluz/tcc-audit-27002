@@ -82,7 +82,9 @@ public class TestConfig implements CommandLineRunner {
                 Employee employee = authenticationCentral.cryptography(
                                 new LoginDTO("admin@admin.com", "Admin123@"), company1);
                 Employee employee1 = authenticationCentral.cryptography(
-                                new LoginDTO("admin1@admin.com", "Admin123@"), company2);
+                                new LoginDTO("admin1@admin.com",
+                                                "Admin123@"),
+                                company2);
 
                 employeeRepository.save(employee);
 
@@ -168,49 +170,48 @@ public class TestConfig implements CommandLineRunner {
                                 question6, question7, question8, question9, question10));
 
                 questionRepository.saveAll(
-                                Arrays.asList(question11, question12, question13, question14, question15,
-                                                question16, question17, question18, question19, question20,
-                                                question21, question22,
-                                                question23, question24, question25, question26, question27,
-                                                question28, question29,
-                                                question30));
+                                Arrays.asList(question11, question12, question13, question14, question15, question16,
+                                                question17, question18, question19, question20, question21, question22,
+                                                question23, question24, question25, question26, question27, question28,
+                                                question29, question30));
 
-                Answer answer1 = new Answer(question1, company1, false, false, true,
-                                false);
-                Answer answer2 = new Answer(question20, company1, true, false, false,
-                                false);
-                Answer answer3 = new Answer(question5, company1, false, false, true,
-                                false);
-                Answer answer4 = new Answer(question10, company1, false, false, false,
-                                true);
-                Answer answer5 = new Answer(question7, company1, false, true, false,
-                                false);
-
-                answerRepository.saveAll(Arrays.asList(answer1, answer2, answer3, answer4,
-                                answer5));
+                Answer answer1 = new Answer(question1, company1, false, false, true, false);
+                Answer answer2 = new Answer(question20, company2, true, false, false, false);
+                Answer answer3 = new Answer(question5, company1, false, false, true, false);
+                Answer answer4 = new Answer(question10, company1, false, false, false, true);
+                Answer answer5 = new Answer(question7, company2, false, true, false, false);
+                Answer answer6 = new Answer(question2, company1, false, false, false, true);
+                Answer answer7 = new Answer(question30, company1, true, false, false, false);
+                Answer answer8 = new Answer(question8, company1, false, true, false, false);
+                Answer answer9 = new Answer(question7, company1, false, false, true, false);
+                Answer answer10 = new Answer(question15, company1, true, false, false, false);
 
                 // Criando 5 instâncias de Evidence
-                Evidence evidence1 = new Evidence(answer1, "evidence1.pdf", new byte[] { 1, 2, 3 });
-                Evidence evidence2 = new Evidence(answer2, "evidence2.pdf", new byte[] { 4, 5, 6 });
-                Evidence evidence3 = new Evidence(answer3, "evidence3.pdf", new byte[] { 7, 8, 9 });
-                Evidence evidence4 = new Evidence(answer4, "evidence4.pdf", new byte[] { 10, 11, 12 });
-                Evidence evidence5 = new Evidence(answer5, "evidence5.pdf", new byte[] { 13, 14, 15 });
+                Evidence evidence1 = new Evidence(answer1, "evidence1.pdf", new byte[] { 1,
+                                2, 3 });
+                Evidence evidence2 = new Evidence(answer2, "evidence2.pdf", new byte[] { 4,
+                                5, 6 });
+                Evidence evidence3 = new Evidence(answer3, "evidence3.pdf", new byte[] { 7,
+                                8, 9 });
+                Evidence evidence4 = new Evidence(answer4, "evidence4.pdf", new byte[] { 10,
+                                11, 12 });
 
                 answer1.setEvidence(evidence1);
                 answer2.setEvidence(evidence2);
                 answer3.setEvidence(evidence3);
                 answer4.setEvidence(evidence4);
-                answer5.setEvidence(evidence5);
 
-                evidenceRepository
-                                .saveAll(Arrays.asList(evidence1, evidence2, evidence3, evidence4, evidence5));
+                evidenceRepository.saveAll(Arrays.asList(evidence1, evidence2, evidence3,
+                                evidence4));
 
                 answerRepository.saveAll(Arrays.asList(answer1, answer2, answer3, answer4,
-                                answer5));
+                                answer5, answer6, answer7, answer8, answer9, answer10));
 
-                company1.getAnswers().addAll(Arrays.asList(answer1, answer2, answer3, answer4,
-                                answer5));
+                company1.getAnswers().addAll(
+                                Arrays.asList(answer1, answer3, answer4, answer6, answer7, answer8, answer9, answer10));
 
-                companyRepository.save(company1);
+                company2.getAnswers().addAll(Arrays.asList(answer2, answer5));
+
+                companyRepository.saveAll(Arrays.asList(company1, company2));
         }
 }
