@@ -1,3 +1,12 @@
+import togglePassword from "./module/utils/toggle_password.js";
+import { tokenNotFound } from "./module/utils/token.js";
+
+let eye_password = document.querySelector("#eye-password");
+let password_type = document.querySelector("#password");
+eye_password.addEventListener("click", function () {
+  togglePassword(password_type, eye_password);
+});
+
 const form = document.querySelector("#sign-up-form");
 
 form.addEventListener("submit", async (e) => {
@@ -40,8 +49,8 @@ form.addEventListener("submit", async (e) => {
   if (response.ok) {
     const responseJson = await response.json();
     const token = responseJson.token;
-    localStorage.setItem("token", token); // Salva o token no localStorage para usá-lo em outras solicitações
-    window.location.href = "./dashboard.html";
+    localStorage.setItem("token", token);
+    window.location.href = "../pages/dashboard.html";
   } else {
     const responseJson = await response.json();
     const error = responseJson;
@@ -50,11 +59,6 @@ form.addEventListener("submit", async (e) => {
 });
 
 async function init() {
-  document.body.style.display = "none";
-  if (localStorage.getItem("token")) {
-    window.location.href = "./dashboard.html";
-  } else {
-    document.body.style.display = "block";
-  }
+  tokenNotFound();
 }
 init();

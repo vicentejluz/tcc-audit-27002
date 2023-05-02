@@ -1,6 +1,7 @@
 package com.fatec.tcc.tccaudit.security;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import com.fatec.tcc.tccaudit.repositories.CompanyRepository;
 import com.fatec.tcc.tccaudit.repositories.DepartmentRepository;
 import com.fatec.tcc.tccaudit.repositories.EmployeeRepository;
 import com.fatec.tcc.tccaudit.security.exceptions.InvalidPasswordException;
+import com.fatec.tcc.tccaudit.services.exceptions.DepartmentNotAllowedException;
 import com.fatec.tcc.tccaudit.services.exceptions.EmailAlreadyRegisteredException;
 import com.fatec.tcc.tccaudit.services.exceptions.InvalidEmployeeNameException;
 import com.fatec.tcc.tccaudit.services.exceptions.ResourceNotFoundException;
@@ -74,12 +76,19 @@ public class AuthenticationCentral {
                 throw new ResourceNotFoundException("Company not found");
             }
 
+            Long idDepartment = signUpEmployeeDTO.idDepartment();
+            if (idDepartment == 1) {
+                throw new DepartmentNotAllowedException("Department not allowed");
+            }
+
+            Department department = getDepartment(idDepartment);
+
             validateSignUpEmployeeDTO(signUpEmployeeDTO, company);
 
             String password = passwordEncoder.encode(signUpEmployeeDTO.loginDTO().password());
             Employee employee = new Employee(signUpEmployeeDTO.name(),
                     signUpEmployeeDTO.loginDTO().email(),
-                    password, signUpEmployeeDTO.department(), company);
+                    password, department, company);
             employee.setRole(Role.ROLE_EMPLOYEE);
             return employee;
         } catch (ClassCastException e) {
@@ -123,6 +132,14 @@ public class AuthenticationCentral {
         if (!isValidPassword(loginDTO.password())) {
             throw new InvalidPasswordException("The password is weak. Please choose a stronger one!");
         }
+    }
+
+    private Department getDepartment(Long idDepartment) {
+        Optional<Department> department = departmentRepository.findById(idDepartment);
+        if (!department.isPresent()) {
+            throw new ResourceNotFoundException("Department not found for id: " + idDepartment);
+        }
+        return department.get();
     }
 
     private boolean isValidPassword(String password) {

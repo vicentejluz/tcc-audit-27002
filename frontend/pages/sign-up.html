@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/sign-up.css" />
+    <title>Cadastro funcionário</title>
+  </head>
+  <body>
+    <h1>Cadastro funcionário</h1>
+    <form id="sign-up-form" method="post">
+      <p id="error"></p>
+      <div class="form-group">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha:</label>
+        <div class="password-input-container">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[A-Z])(?=.*[!@#\$%\^&\*])[A-Za-z\d!@#\$%\^&\*]{8,}$"
+            title="A senha deve ter no mínimo 8 caracteres, com pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial."
+            required
+          />
+          <img id="eye-password" src="../icons/eye-outline.svg" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirmar senha:</label>
+        <div class="password-input-container">
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            required
+          />
+          <img id="eye-confirm-password" src="../icons/eye-outline.svg" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="department">Departamento:</label>
+        <select id="department" name="department" required></select>
+      </div>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <script type="module" src="../scripts/sign_up.js"></script>
+  </body>
+</html>
