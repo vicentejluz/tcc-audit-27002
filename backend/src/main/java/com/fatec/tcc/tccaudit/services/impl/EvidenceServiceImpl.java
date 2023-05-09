@@ -90,8 +90,14 @@ public class EvidenceServiceImpl implements EvidenceService {
         if (multipartFile == null) {
             throw new EvidenceUploadException("Multipart file is null");
         }
+
         String originalFilename = multipartFile.getOriginalFilename();
+        if (originalFilename == null) {
+            throw new EvidenceUploadException("OriginalFilename is null");
+        }
+
         String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
+
         if (!ALLOWED_EXTENSIONS.contains(extension)) {
             throw new EvidenceUploadException("Invalid file extension");
         }

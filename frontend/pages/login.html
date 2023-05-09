@@ -8,19 +8,44 @@
     <title>Login</title>
   </head>
   <body>
-    <h1>Login</h1>
-    <form id="login-form" method="post">
-      <p id="error"></p>
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" required />
-      <label for="password">Senha:</label>
-      <div class="password-input-container">
-        <input type="password" id="password" name="password" required />
-        <img id="eye-password" src="../icons/eye-outline.svg" />
+    <header>
+      <div class="header-content">
+        <a href="../index.html">
+          <img src="../icons/icons8-survey-50.png" alt="Logo" />
+          <h1>TCC AUDIT 27002</h1>
+        </a>
+        <div class="header-buttons">
+          <button onclick="window.location.href='../index.html'">Inicio</button>
+          <button onclick="window.location.href='./sign-up-company.html'">
+            Cadastrar
+          </button>
+        </div>
       </div>
-      <button type="submit">Entrar</button>
-    </form>
-
+    </header>
+    <div class="main-content">
+      <h1>LOGIN</h1>
+      <form id="login-form" method="post">
+        <p id="error"></p>
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" autofocus required />
+        <label for="password">Senha:</label>
+        <div class="password-input-container">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            maxlength="60"
+            required
+          />
+          <img id="eye-password" src="../icons/eye-outline.svg" />
+        </div>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+    <footer>
+      <p>Desenvolvido por SEGMA6 - 2023</p>
+      <p>Fatec São Caetano do Sul</p>
+    </footer>
     <script type="module" src="../scripts/login.js"></script>
   </body>
 </html>

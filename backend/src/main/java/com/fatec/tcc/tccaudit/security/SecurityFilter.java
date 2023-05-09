@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fatec.tcc.tccaudit.repositories.EmployeeRepository;
+import com.fatec.tcc.tccaudit.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,10 +34,14 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             String subject = tokenService.getSubject(token);
             UserDetails email = employeeRepository.findByEmail(subject);
-
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, null,
-                    email.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (email != null) {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email,
+                        null,
+                        email.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                throw new ResourceNotFoundException("E-mail not found: ", subject);
+            }
         }
         filterChain.doFilter(request, response);
     }

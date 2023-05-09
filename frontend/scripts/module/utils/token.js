@@ -5,8 +5,8 @@ function tokenNotExists(token) {
   }
 }
 
-function tokenNotFound() {
-  if (localStorage.getItem("token")) {
+function tokenNotFound(token) {
+  if (token) {
     window.location.href = "../pages/dashboard.html";
   } else {
     document.body.style.display = "block";

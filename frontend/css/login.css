@@ -1,77 +1,221 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
-
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
   display: none;
+  max-width: 100%;
 }
 
-p {
+header {
+  background-color: #0047ab;
+  color: #fff;
+  height: calc(15vh + 1px);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3vw;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-content a {
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.header-content img {
+  padding-right: 1vw;
+  width: 6vw;
+  height: 5vw;
+}
+
+.header-content h1 {
+  font-size: 2rem;
+  align-items: center;
+}
+
+.header-buttons {
+  position: absolute;
+  right: 1vw;
+}
+
+.header-content button {
+  color: #161618;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 1vh 2vw;
+  border-radius: 4px;
+}
+
+.header-content button:hover {
+  background-color: #161618;
+  color: #fff;
+}
+
+.main-content {
+  margin-top: 1.782rem;
+  height: calc(70vh - 30px);
+}
+
+.main-content h1 {
   text-align: center;
-  font-size: 14px;
+  padding: 1%;
+  font-size: 2rem;
+}
+
+.main-content form {
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  max-width: 25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content p {
+  text-align: center;
+  font-size: 1rem;
   color: #ff000d;
 }
 
-form {
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  max-width: 250px;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column; /* adicionado */
-}
-
-label {
+.main-content label {
   display: block;
-  margin-top: 10px;
+  margin-top: 1rem;
 }
 
-input {
+.main-content input {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  padding: 0.625rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   box-sizing: border-box;
+  font-size: 1rem;
 }
 
-button {
-  margin-top: 16px;
-  padding: 10px;
-  border-radius: 4px;
-  border: none;
-  background-color: #007bff;
-  color: #fff;
+.main-content input#password {
+  padding-right: 2rem;
+}
+
+.main-content img {
+  position: absolute;
+  top: 45%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
   cursor: pointer;
-  width: 30%;
-  margin: 0 auto;
-}
-
-button:hover {
-  background-color: #0069d9;
-}
-
-h1 {
-  text-align: center;
-  margin-top: 13.5%;
-  padding: 1%;
 }
 
 .password-input-container {
   position: relative;
 }
 
-img {
-  position: absolute;
-  top: 45%;
-  right: 10px;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+.main-content button {
+  margin-top: 1.6rem;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
+  width: 30%;
+  margin: 0 auto;
+  font-size: 1rem;
+}
+
+footer {
+  background-color: #0047ab;
+  color: #fff;
+  height: calc(15vh + 1px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+footer p {
+  margin: 1vh 0;
+}
+
+button:hover {
+  background-color: #0069d9;
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+  .header-content img {
+    width: 10vw;
+    height: 8vw;
+  }
+
+  .header-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .main-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .main-content input {
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .main-content button {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header-content {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .header-content img {
+    margin-top: 5vh;
+    min-width: 40px;
+    min-height: 30px;
+  }
+
+  .header-content h1 {
+    margin-top: 5vh;
+    font-size: 1.3rem;
+  }
+
+  .header-buttons {
+    position: static;
+  }
+
+  .header-content button {
+    padding: 0.8vh 1.5vw;
+  }
+
+  .main-content button[type="submit"] {
+    width: 100%;
+  }
+
+  footer {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 485px) and (max-height: 730px) {
+  .main-content {
+    margin-top: 4.6vh;
+  }
 }

@@ -1,11 +1,16 @@
 import { fetchWithInterceptor } from "./module/utils/interceptor.js";
+import { fetchEmployee } from "./module/api.js";
 import togglePassword from "./module/utils/toggle_password.js";
 import { expirationTime, tokenNotExists } from "./module/utils/token.js";
 import roleAdmin from "./module/utils/role_admin.js";
 
+const token = localStorage.getItem("token");
+
 const form = document.querySelector("#sign-up-form");
 const select = document.querySelector("#department");
-const error = document.querySelector("#error");
+const msg = document.querySelector("#msg");
+const inputName = document.querySelector("#name");
+const inputEmail = document.querySelector("#email");
 
 // Adiciona opção vazia ao menu suspenso
 const defaultOption = document.createElement("option");
@@ -44,14 +49,26 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault(); // Impede que o formulário seja enviado automaticamente
   password_type.addEventListener("input", () => {
     if (password_type.value === confirm_password_type.value) {
-      error.textContent = "";
+      msg.textContent = "";
     }
   });
 
   confirm_password_type.addEventListener("input", () => {
     if (password_type.value === confirm_password_type.value) {
-      error.textContent = "";
+      msg.textContent = "";
     }
+  });
+
+  inputName.addEventListener("invalid", () => {
+    msg.textContent = "";
+  });
+
+  select.addEventListener("invalid", () => {
+    msg.textContent = "";
+  });
+
+  inputEmail.addEventListener("invalid", () => {
+    msg.textContent = "";
   });
 
   const formData = new FormData(form); // Obtém os dados do formulário
@@ -60,8 +77,12 @@ form.addEventListener("submit", async (e) => {
   const password = formData.get("password");
   const confirm_password = formData.get("confirm-password");
   if (password != confirm_password) {
-    error.textContent = "As senhas não coincidem!";
+    password_type.classList.add("invalid-input");
+    confirm_password_type.classList.add("invalid-input");
+    msg.textContent = "As senhas não coincidem!";
   } else {
+    password_type.classList.remove("invalid-input");
+    confirm_password_type.classList.remove("invalid-input");
     // Envia uma solicitação POST para o endpoint com os dados da empresa como corpo da solicitação
     const url = "http://localhost:8080/sign-up";
     const response = await fetchWithInterceptor(url, {
@@ -78,71 +99,46 @@ form.addEventListener("submit", async (e) => {
         idDepartment: select.value,
       }),
     });
-    const employeeUrl = "http://localhost:8080/employees";
-    const employeesResponse = await fetchWithInterceptor(employeeUrl, {
-      method: "GET",
-    });
-    if (employeesResponse.ok) {
-      const employees = await employeesResponse.json();
-      const existingEmployee = employees.find(
-        (employee) => employee.email === email
-      );
-      if (existingEmployee) {
-        // Mostra uma mensagem de erro ao usuário
-        error.textContent = "Este e-mail já existe!";
-        return;
-      }
-    } else {
-      // Mostra uma mensagem de erro ao usuário
-      alert(
-        "Ocorreu um erro ao verificar se este e-mail já está em uso. Tente novamente mais tarde."
-      );
-      return;
-    }
     if (response.ok) {
-      // Mostra uma mensagem de sucesso ao usuário
-      alert("Cadastro realizado com sucesso!");
-      // Limpa o formulário
-      form.reset();
-      // Volta os inputs password e confirm_password para type="password"
+      msg.classList.add("success");
+      msg.textContent = "Cadastrado com sucesso!";
+      inputName.classList.remove("invalid-input");
+      inputEmail.classList.remove("invalid-input");
       password_type.type = "password";
       confirm_password_type.type = "password";
       eye_password.src = "../icons/eye-outline.svg";
       eye_confirm_senha.src = "../icons/eye-outline.svg";
+
+      // Remove a mensagem de sucesso após 3 segundos
+      setTimeout(() => {
+        msg.textContent = "";
+        msg.classList.remove("success");
+      }, 2000);
+      form.reset();
     } else {
       // Mostra uma mensagem de erro ao usuário
-      alert(
-        "Ocorreu um erro ao realizar o cadastro. Tente novamente mais tarde."
-      );
+      const responseJson = await response.json();
+      const errorCatch = responseJson;
+      // Quando ocorre um erro, adiciona a classe 'invalid-input' ao input
+      if (errorCatch.error === "name error") {
+        inputName.classList.add("invalid-input");
+      } else {
+        inputName.classList.remove("invalid-input");
+      }
+      if (errorCatch.error === "email error") {
+        inputEmail.classList.add("invalid-input");
+      } else {
+        inputEmail.classList.remove("invalid-input");
+      }
+      msg.textContent = errorCatch.message;
     }
   }
 });
 
-async function fetchEmployee() {
-  const token = localStorage.getItem("token");
-  const employeeId = JSON.parse(atob(token.split(".")[1])).id;
-  const url = `http://localhost:8080/employee/${employeeId}`; // adiciona o ID do funcionário à URL
-  try {
-    const response = await fetchWithInterceptor(url, { method: "GET" });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      console.error(`Error fetching employee: ${response.status}`);
-      throw new Error("Failed to fetch employee");
-    }
-  } catch (error) {
-    console.error(`Error fetching employee: ${error.message}`);
-    localStorage.removeItem("token");
-    window.location.href = "../index.html";
-  }
-}
-
 async function init() {
-  const token = localStorage.getItem("token");
+  await fetchEmployee(token);
   tokenNotExists(token);
   expirationTime(token);
-  await fetchEmployee();
   roleAdmin(token);
 }
 
