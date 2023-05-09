@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,7 +25,7 @@ public class Question implements Serializable {
     private String question;
 
     @ManyToOne()
-    @JoinColumn(name = "id_summary")
+    @JoinColumn(name = "id_summary", foreignKey = @ForeignKey(name = "fk_question_id_summary"))
     private Summary summary;
 
     public Question() {

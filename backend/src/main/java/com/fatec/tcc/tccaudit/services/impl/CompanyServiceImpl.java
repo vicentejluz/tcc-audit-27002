@@ -1,0 +1,68 @@
+package com.fatec.tcc.tccaudit.services.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
+
+import com.fatec.tcc.tccaudit.models.dto.LoginAndSignUpDTO;
+import com.fatec.tcc.tccaudit.models.dto.SignUpCompanyDTO;
+import com.fatec.tcc.tccaudit.models.entities.Address;
+import com.fatec.tcc.tccaudit.models.entities.Company;
+import com.fatec.tcc.tccaudit.models.entities.Employee;
+import com.fatec.tcc.tccaudit.repositories.CompanyRepository;
+import com.fatec.tcc.tccaudit.repositories.EmployeeRepository;
+import com.fatec.tcc.tccaudit.security.AuthenticationCentral;
+import com.fatec.tcc.tccaudit.security.TokenService;
+import com.fatec.tcc.tccaudit.services.CompanyService;
+import com.fatec.tcc.tccaudit.services.exceptions.DatabaseException;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class CompanyServiceImpl implements CompanyService {
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationCentral authenticationCentral;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Override
+    @Transactional
+    public LoginAndSignUpDTO signUpCompany(SignUpCompanyDTO signUpCompanyDTO) {
+        try {
+            Company company = createCompany(signUpCompanyDTO);
+            Employee employee = authenticationCentral.cryptography(signUpCompanyDTO.loginDTO(), company);
+            companyRepository.save(company);
+            employeeRepository.save(employee);
+            String token = tokenService.generateToken(employee);
+            return new LoginAndSignUpDTO(employee.getIdEmployee(), employee.getName(), employee.getEmail(), token);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(
+                    "Error while trying to create company. Please check the provided data.");
+        } catch (TransactionSystemException e) {
+            throw new DatabaseException("Error while performing database transaction: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Company> findAll() {
+        return companyRepository.findAll();
+    }
+
+    private Company createCompany(SignUpCompanyDTO signUpCompanyDTO) {
+        Address address = new Address(signUpCompanyDTO.address().getStreet(), signUpCompanyDTO.address().getCity(),
+                signUpCompanyDTO.address().getState(), signUpCompanyDTO.address().getPostalCode());
+        Company company = new Company(signUpCompanyDTO.companyDTO().name(), signUpCompanyDTO.companyDTO().cnpj(),
+                address);
+        return company;
+    }
+}

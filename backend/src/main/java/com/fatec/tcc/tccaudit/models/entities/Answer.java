@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_answers")
+@Table(name = "tb_answer")
 public class Answer implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -26,11 +27,11 @@ public class Answer implements Serializable {
     private Long idAnswer;
 
     @ManyToOne()
-    @JoinColumn(name = "id_question", nullable = false)
+    @JoinColumn(name = "id_question", nullable = false, foreignKey = @ForeignKey(name = "fk_answer_id_question"))
     private Question question;
 
     @ManyToOne()
-    @JoinColumn(name = "id_company", nullable = false)
+    @JoinColumn(name = "id_company", nullable = false, foreignKey = @ForeignKey(name = "fk_answer_id_company"))
     private Company company;
 
     @JsonIgnore
