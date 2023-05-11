@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fatec.tcc.tccaudit.models.dto.AnswerDTO;
+import com.fatec.tcc.tccaudit.models.dto.AnswerLikeTopicDTO;
 import com.fatec.tcc.tccaudit.models.entities.Answer;
 import com.fatec.tcc.tccaudit.models.entities.Company;
 import com.fatec.tcc.tccaudit.models.entities.Question;
@@ -45,6 +46,25 @@ public class AnswerServiceImpl implements AnswerService {
             createAnswer(answerDTO);
         }
         return answerDTO;
+    }
+
+    @Override
+    public List<Answer> findAll() {
+        return answerRepository.findAll();
+    }
+
+    @Override
+    public List<AnswerLikeTopicDTO> findByAnswerLikeTopic(Long idCompany, String topic) {
+        Optional<Company> optionalCompany = companyRepository.findById(idCompany);
+        if (optionalCompany.isEmpty()) {
+            throw new ResourceNotFoundException(idCompany);
+        }
+        return answerRepository.findByAnswerLikeTopic(idCompany, topic);
+    }
+
+    @Override
+    public Answer findById(Long id) {
+        return answerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     private Optional<Answer> findExistingAnswer(AnswerDTO answerDTO) {
@@ -109,15 +129,5 @@ public class AnswerServiceImpl implements AnswerService {
         } else if (answerDTO.fullyMet()) {
             weight.setWeight(1d);
         }
-    }
-
-    @Override
-    public List<Answer> findAll() {
-        return answerRepository.findAll();
-    }
-
-    @Override
-    public Answer findById(Long id) {
-        return answerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 }

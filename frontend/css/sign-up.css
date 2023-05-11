@@ -5,43 +5,129 @@
 }
 
 body {
+  font-size: 16px;
+  font-family: Arial, sans-serif;
   display: none;
 }
 
-form {
+header {
+  background-color: #0047ab;
+  color: #fff;
+  height: calc(13vh);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2vw;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-content a {
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.header-content img {
+  padding-right: 1vw;
+  width: 6vw;
+  height: 5vw;
+}
+
+.header-content h1 {
+  font-size: 2rem;
+  align-items: center;
+}
+
+.header-dropdown {
+  position: absolute;
+  right: 1vw;
+}
+
+.header-dropdown ul {
+  display: none;
+  background-color: #0047ab;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  right: 0;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.header-dropdown li {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+}
+
+.header-dropdown span {
+  padding: 10px 16px;
+  border-radius: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header-dropdown span:hover {
+  background-color: #013164;
+}
+
+.header-dropdown ul.show {
+  display: block;
+}
+
+.main-content {
+  height: calc(74vh);
+}
+
+/* Estilos do formulário */
+.main-content form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.5vh;
   border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  width: 50%; /* alterado para 50% */
-  margin: 1rem auto 0 auto; /* alterado para subir o formulário */
+  width: 50%;
   max-width: 800px;
+  margin: 1rem auto 0;
 }
 
-p {
+.main-content p {
   display: block;
   grid-column: 1 / -1;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: #ff000d;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+}
+
+.main-content h1 {
+  text-align: center;
+  padding: 3vh;
 }
 
 .form-group label {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5vw;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
+.main-content input[type="text"],
+.main-content input[type="email"],
+.main-content input[type="password"],
+.main-content select {
   padding: 0.625rem;
   border-radius: 0.25rem;
   border: 1px solid #ccc;
@@ -50,15 +136,16 @@ select {
   font-size: 1rem;
 }
 
-input[type="text"] {
+.main-content input[type="text"] {
   margin-right: 0.5rem;
 }
 
-input#password {
-  margin-right: 0.5rem;
+.main-content #password,
+.main-content #confirm-password {
+  padding-right: 2rem;
 }
 
-#department {
+.main-content #department {
   padding: 0.5rem;
   border-radius: 0.25rem;
   border: 1px solid #ccc;
@@ -67,7 +154,7 @@ input#password {
   margin-bottom: 0.5rem;
 }
 
-button[type="submit"] {
+.main-content button[type="submit"] {
   grid-column: 1 / -1;
   margin-top: 1rem;
   padding: 0.625rem;
@@ -81,15 +168,8 @@ button[type="submit"] {
   font-size: 1rem;
 }
 
-button[type="submit"]:hover {
+.main-content button[type="submit"]:hover {
   background-color: #0069d9;
-}
-
-h1 {
-  margin-top: 5%;
-  padding: 1%;
-  text-align: center;
-  font-size: 2rem;
 }
 
 .form-group:nth-of-type(5) {
@@ -102,7 +182,7 @@ h1 {
   position: relative;
 }
 
-input[type="password"] {
+.main-content input[type="password"] {
   padding-right: 2rem;
 }
 
@@ -110,7 +190,7 @@ input[type="password"] {
   border: 2px solid red !important;
 }
 
-img {
+.main-content img {
   position: absolute;
   top: 45%;
   right: 0.5rem;
@@ -127,24 +207,163 @@ img {
   font-weight: bold; /* Deixa o texto em negrito */
 }
 
-/* Adjustments for smaller screens */
+footer {
+  background-color: #0047ab;
+  color: #fff;
+  height: calc(13vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+footer p {
+  margin: 1vh 0;
+}
+
+@media screen and (max-height: 730px) {
+  .main-content form {
+    gap: 1vh;
+    padding: 2vh;
+    margin: 1rem auto 0;
+    width: 45%;
+  }
+
+  .main-content h1 {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .main-content input[type="text"],
+  .main-content input[type="email"],
+  .main-content input[type="password"],
+  .main-content select {
+    padding: 2vh;
+    margin-bottom: 0;
+    font-size: 2vh;
+  }
+
+  .main-content input[type="text"] {
+    margin-right: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .main-content form {
+    width: 75%;
+  }
+}
+
+/* Estilos para telas menores */
 @media screen and (max-width: 768px) {
-  form {
+  .header-content img {
+    width: 10vw;
+    height: 8vw;
+  }
+
+  .header-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .main-content input[type="text"],
+  .main-content input[type="email"],
+  .main-content input[type="password"],
+  .main-content select {
+    border-radius: 0.25rem;
+    margin-bottom: 0.2rem;
+    font-size: 0.8rem;
+  }
+
+  .form-group label {
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .main-content button[type="submit"] {
+    margin-top: 0;
+    font-size: 0.8rem;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .header-content {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .header-content img {
+    margin-top: 3vh;
+  }
+
+  .header-content h1 {
+    margin-top: 3vh;
+  }
+
+  .header-dropdown {
+    top: 9vh;
+    right: auto;
+    left: auto;
+    width: 100%;
+    background-color: #0047ab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1vh 0;
+  }
+
+  .header-dropdown ul {
+    left: 0vh;
+  }
+  .header-dropdown li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+  }
+
+  .header-dropdown span {
+    padding: 2px 4px;
+    margin-right: 0;
+  }
+
+  .main-content form {
     grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .form-group label {
+    margin-bottom: 0;
+    font-size: 0.781rem;
+  }
+
+  .main-content #department {
     width: 70%;
   }
 }
 
-/* Adjustments for even smaller screens */
-@media screen and (max-width: 480px) {
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  select {
-    font-size: 0.875;
+@media screen and (max-width: 370px) {
+  .header-content h1 {
+    margin-top: 2vh;
+    font-size: 1.2rem;
   }
 
-  button[type="submit"] {
-    width: 100%;
+  .header-content img {
+    margin-top: 2vh;
+  }
+
+  .main-content h1 {
+    font-size: 1.5rem;
+    margin-top: 10.5vh;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  footer {
+    display: none;
   }
 }

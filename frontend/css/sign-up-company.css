@@ -195,12 +195,10 @@ footer p {
 
 @media screen and (max-height: 730px) {
   .main-content form {
-    width: 45%;
-  }
-  .main-content form {
     gap: 1vh;
     padding: 2vh;
     margin: 1rem auto 0;
+    width: 45%;
   }
 
   .main-content h1 {

@@ -7,6 +7,8 @@ import {
 
 const token = localStorage.getItem("token");
 
+sessionStorage.removeItem("option");
+
 const logoutButton = document.getElementById("logout-btn");
 
 logoutButton.addEventListener("click", () => {

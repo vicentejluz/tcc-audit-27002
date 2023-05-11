@@ -26,4 +26,9 @@ public class TopicServiceImpl implements TopicService {
         return topicRepository.findAll();
     }
 
+    @Override
+    public List<Topic> findByText(String topic) {
+        return topicRepository.findByText(topic).orElseThrow(() -> new ResourceNotFoundException(topic));
+    }
+
 }
