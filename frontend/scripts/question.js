@@ -1,3 +1,5 @@
+import { fetchWithInterceptor } from "./module/utils/interceptor.js";
+
 let selectedSummary = 0;
 let currentPages = {};
 let currentSummary = 0;
@@ -417,22 +419,6 @@ async function uploadFile(file, fileInput) {
   }
 }
 
-const interceptor = {
-  async request(url, options) {
-    const token = localStorage.getItem("token");
-    if (token) {
-      if (!options.headers) {
-        options.headers = {};
-      }
-      options.headers.Authorization = `Bearer ${token}`;
-    }
-    return [url, options];
-  },
-  response(response) {
-    return response;
-  },
-};
-
 async function fetchEmployee() {
   const token = localStorage.getItem("token");
   const employeeId = JSON.parse(atob(token.split(".")[1])).id;
@@ -444,12 +430,6 @@ async function fetchEmployee() {
   } catch (error) {
     console.error(`Error fetching usuário: ${error.message}`);
   }
-}
-
-async function fetchWithInterceptor(url, options) {
-  const [newUrl, newOptions] = await interceptor.request(url, options);
-  const response = await fetch(newUrl, newOptions);
-  return interceptor.response(response);
 }
 
 async function init() {

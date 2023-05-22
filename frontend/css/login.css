@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  display: none;
+}
+
+p {
+  text-align: center;
+  font-size: 14px;
+  color: #ff000d;
+}
+
+form {
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  max-width: 250px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column; /* adicionado */
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  width: 30%;
+  margin: 0 auto;
+}
+
+button:hover {
+  background-color: #0069d9;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 13.5%;
+  padding: 1%;
+}
+
+.password-input-container {
+  position: relative;
+}
+
+img {
+  position: absolute;
+  top: 45%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}

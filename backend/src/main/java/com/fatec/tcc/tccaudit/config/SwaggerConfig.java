@@ -29,11 +29,11 @@ public class SwaggerConfig {
         contact.setName("Fatec São Caetano do Sul");
         contact.setUrl("http://www.fatecsaocaetano.edu.br/");
         return new Info()
-                .title("TCC AUDIT API")
-                .description("Tcc audit API")
+                .title("TCC AUDIT 27002 API")
+                .description("Tcc audit 27002 API")
                 // .termsOfService("")
                 .contact(contact)
-                .version("0.0.3");
+                .version("0.4");
     }
 
     private void addSecurity(OpenAPI openApi) {
