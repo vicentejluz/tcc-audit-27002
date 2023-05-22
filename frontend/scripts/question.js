@@ -4,6 +4,9 @@ let selectedSummary = 0;
 let currentPages = {};
 let currentSummary = 0;
 let summaries = [];
+
+let option = parseInt(sessionStorage.getItem("option")) || 5;
+
 const allowedExtensions = [
   ".pdf",
   ".doc",
@@ -22,6 +25,14 @@ const prevButton = document.getElementById("prev-button");
 const nextButton = document.getElementById("next-button");
 const prevButtonSummary = document.getElementById("prev-button-summary");
 const nextButtonSummary = document.getElementById("next-button-summary");
+
+const organizationalControls = document.getElementById(
+  "organizational-controls"
+);
+const controlsForPeople = document.getElementById("controls-for-people");
+const physicalControls = document.getElementById("physical-controls");
+const technologicalControls = document.getElementById("technological-controls");
+
 const summary = document.getElementById("summary");
 const topic = document.getElementById("topic");
 const dropdown = document.getElementById("topic-dropdown");
@@ -32,7 +43,8 @@ dropdown.addEventListener("change", () => {
   const selectedTopicId = parseInt(dropdown.value);
   if (selectedTopicId !== previousSelectedTopicId) {
     currentSummary = summaries.findIndex(
-      (summary) => summary.topic.idTopic === selectedTopicId
+      (summary) => summary.idTopic === selectedTopicId
+
     );
     previousSelectedTopicId = selectedTopicId;
   }
@@ -63,17 +75,50 @@ prevButtonSummary.addEventListener("click", () => {
   }
 });
 
-async function fetchSummaries() {
-  const url = "http://localhost:8080/questions";
+organizationalControls.addEventListener("click", () => {
+  variableInitialization();
+  option = 5;
+  sessionStorage.setItem("option", option);
+  updateDropdown();
+  updateTable();
+});
+
+controlsForPeople.addEventListener("click", () => {
+  variableInitialization();
+  option = 6;
+  sessionStorage.setItem("option", option);
+  updateDropdown();
+  updateTable();
+});
+
+physicalControls.addEventListener("click", () => {
+  variableInitialization();
+  option = 7;
+  sessionStorage.setItem("option", option);
+  updateDropdown();
+  updateTable();
+});
+
+technologicalControls.addEventListener("click", () => {
+  variableInitialization();
+  option = 8;
+  sessionStorage.setItem("option", option);
+  updateDropdown();
+  updateTable();
+});
+
+async function fetchSummaries(topic) {
+  const url = `http://localhost:8080/summaries/${topic}`;
   try {
     const response = await fetchWithInterceptor(url, { method: "GET" });
     const data = await response.json();
     const summariesObj = {}; // Criar um objeto vazio
-    data.forEach((question) => {
-      if (!(question.summary.idSummary in summariesObj)) {
+
+    data.forEach((summary) => {
+      if (!(summary.idSummary in summariesObj)) {
         // Usar o objeto vazio
-        summariesObj[question.summary.idSummary] = question.summary;
-        currentPages[question.summary.idSummary] ||= 0;
+        summariesObj[summary.idSummary] = summary;
+        currentPages[summary.idSummary] ||= 0;
       }
     });
     summaries = Object.values(summariesObj); // Converter de volta para um array
@@ -102,8 +147,10 @@ const fetchQuestionsBySummaryAndPage = async (idSummary, page, pageSize) => {
   }
 };
 
-async function fetchTopics() {
-  const url = "http://localhost:8080/topics";
+
+async function fetchTopics(topic) {
+  const url = `http://localhost:8080/topics/${topic}`;
+
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -115,7 +162,8 @@ async function fetchTopics() {
 
 async function updateDropdown() {
   try {
-    const data = await fetchTopics();
+    const topic = option;
+    const data = await fetchTopics(topic);
     dropdown.innerHTML = "";
     data.forEach((topic) => {
       const option = document.createElement("option");
@@ -130,16 +178,17 @@ async function updateDropdown() {
 
 async function updateTable() {
   try {
-    summaries = await fetchSummaries();
-    const selectedTopicId = parseInt(dropdown.value);
-    selectedSummary = summaries.find(
-      (summary) => summary.topic.idTopic === selectedTopicId
-    );
+    const topic = option;
+    summaries = await fetchSummaries(topic);
+    console.log(summaries);
+    selectedSummary = summaries[currentSummary];
     if (!selectedSummary) {
-      console.log(`Summary for topic ${selectedTopicId} not found`);
+      console.log(
+        `Summary for topic ${selectedSummary.topic.idTopic} not found`
+      );
       return;
     }
-    selectedSummary = summaries[currentSummary];
+
     const data = await fetchQuestionsBySummaryAndPage(
       selectedSummary.idSummary,
       currentPages[selectedSummary.idSummary],
@@ -153,7 +202,7 @@ async function updateTable() {
 }
 
 function displayQuestions(data) {
-  topic.innerText = selectedSummary.topic.text;
+  topic.innerText = selectedSummary.topic;
   summary.innerText = selectedSummary.text;
   const totalPages = data.totalPages;
   prevButton.disabled = currentPages[selectedSummary.idSummary] === 0;
@@ -284,9 +333,29 @@ function getPropertyName(optionIndex) {
   }
 }
 
+async function fetchAnswersLikeTopic(idCompany, topic) {
+  const url = `http://localhost:8080/answers/by-topic?idCompany=${idCompany}&topic=${topic}`;
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Error fetching answers");
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(`Error fetching answers: ${error.message}`);
+    alert("Error fetching answers");
+  }
+}
+
 async function fillQuestionnaireWithAnswers(data) {
   try {
-    const answers = await fetchAnswers();
+    const employee = await fetchEmployee();
+    const companyId = employee.company.idCompany;
+    const topic = option;
+    const answers = await fetchAnswersLikeTopic(companyId, topic);
     const items = data.content;
 
     for (let i = 0; i < items.length; i++) {
@@ -294,13 +363,10 @@ async function fillQuestionnaireWithAnswers(data) {
       const questionTitleCell = document.querySelector(
         `[data-question-id="${questionId}"]`
       );
-      const employee = await fetchEmployee();
-      const companyId = employee.company.idCompany;
 
       const answer = answers.find((answer) => {
         return (
-          answer.question.idQuestion === questionId &&
-          answer.company.idCompany === companyId
+          answer.idQuestion === questionId && answer.idCompany === companyId
         );
       });
 
@@ -364,22 +430,22 @@ async function createAnswer(data) {
   }
 }
 
-async function fetchAnswers() {
-  const url = "http://localhost:8080/answers";
-  try {
-    const response = await fetch(url);
+// async function fetchAnswers() {
+//   const url = "http://localhost:8080/answers";
+//   try {
+//     const response = await fetch(url);
 
-    if (!response.ok) {
-      throw new Error("Error fetching answers");
-    }
+//     if (!response.ok) {
+//       throw new Error("Error fetching answers");
+//     }
 
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Error fetching answers: ${error.message}`);
-    alert("Error fetching answers");
-  }
-}
+//     const responseData = await response.json();
+//     return responseData;
+//   } catch (error) {
+//     console.error(`Error fetching answers: ${error.message}`);
+//     alert("Error fetching answers");
+//   }
+// }
 
 async function fetchQuestions() {
   const url = "http://localhost:8080/questions";
@@ -430,6 +496,13 @@ async function fetchEmployee() {
   } catch (error) {
     console.error(`Error fetching usuário: ${error.message}`);
   }
+}
+
+function variableInitialization() {
+  selectedSummary = 0;
+  currentPages = {};
+  currentSummary = 0;
+  summaries = [];
 }
 
 async function init() {

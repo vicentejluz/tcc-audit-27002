@@ -1,6 +1,13 @@
 import { fetchWithInterceptor } from "./module/utils/interceptor.js";
 import { fetchEmployee } from "./module/api.js";
 import togglePassword from "./module/utils/toggle_password.js";
+
+import {
+  dropDown,
+  clickDropDown,
+  hideDropDown,
+} from "./module/utils/drop_down.js";
+
 import { expirationTime, tokenNotExists } from "./module/utils/token.js";
 import roleAdmin from "./module/utils/role_admin.js";
 
@@ -11,6 +18,20 @@ const select = document.querySelector("#department");
 const msg = document.querySelector("#msg");
 const inputName = document.querySelector("#name");
 const inputEmail = document.querySelector("#email");
+
+const h1Company = document.querySelector("#company");
+const employeeDropdown = document.querySelector(".header-dropdown ul");
+const employeeName = document.getElementById("employee-name");
+
+const employee = await fetchEmployee(token);
+h1Company.textContent = employee.company.name;
+employeeName.textContent = employee.name;
+
+dropDown(employeeDropdown);
+
+clickDropDown(employeeName, employeeDropdown);
+
+hideDropDown(employeeDropdown);
 
 // Adiciona opção vazia ao menu suspenso
 const defaultOption = document.createElement("option");

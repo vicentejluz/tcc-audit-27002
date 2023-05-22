@@ -8,4 +8,6 @@ public interface TopicService {
     Topic findById(Long id);
 
     List<Topic> findAll();
+
+    List<Topic> findByText(String topic);
 }
