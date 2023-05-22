@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fatec.tcc.tccaudit.security.exceptions.InvalidAuthAndSignUpException;
 import com.fatec.tcc.tccaudit.security.exceptions.InvalidPasswordException;
+import com.fatec.tcc.tccaudit.services.exceptions.CnpjAlreadyRegisteredException;
 import com.fatec.tcc.tccaudit.services.exceptions.DatabaseException;
 import com.fatec.tcc.tccaudit.services.exceptions.DepartmentNotAllowedException;
 import com.fatec.tcc.tccaudit.services.exceptions.EmailAlreadyRegisteredException;
@@ -63,6 +64,16 @@ public class ResourceExceptionHandler {
         public ResponseEntity<StandardError> emailAlreadyRegisteredException(EmailAlreadyRegisteredException e,
                         HttpServletRequest request) {
                 String error = "email error";
+                HttpStatus status = HttpStatus.CONFLICT;
+                StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+                                request.getRequestURI());
+                return ResponseEntity.status(status).body(err);
+        }
+
+        @ExceptionHandler(CnpjAlreadyRegisteredException.class)
+        public ResponseEntity<StandardError> cnpjAlreadyRegisteredException(CnpjAlreadyRegisteredException e,
+                        HttpServletRequest request) {
+                String error = "cnpj error";
                 HttpStatus status = HttpStatus.CONFLICT;
                 StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
                                 request.getRequestURI());

@@ -109,7 +109,7 @@ public class AuthenticationCentral {
         }
 
         if (Arrays.asList(adminNames).contains(signUpEmployeeDTO.name().toLowerCase())) {
-            throw new InvalidEmployeeNameException("The name is not allowed for the employee");
+            throw new InvalidEmployeeNameException("O nome informado não é permitido para o funcionário!");
         }
 
         validateLoginDTO(signUpEmployeeDTO.loginDTO(), company);
@@ -126,7 +126,7 @@ public class AuthenticationCentral {
         UserDetails email = employeeRepository.findByEmail(loginDTO.email());
 
         if (email != null) {
-            throw new EmailAlreadyRegisteredException("This email is registered! Please, choose another one!");
+            throw new EmailAlreadyRegisteredException("Este e-mail já está cadastrado!");
         }
 
         if (!isValidPassword(loginDTO.password())) {

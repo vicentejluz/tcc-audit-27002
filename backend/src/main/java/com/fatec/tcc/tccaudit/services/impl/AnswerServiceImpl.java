@@ -103,11 +103,11 @@ public class AnswerServiceImpl implements AnswerService {
         if (answerDTO.notApplicable()) {
             weight.setWeight(0d);
         } else if (answerDTO.notMet()) {
-            weight.setWeight(0.5d);
+            weight.setWeight(0d);
         } else if (answerDTO.partiallyMet()) {
-            weight.setWeight(1d);
+            weight.setWeight(0.5d);
         } else if (answerDTO.fullyMet()) {
-            weight.setWeight(1.5d);
+            weight.setWeight(1d);
         }
     }
 

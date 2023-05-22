@@ -37,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String token = tokenService.generateToken(employee);
             return new LoginAndSignUpDTO(employee.getIdEmployee(), employee.getName(), employee.getEmail(), token);
         } catch (BadCredentialsException e) {
-            throw new InvalidAuthAndSignUpException("Invalid email or password");
+            throw new InvalidAuthAndSignUpException("Email ou senha inválidos!");
         } catch (TransactionSystemException e) {
             throw new DatabaseException("Error while accessing the database" + e.getMessage());
         }

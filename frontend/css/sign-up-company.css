@@ -1,21 +1,91 @@
+/* Reset de estilos */
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
+/* Estilos gerais */
 body {
+  font-size: 16px;
+  font-family: Arial, sans-serif;
   display: none;
 }
 
-form {
+header {
+  background-color: #0047ab;
+  color: #fff;
+  height: calc(13vh);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2vw;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-content a {
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.header-content img {
+  padding-right: 1vw;
+  width: 6vw;
+  height: 5vw;
+}
+
+.header-content h1 {
+  font-size: 2rem;
+  align-items: center;
+}
+
+.header-buttons {
+  position: absolute;
+  right: 1vw;
+}
+
+.header-content button {
+  color: #161618;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 1vh 2vw;
+  border-radius: 4px;
+}
+
+.header-content button:hover {
+  background-color: #161618;
+  color: #fff;
+}
+
+.main-content {
+  height: calc(74vh);
+}
+
+/* Estilos do formulário */
+.main-content form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1.5vh;
   border: 1px solid #ccc;
-  border-radius: 8px;
   width: 50%;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 1rem auto 0;
+}
+
+.main-content p {
+  display: block;
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #ff000d;
 }
 
 .form-group {
@@ -24,56 +94,222 @@ form {
 }
 
 .form-group label {
-  margin-bottom: 8px;
+  margin-bottom: 0.5vw;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 95%;
-  margin-bottom: 8px;
-}
-
-input[type="text"] {
-  margin-right: 8px;
-}
-
-button[type="submit"] {
-  grid-column: 1 / 3;
-  margin-top: 16px;
-  padding: 8px;
-  border-radius: 4px;
-  border: none;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  width: 30%;
-  margin: 0 auto;
-}
-
-button[type="submit"]:hover {
-  background-color: #0069d9;
-}
-
-h1 {
+.main-content h1 {
   text-align: center;
-  margin-top: 9%;
-  padding: 1%;
+  padding: 1vh;
+}
+
+.main-content input[type="text"],
+.main-content input[type="email"],
+.main-content input[type="password"],
+.main-content select {
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.main-content input[type="text"] {
+  margin-right: 0.5rem;
+}
+
+.main-content input#password {
+  padding-right: 2rem;
+}
+
+.main-content img {
+  position: absolute;
+  top: 45%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+}
+
+.main-content small {
+  font-size: 0.6rem;
+}
+
+.main-content input[disabled],
+.main-content select[disabled] {
+  opacity: initial;
+  color: #464646;
+  background-color: #b3b2b2c7;
+}
+
+.main-content select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .password-input-container {
   position: relative;
 }
 
-img {
-  position: absolute;
-  top: 45%;
-  right: 10px;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+#city::placeholder,
+#street::placeholder {
+  color: #464646;
+}
+
+.main-content button[type="submit"] {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
+  width: 30%;
+  margin: 0 auto;
+  font-size: 1rem;
+}
+
+.main-content button[type="submit"]:hover {
+  background-color: #0069d9;
+}
+
+footer {
+  background-color: #0047ab;
+  color: #fff;
+  height: calc(13vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+footer p {
+  margin: 1vh 0;
+}
+
+@media screen and (max-height: 730px) {
+  .main-content form {
+    width: 45%;
+  }
+  .main-content form {
+    gap: 1vh;
+    padding: 2vh;
+    margin: 1rem auto 0;
+  }
+
+  .main-content h1 {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .main-content input[type="text"],
+  .main-content input[type="email"],
+  .main-content input[type="password"],
+  .main-content select {
+    padding: 2vh;
+    margin-bottom: 0;
+    font-size: 2vh;
+  }
+
+  .main-content input[type="text"] {
+    margin-right: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .main-content form {
+    width: 75%;
+  }
+}
+
+/* Estilos para telas menores */
+@media screen and (max-width: 768px) {
+  .header-content img {
+    width: 10vw;
+    height: 8vw;
+  }
+
+  .header-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .main-content input[type="text"],
+  .main-content input[type="email"],
+  .main-content input[type="password"],
+  .main-content select {
+    border-radius: 0.25rem;
+    margin-bottom: 0.2rem;
+    font-size: 0.8rem;
+  }
+
+  .form-group label {
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .main-content button[type="submit"] {
+    margin-top: 0;
+    font-size: 0.8rem;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 485px) {
+  .header-content {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .header-content img {
+    margin-top: 2vh;
+    min-width: 40px;
+    min-height: 30px;
+  }
+
+  .header-content h1 {
+    margin-top: 2vh;
+    font-size: 1.3rem;
+  }
+
+  .header-buttons {
+    position: static;
+  }
+
+  .header-content button {
+    padding: 0.8vh 1.5vw;
+  }
+
+  .main-content form {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .main-content input[type="text"],
+  .main-content input[type="email"],
+  .main-content input[type="password"],
+  .main-content select {
+    padding: 0.55vh;
+  }
+
+  .main-content h1 {
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .form-group label {
+    margin-bottom: 0;
+    font-size: 0.781rem;
+  }
+
+  footer {
+    display: none;
+  }
 }

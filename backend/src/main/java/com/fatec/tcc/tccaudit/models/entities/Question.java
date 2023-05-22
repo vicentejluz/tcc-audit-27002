@@ -22,6 +22,7 @@ public class Question implements Serializable {
     @Column(name = "id_question")
     private Long idQuestion;
 
+    @Column(columnDefinition = "TEXT")
     private String question;
 
     @ManyToOne()

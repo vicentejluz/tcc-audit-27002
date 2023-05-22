@@ -1,6 +1,8 @@
 import togglePassword from "./module/utils/toggle_password.js";
 import { tokenNotFound } from "./module/utils/token.js";
 
+const token = localStorage.getItem("token");
+
 const loginForm = document.querySelector("#login-form");
 
 let eye_password = document.querySelector("#eye-password");
@@ -34,11 +36,14 @@ loginForm.addEventListener("submit", async (event) => {
     localStorage.setItem("token", token);
     window.location.href = "../pages/dashboard.html";
   } else {
-    error.textContent = "Email ou senha inválidos.";
+    const responseJson = await response.json();
+    const errorCatch = responseJson;
+    error.textContent = errorCatch.message;
+    loginForm.reset();
   }
 });
 
 async function init() {
-  tokenNotFound();
+  tokenNotFound(token);
 }
 init();

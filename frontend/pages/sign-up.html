@@ -9,7 +9,7 @@
   <body>
     <h1>Cadastro funcionário</h1>
     <form id="sign-up-form" method="post">
-      <p id="error"></p>
+      <p id="msg"></p>
       <div class="form-group">
         <label for="name">Nome:</label>
         <input type="text" id="name" name="name" required />
@@ -26,7 +26,8 @@
             type="password"
             id="password"
             name="password"
-            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[A-Z])(?=.*[!@#\$%\^&\*])[A-Za-z\d!@#\$%\^&\*]{8,}$"
+            maxlength="60"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
             title="A senha deve ter no mínimo 8 caracteres, com pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial."
             required
           />
@@ -41,6 +42,7 @@
             type="password"
             id="confirm-password"
             name="confirm-password"
+            maxlength="60"
             required
           />
           <img id="eye-confirm-password" src="../icons/eye-outline.svg" />

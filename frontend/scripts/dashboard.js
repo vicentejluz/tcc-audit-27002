@@ -5,6 +5,8 @@ import {
   logout,
 } from "./module/utils/token.js";
 
+const token = localStorage.getItem("token");
+
 const logoutButton = document.getElementById("logout-btn");
 
 logoutButton.addEventListener("click", () => {
@@ -28,8 +30,6 @@ async function fetchEmployee() {
 async function init() {
   const nomeEmpresaElement = document.getElementById("nome-empresa");
   const nomePessoaElement = document.getElementById("nome-pessoa");
-
-  const token = localStorage.getItem("token");
   tokenNotExists(token);
   expirationTime(token);
   try {

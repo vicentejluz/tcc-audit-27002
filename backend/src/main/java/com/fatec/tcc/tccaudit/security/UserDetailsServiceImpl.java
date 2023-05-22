@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Employee employee = employeeRepository.findByEmail(email);
         if (employee == null) {
-            throw new InvalidAuthAndSignUpException("Invalid email or password");
+            throw new InvalidAuthAndSignUpException("Email ou senha inválidos!");
         }
 
         return employee;

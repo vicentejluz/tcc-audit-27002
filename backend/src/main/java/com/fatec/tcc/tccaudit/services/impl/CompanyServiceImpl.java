@@ -1,6 +1,7 @@
 package com.fatec.tcc.tccaudit.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,7 +10,6 @@ import org.springframework.transaction.TransactionSystemException;
 
 import com.fatec.tcc.tccaudit.models.dto.LoginAndSignUpDTO;
 import com.fatec.tcc.tccaudit.models.dto.SignUpCompanyDTO;
-import com.fatec.tcc.tccaudit.models.entities.Address;
 import com.fatec.tcc.tccaudit.models.entities.Company;
 import com.fatec.tcc.tccaudit.models.entities.Employee;
 import com.fatec.tcc.tccaudit.repositories.CompanyRepository;
@@ -17,7 +17,9 @@ import com.fatec.tcc.tccaudit.repositories.EmployeeRepository;
 import com.fatec.tcc.tccaudit.security.AuthenticationCentral;
 import com.fatec.tcc.tccaudit.security.TokenService;
 import com.fatec.tcc.tccaudit.services.CompanyService;
+import com.fatec.tcc.tccaudit.services.exceptions.CnpjAlreadyRegisteredException;
 import com.fatec.tcc.tccaudit.services.exceptions.DatabaseException;
+import com.fatec.tcc.tccaudit.services.exceptions.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -59,10 +61,19 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     private Company createCompany(SignUpCompanyDTO signUpCompanyDTO) {
-        Address address = new Address(signUpCompanyDTO.address().getStreet(), signUpCompanyDTO.address().getCity(),
-                signUpCompanyDTO.address().getState(), signUpCompanyDTO.address().getPostalCode());
+        Optional<Company> optionalCompany = companyRepository.findByCnpj(signUpCompanyDTO.companyDTO().cnpj());
+
+        if (optionalCompany.isPresent()) {
+            throw new CnpjAlreadyRegisteredException("Este CNPJ já foi cadastrado!");
+        }
+
+        if (signUpCompanyDTO.address().getStreet().equals("") || signUpCompanyDTO.address().getCity().equals("")
+                || signUpCompanyDTO.address().getState().equals("")) {
+            throw new ResourceNotFoundException("CEP não encontrado!");
+        }
+
         Company company = new Company(signUpCompanyDTO.companyDTO().name(), signUpCompanyDTO.companyDTO().cnpj(),
-                address);
+                signUpCompanyDTO.address());
         return company;
     }
 }

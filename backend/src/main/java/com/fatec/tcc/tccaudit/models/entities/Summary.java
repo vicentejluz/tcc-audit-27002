@@ -2,6 +2,7 @@ package com.fatec.tcc.tccaudit.models.entities;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ public class Summary implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSummary;
 
+    @Column(columnDefinition = "TEXT")
     private String text;
 
     @ManyToOne()
