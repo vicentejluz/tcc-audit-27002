@@ -16,7 +16,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     @Query("SELECT a FROM Answer a WHERE a.question.idQuestion = :idQuestion AND a.company.idCompany = :idCompany")
     Optional<Answer> findByQuestionAndCompany(@Param("idQuestion") Long idQuestion, @Param("idCompany") Long idCompany);
 
-    @Query("SELECT new com.fatec.tcc.tccaudit.models.dto.AnswerLikeTopicDTO(a.notApplicable, a.notMet, a.partiallyMet, a.fullyMet, a.company.idCompany, a.question.idQuestion, a.question.summary.topic.text) FROM Answer a WHERE a.company.idCompany = :idCompany AND substring(a.question.summary.topic.text, 1, 1) like :topic")
+    @Query("SELECT new com.fatec.tcc.tccaudit.models.dto.AnswerLikeTopicDTO(a.idAnswer, a.notApplicable, a.notMet, a.partiallyMet, a.fullyMet, a.question.idQuestion) FROM Answer a WHERE a.company.idCompany = :idCompany AND substring(a.question.summary.topic.text, 1, 1) like :topic")
     List<AnswerLikeTopicDTO> findByAnswerLikeTopic(@Param("idCompany") Long idCompany,
             @Param("topic") String topic);
 

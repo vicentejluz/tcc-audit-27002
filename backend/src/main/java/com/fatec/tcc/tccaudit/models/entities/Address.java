@@ -15,7 +15,7 @@ public class Address implements Serializable {
     @Column(length = 40)
     private String city;
 
-    @Column(length = 2)
+    @Column(length = 20)
     private String state;
 
     @Column(length = 9)

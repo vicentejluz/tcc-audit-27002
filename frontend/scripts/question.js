@@ -1,4 +1,14 @@
 import { fetchWithInterceptor } from "./module/utils/interceptor.js";
+import {
+  downloadFile,
+  deleteFile,
+  fetchEmployee,
+  uploadFile,
+  getEvidenceById,
+  fetchAnswersLikeTopicForButtonTds,
+  fetchQuestionsBySummaryAndPage,
+} from "./module/api.js";
+import { expirationTime, tokenNotExists } from "./module/utils/token.js";
 
 let selectedSummary = 0;
 let currentPages = {};
@@ -17,8 +27,8 @@ const allowedExtensions = [
   ".txt",
 ];
 
-//dropdown.value = selectedSummary.topic.idTopic; depois ver isso
-
+//dropdown.value = selectedSummary.topic.idTopic;
+const token = localStorage.getItem("token");
 const rowsPerPage = 3;
 const prevButton = document.getElementById("prev-button");
 const nextButton = document.getElementById("next-button");
@@ -43,23 +53,30 @@ dropdown.addEventListener("change", () => {
       (summary) => summary.idTopic === selectedTopicId
     );
     previousSelectedTopicId = selectedTopicId;
+  } else {
+    currentSummary = summaries.findIndex((summary) => summary.idTopic);
   }
+  console.clear();
   updateTable();
 });
 
 prevButton.addEventListener("click", () => {
   currentPages[selectedSummary.idSummary]--;
+  console.clear();
   updateTable();
 });
 
 nextButton.addEventListener("click", () => {
   currentPages[selectedSummary.idSummary]++;
+  console.clear();
   updateTable();
 });
 
 nextButtonSummary.addEventListener("click", () => {
   if (currentSummary < summaries.length - 1) {
     currentSummary++;
+    dropdown.value = summaries[currentSummary].idTopic;
+    console.clear();
     updateTable();
   }
 });
@@ -67,6 +84,8 @@ nextButtonSummary.addEventListener("click", () => {
 prevButtonSummary.addEventListener("click", () => {
   if (currentSummary > 0) {
     currentSummary--;
+    dropdown.value = summaries[currentSummary].idTopic;
+    console.clear();
     updateTable();
   }
 });
@@ -75,6 +94,7 @@ organizationalControls.addEventListener("click", () => {
   variableInitialization();
   option = 5;
   sessionStorage.setItem("option", option);
+  console.clear();
   updateDropdown();
   updateTable();
 });
@@ -83,6 +103,7 @@ controlsForPeople.addEventListener("click", () => {
   variableInitialization();
   option = 6;
   sessionStorage.setItem("option", option);
+  console.clear();
   updateDropdown();
   updateTable();
 });
@@ -91,6 +112,7 @@ physicalControls.addEventListener("click", () => {
   variableInitialization();
   option = 7;
   sessionStorage.setItem("option", option);
+  console.clear();
   updateDropdown();
   updateTable();
 });
@@ -99,6 +121,7 @@ technologicalControls.addEventListener("click", () => {
   variableInitialization();
   option = 8;
   sessionStorage.setItem("option", option);
+  console.clear();
   updateDropdown();
   updateTable();
 });
@@ -122,25 +145,6 @@ async function fetchSummaries(topic) {
     console.error(`Error fetching summaries: ${error.message}`);
   }
 }
-
-const fetchQuestionsBySummaryAndPage = async (idSummary, page, pageSize) => {
-  try {
-    const response = await fetch(
-      `http://localhost:8080/questions/summaries/${idSummary}?page=${page}&size=${pageSize}`
-    );
-    if (!response.ok) {
-      throw new Error("Error fetching API data");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching API data:", error);
-    return {
-      totalPages: 0,
-      content: [],
-    };
-  }
-};
 
 async function fetchTopics(topic) {
   const url = `http://localhost:8080/topics/${topic}`;
@@ -171,30 +175,29 @@ async function updateDropdown() {
 
 async function updateTable() {
   try {
+    const employee = await fetchEmployee(token);
+    const companyId = employee.company.idCompany;
     const topic = option;
     summaries = await fetchSummaries(topic);
-    console.log(summaries);
     selectedSummary = summaries[currentSummary];
     if (!selectedSummary) {
-      console.log(
-        `Summary for topic ${selectedSummary.topic.idTopic} not found`
-      );
+      console.log(`Summary for topic not found`);
       return;
     }
-
     const data = await fetchQuestionsBySummaryAndPage(
       selectedSummary.idSummary,
       currentPages[selectedSummary.idSummary],
       rowsPerPage
     );
-    displayQuestions(data);
+    const answers = await fetchAnswersLikeTopicForButtonTds(companyId, topic);
+    displayQuestions(data, answers);
     await fillQuestionnaireWithAnswers(data);
   } catch (error) {
     console.error("Error while updating the table:", error);
   }
 }
 
-function displayQuestions(data) {
+function displayQuestions(data, answers) {
   topic.innerText = selectedSummary.topic;
   summary.innerText = selectedSummary.text;
   const totalPages = data.totalPages;
@@ -209,29 +212,37 @@ function displayQuestions(data) {
   const tbody = document.getElementById("table-body");
   tbody.innerHTML = "";
   items.forEach((item, i) => {
-    const row = createTableRow(item, i, firstRowIndex);
+    const answer = answers[item.idQuestion];
+    const row = createTableRow(item, i, answer, firstRowIndex);
     tbody.appendChild(row);
   });
 }
 
-function createTableRow(item, index, firstRowIndex) {
+function createTableRow(item, index, answer, firstRowIndex) {
   const row = document.createElement("tr");
   const countTd = createCountTd(index, firstRowIndex);
+  if (countTd) row.appendChild(countTd);
+
   const titleTd = createTitleTd(item.question, item.idQuestion);
+  if (titleTd) row.appendChild(titleTd);
+
   const cellTds = createRadioInputTds(item, index);
-  const fileTd = createFileInputTd(item, index);
-  row.appendChild(countTd);
-  row.appendChild(titleTd);
-  cellTds.forEach((cellTd) => {
-    row.appendChild(cellTd);
-  });
-  row.appendChild(fileTd);
+  if (cellTds) {
+    cellTds.forEach((cellTd) => {
+      if (cellTd) row.appendChild(cellTd);
+    });
+  }
+
+  const buttonTd = createButtonTd(answer, index, item);
+  if (buttonTd) row.appendChild(buttonTd);
+
   return row;
 }
 
 function createCountTd(index, firstRowIndex) {
   const countTd = document.createElement("td");
   const countSpan = document.createElement("span");
+  countTd.classList.add("table-count");
   countSpan.innerText = firstRowIndex + index;
   countTd.appendChild(countSpan);
   return countTd;
@@ -255,40 +266,14 @@ function createRadioInputTds(item, index) {
   return tds;
 }
 
-function createFileInputTd(index) {
-  const cellTd = document.createElement("td");
-  const fileInput = document.createElement("input");
-  fileInput.type = "file";
-  fileInput.name = `file${index}`;
-  fileInput.accept = ".pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt";
-  fileInput.size = 5 * 1024 * 1024;
-  fileInput.addEventListener("change", async () => {
-    const file = fileInput.files[0];
-    if (file) {
-      if (
-        !allowedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))
-      ) {
-        alert("The selected file is not allowed.");
-        fileInput.value = "";
-      } else if (file.size > fileInput.size) {
-        alert("The selected file is larger than the maximum allowed size.");
-        fileInput.value = "";
-      } else {
-        await uploadFile(file, fileInput);
-      }
-    }
-  });
-  cellTd.appendChild(fileInput);
-  return cellTd;
-}
-
 function createRadioInput(item, index, optionIndex) {
   const radioInput = document.createElement("input");
   radioInput.type = "radio";
   radioInput.name = `resp${index}`;
+  radioInput.id = "radio-input";
   radioInput.value = optionIndex;
 
-  fetchEmployee()
+  fetchEmployee(token)
     .then((employee) => {
       const companyId = employee.company.idCompany;
       // rest of your code using companyId
@@ -303,6 +288,16 @@ function createRadioInput(item, index, optionIndex) {
           fullyMet: optionIndex === 4 ? true : false,
         };
         createAnswer(data);
+        const uploadButton = document.querySelector(`#upload${index}`);
+        if (optionIndex === 3 || optionIndex === 4) {
+          if (uploadButton) {
+            uploadButton.disabled = false;
+          }
+        } else {
+          if (uploadButton) {
+            uploadButton.disabled = true;
+          }
+        }
       });
     })
     .catch((error) => {
@@ -311,19 +306,171 @@ function createRadioInput(item, index, optionIndex) {
   return radioInput;
 }
 
-function getPropertyName(optionIndex) {
-  switch (optionIndex) {
-    case 1:
-      return "notApplicable";
-    case 2:
-      return "notMet";
-    case 3:
-      return "partiallyMet";
-    case 4:
-      return "fullyMet";
-    default:
-      return "";
+function createButtonTd(answer, index, item) {
+  const buttonTd = document.createElement("td");
+  const downloadLink = document.createElement("a");
+  const uploadButton = document.createElement("button");
+  const deleteButton = document.createElement("button");
+  downloadLink.innerText = "Inclua evidência";
+  downloadLink.classList.add("disabled");
+  downloadLink.removeAttribute("href");
+  uploadButton.classList.add("upload-button");
+  uploadButton.innerText = "Enviar/Atualizar";
+  uploadButton.disabled = true;
+  uploadButton.id = `upload${index}`;
+  deleteButton.classList.add("delete-button");
+  deleteButton.innerText = "Excluir";
+  deleteButton.disabled = true;
+
+  if (answer) {
+    const optionIndex = getOptionIndex(
+      answer.notApplicable,
+      answer.notMet,
+      answer.partiallyMet,
+      answer.fullyMet
+    );
+    if (optionIndex === 3 || optionIndex === 4) {
+      uploadButton.disabled = false;
+    } else {
+      uploadButton.disabled = true;
+    }
+    getEvidenceById(answer.idAnswer)
+      .then((evidence) => {
+        const radio1 = document.querySelector(
+          `input[name="resp${index}"][value="1"]`
+        );
+        const radio2 = document.querySelector(
+          `input[name="resp${index}"][value="2"]`
+        );
+        if (evidence) {
+          downloadLink.classList.remove("disabled");
+          downloadLink.setAttribute("href", "#");
+          deleteButton.disabled = false;
+          downloadLink.innerText = evidence.name;
+          radio1.disabled = true;
+          radio2.disabled = true;
+        } else {
+          downloadLink.classList.add("disabled");
+          downloadLink.removeAttribute("href");
+          deleteButton.disabled = true;
+          radio1.disabled = false;
+          radio2.disabled = false;
+        }
+      })
+      .catch((error) => {
+        console.error("Ocorreu um erro ao obter a evidência: ", error);
+      });
+  } else {
+    uploadButton.disabled = true;
   }
+
+  uploadButton.addEventListener("click", async () => {
+    console;
+    if (answer) {
+      selectAndUploadFile(answer.idAnswer, downloadLink, deleteButton, index);
+    } else {
+      const answer = await getAnswerByQuestionId(item);
+      selectAndUploadFile(answer.idAnswer, downloadLink, deleteButton, index);
+    }
+  });
+
+  downloadLink.addEventListener("click", async () => {
+    if (answer) {
+      await downloadFile(answer.idAnswer);
+    } else {
+      const answer = await getAnswerByQuestionId(item);
+      await downloadFile(answer.idAnswer);
+    }
+  });
+
+  deleteButton.addEventListener("click", async () => {
+    const popupContainer = document.getElementById("popup-container");
+    const closeButton = document.getElementById("close-button");
+    popupContainer.style.display = "flex";
+
+    const confirmButton = document.getElementById("confirm-button");
+    const cancelButton = document.getElementById("cancel-button");
+
+    closeButton.addEventListener("click", () => {
+      popupContainer.style.display = "none";
+    });
+
+    popupContainer.addEventListener("click", (event) => {
+      if (event.target === popupContainer) {
+        popupContainer.style.display = "none";
+      }
+    });
+
+    confirmButton.addEventListener("click", async () => {
+      if (answer) {
+        const evidence = await getEvidenceById(answer.idAnswer);
+        if (evidence) {
+          await deleteFile(
+            evidence.idEvidence,
+            downloadLink,
+            deleteButton,
+            index
+          );
+        }
+      } else {
+        const answer = await getAnswerByQuestionId(item);
+        const evidence = await getEvidenceById(answer.idAnswer);
+        if (evidence) {
+          await deleteFile(
+            evidence.idEvidence,
+            downloadLink,
+            deleteButton,
+            index
+          );
+        }
+      }
+
+      popupContainer.style.display = "none";
+    });
+
+    cancelButton.addEventListener("click", () => {
+      popupContainer.style.display = "none";
+    });
+  });
+
+  buttonTd.appendChild(downloadLink);
+  buttonTd.appendChild(uploadButton);
+  buttonTd.appendChild(deleteButton);
+
+  return buttonTd;
+}
+
+async function getAnswerByQuestionId(item) {
+  const questionId = item.idQuestion;
+  const employee = await fetchEmployee(token);
+  const companyId = employee.company.idCompany;
+  const answers = await fetchAnswersLikeTopicForButtonTds(companyId, option);
+  const answer = answers[questionId];
+  return answer;
+}
+
+function selectAndUploadFile(idAnswer, downloadLink, deleteButton, index) {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = ".pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt"; // tipos de arquivos permitidos
+  fileInput.size = 5 * 1024 * 1024;
+  fileInput.addEventListener("change", async () => {
+    const file = fileInput.files[0];
+    if (file) {
+      if (
+        !allowedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))
+      ) {
+        alert("The selected file is not allowed.");
+        fileInput.value = "";
+      } else if (file.size > fileInput.size) {
+        alert("The selected file is larger than the maximum allowed size.");
+        fileInput.value = "";
+      } else {
+        await uploadFile(file, idAnswer, downloadLink, deleteButton, index);
+      }
+    }
+  });
+  fileInput.click();
 }
 
 async function fetchAnswersLikeTopic(idCompany, topic) {
@@ -345,7 +492,7 @@ async function fetchAnswersLikeTopic(idCompany, topic) {
 
 async function fillQuestionnaireWithAnswers(data) {
   try {
-    const employee = await fetchEmployee();
+    const employee = await fetchEmployee(token);
     const companyId = employee.company.idCompany;
     const topic = option;
     const answers = await fetchAnswersLikeTopic(companyId, topic);
@@ -358,9 +505,7 @@ async function fillQuestionnaireWithAnswers(data) {
       );
 
       const answer = answers.find((answer) => {
-        return (
-          answer.idQuestion === questionId && answer.idCompany === companyId
-        );
+        return answer.idQuestion === questionId;
       });
 
       if (answer) {
@@ -414,7 +559,6 @@ async function createAnswer(data) {
     if (!response.ok) {
       throw new Error("Error creating answer");
     }
-
     const responseData = await response.json();
     return responseData;
   } catch (error) {
@@ -422,23 +566,6 @@ async function createAnswer(data) {
     alert("Error creating answer");
   }
 }
-
-// async function fetchAnswers() {
-//   const url = "http://localhost:8080/answers";
-//   try {
-//     const response = await fetch(url);
-
-//     if (!response.ok) {
-//       throw new Error("Error fetching answers");
-//     }
-
-//     const responseData = await response.json();
-//     return responseData;
-//   } catch (error) {
-//     console.error(`Error fetching answers: ${error.message}`);
-//     alert("Error fetching answers");
-//   }
-// }
 
 async function fetchQuestions() {
   const url = "http://localhost:8080/questions";
@@ -457,40 +584,6 @@ async function fetchQuestions() {
   }
 }
 
-async function uploadFile(file, fileInput) {
-  const url = "http://localhost:8080/upload";
-  const formData = new FormData();
-  formData.append("file", file);
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-    if (!response.ok) {
-      throw new Error("Error uploading file");
-    }
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Error uploading file: ${error.message}`);
-    alert("Error uploading file");
-    //fileInput.value = "";
-  }
-}
-
-async function fetchEmployee() {
-  const token = localStorage.getItem("token");
-  const employeeId = JSON.parse(atob(token.split(".")[1])).id;
-  const url = `http://localhost:8080/employee/${employeeId}`;
-  try {
-    const response = await fetchWithInterceptor(url, { method: "GET" });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(`Error fetching usuário: ${error.message}`);
-  }
-}
-
 function variableInitialization() {
   selectedSummary = 0;
   currentPages = {};
@@ -498,9 +591,25 @@ function variableInitialization() {
   summaries = [];
 }
 
+let isFetching = false;
 async function init() {
+  if (isFetching) {
+    return; // Se já houver uma solicitação em andamento, ignorar
+  }
+
+  isFetching = true;
+  tokenNotExists(token);
+  expirationTime(token);
+  await wait(1000);
   await updateDropdown();
   await updateTable();
+  isFetching = false;
 }
 
-init();
+document.addEventListener("DOMContentLoaded", function () {
+  init();
+});
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

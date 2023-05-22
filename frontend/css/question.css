@@ -1,17 +1,81 @@
-table {
-  border-collapse: collapse;
-  width: 100%;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-th,
+body {
+  display: none;
+}
+
+div#header {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  text-align: center;
+}
+
+button#organizational-controls,
+button#controls-for-people,
+button#physical-controls,
+button#technological-controls,
+select#topic-dropdown {
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button#organizational-controls:hover,
+button#controls-for-people:hover,
+button#physical-controls:hover,
+button#technological-controls:hover,
+select#topic-dropdown:hover {
+  background-color: #cfcfcf;
+}
+
+button#organizational-controls,
+button#controls-for-people,
+button#physical-controls,
+button#technological-controls {
+  margin-right: 2vh;
+}
+
+select#topic-dropdown {
+  width: 40%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 98%;
+  margin: 0 auto;
+  overflow-y: auto;
+}
+
+h3 {
+  margin-bottom: 2vh;
+}
+
 td {
   border: 1px solid black;
-  padding: 8px;
-  text-align: center;
+  padding: 1vh;
+}
+
+th {
+  border: 1px solid black;
+  margin: 0 auto;
+  padding: 1vh;
+  width: 18.43vh;
 }
 
 th {
   background-color: #ddd;
+}
+
+th#summary {
+  text-align: left;
+}
+
+.table-count {
+  text-align: center;
+  font-weight: bold;
 }
 
 td input[type="radio"] {
@@ -19,6 +83,184 @@ td input[type="radio"] {
   margin: 0 auto;
 }
 
+#radio-input[disabled] {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid #0000002f;
+  background-color: #ddd;
+  pointer-events: none;
+}
+
+td button {
+  display: block;
+  margin: 0 auto;
+  padding: 1.2vh;
+  margin-bottom: 1vh;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+td a {
+  display: flex;
+  font-size: 0.85rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+  padding: 1.2vh;
+}
+
+.upload-button {
+  background-color: #2196f3;
+  border: none;
+  text-decoration: none;
+}
+
+.delete-button {
+  background-color: #f44336;
+  border: none;
+  text-decoration: none;
+}
+
+.upload-button:hover {
+  background-color: #0b7dda;
+}
+
+.delete-button:hover {
+  background-color: #da190b;
+}
+
+.upload-button[disabled],
+.delete-button[disabled] {
+  background-color: #ddd;
+  cursor: default;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.36;
+}
+
+a:visited {
+  color: rgb(39, 39, 39);
+}
+
+a:hover {
+  color: rgb(78, 14, 78);
+}
+
+#table-container {
+  position: relative;
+  padding-bottom: 10vh; /* ou qualquer outro valor adequado */
+}
+
+div#buttons {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1vh; /* ou qualquer outro valor adequado */
+}
+
+button#prev-button,
+button#next-button,
+button#prev-button-summary {
+  margin-right: 2vh;
+}
+
+button#prev-button,
+button#next-button,
+button#prev-button-summary,
+button#next-button-summary {
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button#prev-button:hover,
+button#next-button:hover,
+button#prev-button-summary:hover,
+button#next-button-summary:hover {
+  background-color: #cfcfcf;
+}
+
+button#prev-button[disabled],
+button#next-button[disabled],
+button#prev-button-summary[disabled],
+button#next-button-summary[disabled] {
+  background-color: #ddd;
+  cursor: default;
+}
+
 h3 {
   text-align: center;
+}
+
+#popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#popup {
+  width: 60%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 5%;
+  box-shadow: 0px 0px 2.5vh rgba(0, 0, 0, 0.5);
+  padding: 5vh;
+  text-align: center;
+  position: relative;
+}
+
+#popup h2 {
+  margin-top: 0;
+}
+
+#confirm-button,
+#cancel-button {
+  margin-top: 2vh;
+  padding: 2vh;
+  border: none;
+  border-radius: 3%;
+  font-size: 2.5vh;
+  cursor: pointer;
+}
+
+#confirm-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+#cancel-button {
+  background-color: #3498db;
+  color: white;
+}
+
+#close-button {
+  position: absolute;
+  top: 2vh;
+  right: 2vh;
+  font-size: 4vh;
+  cursor: pointer;
+}
+
+#confirm-button:hover {
+  background-color: #c0392b;
+}
+
+#cancel-button:hover {
+  background-color: #2980b9;
+}
+
+#close-button:hover {
+  color: #616161;
 }

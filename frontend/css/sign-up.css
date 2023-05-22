@@ -12,7 +12,6 @@ body {
 
 header {
   background-color: #0047ab;
-  color: #fff;
   height: calc(13vh);
   display: flex;
   justify-content: space-between;
@@ -65,19 +64,24 @@ header {
   display: block;
   padding: 12px 16px;
   text-decoration: none;
-  color: #333;
   cursor: pointer;
 }
 
 .header-dropdown span {
-  padding: 10px 16px;
-  border-radius: 1rem;
+  color: #161618;
+  padding: 1vh 2vw;
+  border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
 }
 
 .header-dropdown span:hover {
-  background-color: #013164;
+  background-color: #161618;
+  color: #fff;
+}
+
+.header-dropdown li:hover {
+  background-color: #161618;
 }
 
 .header-dropdown ul.show {
@@ -100,12 +104,19 @@ header {
   margin: 1rem auto 0;
 }
 
-.main-content p {
+.main-content p#msg {
   display: block;
   grid-column: 1 / -1;
   text-align: center;
   font-size: 0.875rem;
   color: #ff000d;
+}
+
+.main-content p#msg.success {
+  font-size: 1.5rem; /* Tamanho da fonte */
+  text-align: center; /* Centraliza o texto */
+  color: green; /* Cor do texto */
+  font-weight: bold; /* Deixa o texto em negrito */
 }
 
 .form-group {
@@ -200,11 +211,10 @@ header {
   cursor: pointer;
 }
 
-.success {
-  font-size: 1.5rem; /* Tamanho da fonte */
-  text-align: center; /* Centraliza o texto */
-  color: green; /* Cor do texto */
-  font-weight: bold; /* Deixa o texto em negrito */
+.main-content button#btn-register[disabled] {
+  background-color: #ccc;
+  color: #aaa;
+  cursor: not-allowed;
 }
 
 footer {

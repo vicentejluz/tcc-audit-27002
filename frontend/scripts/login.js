@@ -1,5 +1,6 @@
 import togglePassword from "./module/utils/toggle_password.js";
 import { tokenNotFound } from "./module/utils/token.js";
+import { login } from "./module/api.js";
 
 const token = localStorage.getItem("token");
 
@@ -18,32 +19,11 @@ loginForm.addEventListener("submit", async (event) => {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  const response = await fetch("http://localhost:8080/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email,
-      password: password,
-    }),
-  });
-  const error = document.querySelector("#error");
-  if (response.ok) {
-    error.textContent = "";
-    const responseJson = await response.json();
-    const token = responseJson.token;
-    localStorage.setItem("token", token);
-    window.location.href = "../pages/dashboard.html";
-  } else {
-    const responseJson = await response.json();
-    const errorCatch = responseJson;
-    error.textContent = errorCatch.message;
-    loginForm.reset();
-  }
+  await login(email, password, loginForm);
 });
 
 async function init() {
   tokenNotFound(token);
 }
+
 init();
