@@ -8,40 +8,43 @@
 /* Estilos gerais */
 body {
   font-size: 16px;
-  font-family: Arial, sans-serif;
+  font-family: 'Lexend';
   display: none;
+  overflow-x: hidden;
+  background-color: #E0E7FF;
 }
 
 header {
   background-color: #0047ab;
-  color: #fff;
-  height: calc(13vh);
+  color: #F1F1F1;
+  height: 10vh;
   display: flex;
   justify-content: space-between;
-  padding: 0 2vw;
+  align-items: center;
 }
 
 .header-content {
   display: flex;
   align-items: center;
+  padding: 0 5vw 0 5vw;
 }
 
 .header-content a {
   text-decoration: none;
-  color: #fff;
+  color: #F1F1F1;
   display: flex;
   align-items: center;
 }
 
 .header-content img {
   padding-right: 1vw;
-  width: 6vw;
-  height: 5vw;
+  width: 4vw;
+  height: 6vh;
 }
 
 .header-content h1 {
-  font-size: 2rem;
-  align-items: center;
+  font-size: 1.2rem;
+  font-family: 'Lexend';
 }
 
 .header-buttons {
@@ -49,23 +52,26 @@ header {
   right: 1vw;
 }
 
-.header-content button {
-  color: #161618;
+.header-buttons button {
+  color: #F1F1F1;
+  font-weight: bold;
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 1vh 2vw;
-  border-radius: 4px;
+  scale: 1;
+  transition: .4s ease-in-out;
 }
 
 .header-content button:hover {
-  background-color: #161618;
-  color: #fff;
+  color: #A5B4FC;
+  scale: 1.1;
 }
 
 .main-content {
-  height: calc(74vh);
+  height: 80vh;
+  padding-top: 6rem;
 }
 
 /* Estilos do formulário */
@@ -74,7 +80,7 @@ header {
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   padding: 1.5vh;
-  border: 1px solid #ccc;
+  border: .1rem solid #F1F1F1;
   width: 50%;
   max-width: 800px;
   margin: 1rem auto 0;
@@ -120,6 +126,8 @@ header {
   width: 100%;
   margin-bottom: 0.5rem;
   font-size: 1rem;
+  font-family: 'Lexend';
+  outline: none;
 }
 
 .main-content input[type="text"] {
@@ -190,8 +198,8 @@ header {
 
 footer {
   background-color: #0047ab;
-  color: #fff;
-  height: calc(13vh);
+  color: #F1F1F1;
+  height: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
