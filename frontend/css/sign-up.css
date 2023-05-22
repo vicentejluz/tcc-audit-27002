@@ -111,6 +111,7 @@ header {
 .form-group {
   display: flex;
   flex-direction: column;
+
 }
 
 .main-content h1 {
@@ -344,6 +345,7 @@ footer p {
     width: 70%;
   }
 }
+
 
 @media screen and (max-width: 370px) {
   .header-content h1 {

@@ -34,6 +34,7 @@ public class SwaggerConfig {
                 // .termsOfService("")
                 .contact(contact)
                 .version("0.6");
+
     }
 
     private void addSecurity(OpenAPI openApi) {
