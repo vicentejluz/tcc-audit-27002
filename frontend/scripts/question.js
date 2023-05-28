@@ -14,6 +14,7 @@ let selectedSummary = 0;
 let currentPages = {};
 let currentSummary = 0;
 let summaries = [];
+
 let option = parseInt(sessionStorage.getItem("option")) || 5;
 
 const allowedExtensions = [
@@ -34,12 +35,14 @@ const prevButton = document.getElementById("prev-button");
 const nextButton = document.getElementById("next-button");
 const prevButtonSummary = document.getElementById("prev-button-summary");
 const nextButtonSummary = document.getElementById("next-button-summary");
+
 const organizationalControls = document.getElementById(
   "organizational-controls"
 );
 const controlsForPeople = document.getElementById("controls-for-people");
 const physicalControls = document.getElementById("physical-controls");
 const technologicalControls = document.getElementById("technological-controls");
+
 const summary = document.getElementById("summary");
 const topic = document.getElementById("topic");
 const dropdown = document.getElementById("topic-dropdown");
@@ -51,6 +54,7 @@ dropdown.addEventListener("change", () => {
   if (selectedTopicId !== previousSelectedTopicId) {
     currentSummary = summaries.findIndex(
       (summary) => summary.idTopic === selectedTopicId
+
     );
     previousSelectedTopicId = selectedTopicId;
   } else {
@@ -132,6 +136,7 @@ async function fetchSummaries(topic) {
     const response = await fetchWithInterceptor(url, { method: "GET" });
     const data = await response.json();
     const summariesObj = {}; // Criar um objeto vazio
+
     data.forEach((summary) => {
       if (!(summary.idSummary in summariesObj)) {
         // Usar o objeto vazio
@@ -146,8 +151,28 @@ async function fetchSummaries(topic) {
   }
 }
 
+const fetchQuestionsBySummaryAndPage = async (idSummary, page, pageSize) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/questions/summaries/${idSummary}?page=${page}&size=${pageSize}`
+    );
+    if (!response.ok) {
+      throw new Error("Error fetching API data");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching API data:", error);
+    return {
+      totalPages: 0,
+      content: [],
+    };
+  }
+};
+
 async function fetchTopics(topic) {
   const url = `http://localhost:8080/topics/${topic}`;
+
   try {
     const response = await fetch(url);
     const data = await response.json();
