@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fatec.tcc.tccaudit.models.dto.DownloadFileDTO;
 import com.fatec.tcc.tccaudit.models.dto.EvidenceDTO;
+import com.fatec.tcc.tccaudit.models.dto.SaveOrUploadEvidenceDTO;
 import com.fatec.tcc.tccaudit.models.entities.Answer;
 import com.fatec.tcc.tccaudit.models.entities.Evidence;
 import com.fatec.tcc.tccaudit.repositories.AnswerRepository;
@@ -37,44 +38,59 @@ public class EvidenceServiceImpl implements EvidenceService {
 
     @Override
     @Transactional
-    public EvidenceDTO saveOrUpdateEvidence(Evidence evidence, Long idAnswer) {
+    public SaveOrUploadEvidenceDTO saveOrUpdateEvidence(Evidence evidence, Long idAnswer) {
         try {
             String message;
             Answer answer = answerService.findById(idAnswer);
             validateMultipartFile(evidence.getMultipartFile());
             byte[] fileBytes = getFileBytes(evidence.getMultipartFile());
             String originalFilename = getOriginalFilename(evidence.getMultipartFile());
-            System.out.println(evidence.getIdEvidence());
             if (evidence.getIdEvidence() == null) { // novo objeto Evidence
-                createNewEvidence(evidence, answer, fileBytes, originalFilename);
+                Evidence createNewEvidence = createNewEvidence(evidence, answer, fileBytes, originalFilename);
+                evidenceRepository.save(createNewEvidence);
+                answer.setEvidence(createNewEvidence);
+                answerRepository.save(answer);
                 message = "Successfully created evidence!";
             } else { // objeto Evidence existente
-                updateExistingEvidence(evidence, fileBytes, originalFilename);
+                Evidence existingEvidence = updateExistingEvidence(evidence, fileBytes, originalFilename);
+                evidenceRepository.save(existingEvidence);
+                answer.setEvidence(existingEvidence);
+                answerRepository.save(answer);
                 message = "Evidence updated successfully!";
             }
 
-            return new EvidenceDTO(evidence.getIdEvidence(), originalFilename, message);
+            return new SaveOrUploadEvidenceDTO(evidence.getIdEvidence(), originalFilename, message);
         } catch (IOException e) {
             throw new EvidenceUploadException("Error uploading evidence.");
         }
     }
 
     @Override
-    @Transactional
-    public String deleteEvidence(Long idEvidence) {
-        try {
-            Evidence evidence = evidenceRepository.findById(idEvidence)
-                    .orElseThrow(() -> new ResourceNotFoundException("Evidence not found with id " + idEvidence));
-            evidenceRepository.delete(evidence);
-            return "Evidence with id " + idEvidence + " has been deleted successfully.";
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Evidence not found with id " + idEvidence);
-        }
+    public DownloadFileDTO downloadFile(Long idEvidence) {
+        Evidence evidence = evidenceRepository.findById(idEvidence)
+                .orElseThrow(() -> new ResourceNotFoundException("Evidence not found with id " + idEvidence));
+
+        byte[] fileBytes = evidence.getFile();
+        String fileName = evidence.getName();
+
+        DownloadFileDTO downloadFileDTO = new DownloadFileDTO(fileName, fileBytes);
+
+        return downloadFileDTO;
     }
 
     @Override
-    public List<Evidence> findAll() {
-        return evidenceRepository.findAll();
+    @Transactional
+    public String deleteEvidence(Long idEvidence) {
+        Evidence evidence = evidenceRepository.findById(idEvidence)
+                .orElseThrow(() -> new ResourceNotFoundException("Evidence not found with id " + idEvidence));
+
+        Answer answer = answerService.findById(idEvidence);
+        answer.setEvidence(null);
+        answerRepository.save(answer);
+        evidenceRepository.delete(evidence);
+
+        String message = "Evidence with id " + idEvidence + " has been deleted successfully.";
+        return message;
     }
 
     @Override
@@ -84,6 +100,12 @@ public class EvidenceServiceImpl implements EvidenceService {
                     Evidence evidence = new Evidence();
                     return evidence;
                 });
+    }
+
+    @Override
+    public EvidenceDTO getFileName(Long id) {
+        Evidence evidence = evidenceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return new EvidenceDTO(evidence.getIdEvidence(), evidence.getName());
     }
 
     private void validateMultipartFile(MultipartFile multipartFile) {
@@ -119,23 +141,22 @@ public class EvidenceServiceImpl implements EvidenceService {
         return originalFilename;
     }
 
-    private void createNewEvidence(Evidence evidence, Answer answer, byte[] fileBytes, String originalFilename) {
+    private Evidence createNewEvidence(Evidence evidence, Answer answer, byte[] fileBytes, String originalFilename) {
         evidence.setAnswer(answer);
         evidence.setName(originalFilename);
         evidence.setFile(fileBytes);
-        evidenceRepository.save(evidence);
 
-        answer.setEvidence(evidence);
-        answerRepository.save(answer);
+        return evidence;
     }
 
-    private void updateExistingEvidence(Evidence evidence, byte[] fileBytes, String originalFilename) {
+    private Evidence updateExistingEvidence(Evidence evidence, byte[] fileBytes, String originalFilename) {
         Evidence existingEvidence = evidenceRepository.findById(evidence.getIdEvidence())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Evidence not found with id " + evidence.getIdEvidence()));
 
         existingEvidence.setName(originalFilename);
         existingEvidence.setFile(fileBytes);
-        evidenceRepository.save(existingEvidence);
+
+        return existingEvidence;
     }
 }

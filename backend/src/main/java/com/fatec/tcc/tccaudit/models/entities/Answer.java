@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -35,8 +34,12 @@ public class Answer implements Serializable {
     private Company company;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "answer", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "answer")
     private Evidence evidence;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "answer")
+    private Weight weight;
 
     private boolean notApplicable;
 
@@ -81,6 +84,14 @@ public class Answer implements Serializable {
 
     public Evidence getEvidence() {
         return evidence;
+    }
+
+    public Weight getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Weight weight) {
+        this.weight = weight;
     }
 
     public void setEvidence(Evidence evidence) {

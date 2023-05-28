@@ -120,9 +120,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     private void setWeightValue(Weight weight, AnswerDTO answerDTO) {
-        if (answerDTO.notApplicable()) {
-            weight.setWeight(0d);
-        } else if (answerDTO.notMet()) {
+        if (answerDTO.notApplicable() || answerDTO.notMet()) {
             weight.setWeight(0d);
         } else if (answerDTO.partiallyMet()) {
             weight.setWeight(0.5d);

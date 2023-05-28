@@ -33,8 +33,7 @@ public class SwaggerConfig {
                 .description("Tcc audit 27002 API")
                 // .termsOfService("")
                 .contact(contact)
-                .version("0.6");
-
+                .version("0.7");
     }
 
     private void addSecurity(OpenAPI openApi) {

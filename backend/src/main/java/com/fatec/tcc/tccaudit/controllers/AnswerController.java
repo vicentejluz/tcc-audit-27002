@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +43,11 @@ public class AnswerController {
     public ResponseEntity<AnswerDTO> createAnswer(@Valid @RequestBody AnswerDTO answerDTO) {
         AnswerDTO answer = answerService.createOrUpdateAnswer(answerDTO);
         return ResponseEntity.ok(answer);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Answer> findById(@PathVariable Long id) {
+        Answer answer = answerService.findById(id);
+        return ResponseEntity.ok().body(answer);
     }
 }

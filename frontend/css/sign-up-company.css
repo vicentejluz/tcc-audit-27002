@@ -88,6 +88,12 @@ header {
   color: #ff000d;
 }
 
+.main-content button#register[disabled] {
+  background-color: #ddd;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -136,6 +142,10 @@ header {
 
 .main-content small {
   font-size: 0.6rem;
+}
+
+.invalid-input {
+  border: 2px solid red !important;
 }
 
 .main-content input[disabled],

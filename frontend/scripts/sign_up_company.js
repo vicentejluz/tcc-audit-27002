@@ -1,6 +1,6 @@
 import togglePassword from "./module/utils/toggle_password.js";
 import { tokenNotFound } from "./module/utils/token.js";
-import { searchCep } from "./module/api.js";
+import { searchCep, registerCompany } from "./module/api.js";
 import { cepInput, cnpjInput } from "./module/utils/mask.js";
 
 const form = document.querySelector("#sign-up-form");
@@ -8,7 +8,10 @@ const streetInput = document.querySelector("#street");
 const cityInput = document.querySelector("#city");
 const stateSelect = document.querySelector("#state");
 const option = document.querySelector('option[value=""]');
-const error = document.querySelector("#error");
+const msg = document.querySelector("#msg");
+const inputEmail = document.querySelector("#email");
+const button = document.querySelector("#register");
+
 let eye_password = document.querySelector("#eye-password");
 let password_type = document.querySelector("#password");
 eye_password.addEventListener("click", function () {
@@ -23,12 +26,14 @@ cepInput.addEventListener("input", handleCepInput);
 async function handleCepInput(event) {
   const cepValue = event.target.value.replace(/\D/g, "");
   if (cepValue.length === 8) {
-    searchCep(cepValue, streetInput, cityInput, option)
+    searchCep(cepValue, streetInput, cityInput, option, button)
       .then(handleCepResult)
       .catch(handleCepError);
-    error.textContent = "";
+    cepInput.classList.remove("invalid-input");
+    msg.textContent = "";
   } else {
     clearForm();
+    cepInput.classList.add("invalid-input");
   }
 }
 
@@ -49,57 +54,41 @@ function handleCepResult(data) {
 
 // Handle CEP error
 function handleCepError(data) {
-  error.textContent = data.message;
+  cepInput.classList.add("invalid-input");
+  msg.textContent = data.message;
   clearForm();
 }
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault(); // Impede que o formulário seja enviado automaticamente
-
+  let selectedOption = stateSelect.options[stateSelect.selectedIndex];
+  let value = selectedOption.value;
+  let textContent = selectedOption.textContent;
   const formData = new FormData(form); // Obtém os dados do formulário
 
   const name = formData.get("name");
   const street = document.querySelector("#street").value;
   const city = document.querySelector("#city").value;
-  const state = document.querySelector("#state").value;
+
+  const selectedValue = value === "" ? value : textContent;
+  console.log(selectedValue);
   const postalCode = formData.get("postalCode");
   const email = formData.get("email");
   const password = formData.get("password");
 
   // Envia uma solicitação POST para o endpoint com os dados da empresa como corpo da solicitação
-  const response = await fetch("http://localhost:8080/sign-up-company", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      address: {
-        street: street,
-        city: city,
-        state: state,
-        postalCode: postalCode,
-      },
-      companyDTO: {
-        name: name,
-        cnpj: cnpjInput.value,
-      },
-      loginDTO: {
-        email: email,
-        password: password,
-      },
-    }),
-  });
-  if (response.ok) {
-    error.textContent = "";
-    const responseJson = await response.json();
-    const token = responseJson.token;
-    localStorage.setItem("token", token);
-    window.location.href = "../pages/dashboard.html";
-  } else {
-    const responseJson = await response.json();
-    const errorCatch = responseJson;
-    error.textContent = errorCatch.message;
-  }
+  await registerCompany(
+    street,
+    city,
+    selectedValue,
+    postalCode,
+    name,
+    cnpjInput,
+    cepInput,
+    inputEmail,
+    email,
+    password
+  );
 });
 
 async function init() {

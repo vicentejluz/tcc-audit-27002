@@ -58,6 +58,10 @@ public class Company implements Serializable {
         return idCompany;
     }
 
+    public void setIdCompany(Long idCompany) {
+        this.idCompany = idCompany;
+    }
+
     public String getName() {
         return name;
     }

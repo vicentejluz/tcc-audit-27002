@@ -2,14 +2,15 @@ package com.fatec.tcc.tccaudit.models.entities;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -32,10 +33,11 @@ public class Evidence implements Serializable {
     @JoinColumn(name = "id_evidence", referencedColumnName = "idAnswer", foreignKey = @ForeignKey(name = "fk_evidence_id_answer"))
     private Answer answer;
 
-    @Column(length = 60)
     private String name;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "file", columnDefinition = "LONGBLOB")
     private byte[] file;
 
     @Transient

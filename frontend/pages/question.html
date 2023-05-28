@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/question.css" />
-    <title>Perguntas</title>
-  </head>
 
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/question.css" />
+  <title>Perguntas</title>
+</head>
 
-    <div>
-      <button id="organizational-controls">5. Controles Organizacionais</button>
-      <button id="controls-for-people">6. Controles de pessoas</button>
-      <button id="physical-controls">7. Controles físicos</button>
-      <button id="technological-controls">8. Controles tecnológicos</button>
-    </div>
-  
+<body>
+  <div id="header">
+    <button id="organizational-controls">5. Controles Organizacionais</button>
+    <button id="controls-for-people">6. Controles de pessoas</button>
+    <button id="physical-controls">7. Controles físicos</button>
+    <button id="technological-controls">8. Controles tecnológicos</button>
     <select id="topic-dropdown"></select>
+  </div>
+  <div id="table-container">
     <h3 id="topic"></h3>
     <table>
       <thead>
@@ -32,13 +32,23 @@
       </thead>
       <tbody id="table-body"></tbody>
     </table>
-    <div>
-      <button id="prev-button">Anterior</button>
-      <button id="next-button">Próxima</button>
-      <button id="prev-button-summary">Voltar resumo</button>
-      <button id="next-button-summary">Próximo resumo</button>
+  </div>
+  <div id="buttons">
+    <button id="prev-button">Anterior</button>
+    <button id="next-button">Próxima</button>
+    <button id="prev-button-summary">Voltar resumo</button>
+    <button id="next-button-summary">Próximo resumo</button>
+  </div>
+
+  <div id="popup-container">
+    <div id="popup">
+      <span id="close-button">&times;</span>
+      <h2>Tem certeza que deseja excluir esta evidência?</h2>
+      <button id="confirm-button">Confirmar</button>
+      <button id="cancel-button">Cancelar</button>
     </div>
 
     <script type="module" src="../scripts/question.js"></script>
-  </body>
+</body>
+
 </html>
