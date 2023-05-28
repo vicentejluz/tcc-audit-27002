@@ -149,7 +149,7 @@ public class AuthenticationCentral {
         boolean hasLowercase = false;
         boolean hasNumber = false;
         boolean hasSpecialChar = false;
-        String specialChars = "!@#$%^&*()-+";
+        String specialChars = "@$!%*?&#";
 
         // Verifica se a senha atende aos critérios
         if (password.length() < minLength) {

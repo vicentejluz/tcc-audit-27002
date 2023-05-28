@@ -1,4 +1,3 @@
-import { fetchWithInterceptor } from "./module/utils/interceptor.js";
 import {
   downloadFile,
   deleteFile,
@@ -7,12 +6,18 @@ import {
   getEvidenceById,
   fetchAnswersLikeTopicForButtonTds,
   fetchQuestionsBySummaryAndPage,
+  createAnswer,
+  fetchTopics,
+  fetchSummaries,
+  fetchAnswersLikeTopic,
 } from "./module/api.js";
 import {
   expirationTime,
   tokenNotExists,
   logout,
+  handleToken,
 } from "./module/utils/token.js";
+import { resultQuestion } from "./module/utils/grafana.js";
 
 let selectedSummary = 0;
 let currentPages = {};
@@ -29,20 +34,14 @@ const allowedExtensions = [
   ".ppt",
   ".pptx",
   ".txt",
+  ".csv",
+  ".jpg",
+  ".png",
 ];
 
+const companyName = document.getElementById("company-name");
+const employeeName = document.querySelector(".employee-name");
 const logoutButton = document.getElementById("logout-btn");
-
-logoutButton.addEventListener("click", () => {
-  logout();
-});
-
-const ResultButton = document.getElementById("result");
-
-ResultButton.addEventListener("click", () => {
-  window.open("http://localhost:3000/?orgId=1", "_blank");
-});
-
 const token = localStorage.getItem("token");
 const rowsPerPage = 3;
 const prevButton = document.getElementById("prev-button");
@@ -55,6 +54,7 @@ const organizationalControls = document.getElementById(
 const controlsForPeople = document.getElementById("controls-for-people");
 const physicalControls = document.getElementById("physical-controls");
 const technologicalControls = document.getElementById("technological-controls");
+const resultButton = document.getElementById("result");
 const summary = document.getElementById("summary");
 const topic = document.getElementById("topic");
 const dropdown = document.getElementById("topic-dropdown");
@@ -69,10 +69,14 @@ dropdown.addEventListener("change", () => {
     );
     previousSelectedTopicId = selectedTopicId;
   } else {
+    console.clear();
     currentSummary = summaries.findIndex((summary) => summary.idTopic);
   }
-  console.clear();
   updateTable();
+});
+
+logoutButton.addEventListener("click", () => {
+  logout();
 });
 
 prevButton.addEventListener("click", () => {
@@ -141,37 +145,6 @@ technologicalControls.addEventListener("click", () => {
   updateTable();
 });
 
-async function fetchSummaries(topic) {
-  const url = `http://localhost:8080/summaries/${topic}`;
-  try {
-    const response = await fetchWithInterceptor(url, { method: "GET" });
-    const data = await response.json();
-    const summariesObj = {}; // Criar um objeto vazio
-    data.forEach((summary) => {
-      if (!(summary.idSummary in summariesObj)) {
-        // Usar o objeto vazio
-        summariesObj[summary.idSummary] = summary;
-        currentPages[summary.idSummary] ||= 0;
-      }
-    });
-    summaries = Object.values(summariesObj); // Converter de volta para um array
-    return summaries;
-  } catch (error) {
-    console.error(`Error fetching summaries: ${error.message}`);
-  }
-}
-
-async function fetchTopics(topic) {
-  const url = `http://localhost:8080/topics/${topic}`;
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(`Error fetching topics: ${error.message}`);
-  }
-}
-
 async function updateDropdown() {
   try {
     const topic = option;
@@ -193,7 +166,7 @@ async function updateTable() {
     const employee = await fetchEmployee(token);
     const companyId = employee.company.idCompany;
     const topic = option;
-    summaries = await fetchSummaries(topic);
+    summaries = await fetchSummaries(topic, summaries, currentPages);
     selectedSummary = summaries[currentSummary];
     if (!selectedSummary) {
       console.log(
@@ -293,7 +266,6 @@ function createRadioInput(item, index, optionIndex) {
   fetchEmployee(token)
     .then((employee) => {
       const companyId = employee.company.idCompany;
-      // rest of your code using companyId
       radioInput.addEventListener("click", () => {
         const questionId = item.idQuestion;
         const data = {
@@ -384,10 +356,22 @@ function createButtonTd(answer, index, item) {
   uploadButton.addEventListener("click", async () => {
     console;
     if (answer) {
-      selectAndUploadFile(answer.idAnswer, downloadLink, deleteButton, index);
+      selectAndUploadFile(
+        answer.idAnswer,
+        downloadLink,
+        deleteButton,
+        index,
+        uploadButton
+      );
     } else {
       const answer = await getAnswerByQuestionId(item);
-      selectAndUploadFile(answer.idAnswer, downloadLink, deleteButton, index);
+      selectAndUploadFile(
+        answer.idAnswer,
+        downloadLink,
+        deleteButton,
+        index,
+        uploadButton
+      );
     }
   });
 
@@ -408,17 +392,29 @@ function createButtonTd(answer, index, item) {
     const confirmButton = document.getElementById("confirm-button");
     const cancelButton = document.getElementById("cancel-button");
 
+    let confirmClicked = false; // Variável de controle
+
     closeButton.addEventListener("click", () => {
+      if (confirmClicked) return;
+
+      confirmClicked = true;
+
       popupContainer.style.display = "none";
     });
 
     popupContainer.addEventListener("click", (event) => {
+      if (confirmClicked) return;
       if (event.target === popupContainer) {
         popupContainer.style.display = "none";
+        confirmClicked = true;
       }
     });
 
     confirmButton.addEventListener("click", async () => {
+      if (confirmClicked) return;
+
+      confirmClicked = true;
+
       if (answer) {
         const evidence = await getEvidenceById(answer.idAnswer);
         if (evidence) {
@@ -426,18 +422,22 @@ function createButtonTd(answer, index, item) {
             evidence.idEvidence,
             downloadLink,
             deleteButton,
-            index
+            index,
+            confirmButton,
+            uploadButton
           );
         }
       } else {
-        const answer = await getAnswerByQuestionId(item);
-        const evidence = await getEvidenceById(answer.idAnswer);
+        const answerByQuestionId = await getAnswerByQuestionId(item);
+        const evidence = await getEvidenceById(answerByQuestionId.idAnswer);
         if (evidence) {
           await deleteFile(
             evidence.idEvidence,
             downloadLink,
             deleteButton,
-            index
+            index,
+            confirmButton,
+            uploadButton
           );
         }
       }
@@ -446,7 +446,10 @@ function createButtonTd(answer, index, item) {
     });
 
     cancelButton.addEventListener("click", () => {
+      if (confirmClicked) return;
       popupContainer.style.display = "none";
+
+      confirmClicked = true;
     });
   });
 
@@ -466,11 +469,18 @@ async function getAnswerByQuestionId(item) {
   return answer;
 }
 
-function selectAndUploadFile(idAnswer, downloadLink, deleteButton, index) {
+function selectAndUploadFile(
+  idAnswer,
+  downloadLink,
+  deleteButton,
+  index,
+  uploadButton
+) {
   const fileInput = document.createElement("input");
   fileInput.type = "file";
-  fileInput.accept = ".pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt"; // tipos de arquivos permitidos
-  fileInput.size = 5 * 1024 * 1024;
+  fileInput.accept =
+    ".pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .csv, .jpg, .png";
+  fileInput.size = 50 * 1024 * 1024;
   fileInput.addEventListener("change", async () => {
     const file = fileInput.files[0];
     if (file) {
@@ -480,31 +490,21 @@ function selectAndUploadFile(idAnswer, downloadLink, deleteButton, index) {
         alert("A extensão do arquivo não é permitida.");
         fileInput.value = "";
       } else if (file.size > fileInput.size) {
-        alert("O Arquivo é maior do que 5MB");
+        alert("O Arquivo é maior do que 50MB");
         fileInput.value = "";
       } else {
-        await uploadFile(file, idAnswer, downloadLink, deleteButton, index);
+        await uploadFile(
+          file,
+          idAnswer,
+          downloadLink,
+          deleteButton,
+          index,
+          uploadButton
+        );
       }
     }
   });
   fileInput.click();
-}
-
-async function fetchAnswersLikeTopic(idCompany, topic) {
-  const url = `http://localhost:8080/answers/by-topic?idCompany=${idCompany}&topic=${topic}`;
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Error fetching answers");
-    }
-
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Error fetching answers: ${error.message}`);
-    alert("Error fetching answers");
-  }
 }
 
 async function fillQuestionnaireWithAnswers(data) {
@@ -562,45 +562,6 @@ function getOptionIndex(notApplicable, notMet, partiallyMet, fullyMet) {
   }
 }
 
-async function createAnswer(data) {
-  const url = "http://localhost:8080/answers";
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error creating answer");
-    }
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Error creating answer: ${error.message}`);
-    alert("Error creating answer");
-  }
-}
-
-async function fetchQuestions() {
-  const url = "http://localhost:8080/questions";
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Error fetching questions");
-    }
-
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error(`Error fetching questions: ${error.message}`);
-    alert("Error fetching questions");
-  }
-}
-
 function variableInitialization() {
   selectedSummary = 0;
   currentPages = {};
@@ -611,7 +572,10 @@ function variableInitialization() {
 async function init() {
   tokenNotExists(token);
   expirationTime(token);
+  companyName.textContent = handleToken(token).tokenCompany;
+  employeeName.textContent = handleToken(token).tokenName;
   await updateDropdown();
+  await resultQuestion(token, resultButton);
   await updateTable();
 }
 

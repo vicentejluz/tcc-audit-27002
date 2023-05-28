@@ -25,7 +25,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class EvidenceServiceImpl implements EvidenceService {
     private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList("pdf", "doc", "docx", "xls", "xlsx", "ppt",
-            "pptx", "txt");
+            "pptx", "txt", "csv", "jpg", "png");
 
     @Autowired
     private EvidenceRepository evidenceRepository;
@@ -45,6 +45,7 @@ public class EvidenceServiceImpl implements EvidenceService {
             validateMultipartFile(evidence.getMultipartFile());
             byte[] fileBytes = getFileBytes(evidence.getMultipartFile());
             String originalFilename = getOriginalFilename(evidence.getMultipartFile());
+
             if (evidence.getIdEvidence() == null) { // novo objeto Evidence
                 Evidence createNewEvidence = createNewEvidence(evidence, answer, fileBytes, originalFilename);
                 evidenceRepository.save(createNewEvidence);
