@@ -4,28 +4,75 @@ import {
   tokenNotExists,
   logout,
 } from "./module/utils/token.js";
+import { resultDashboard } from "./module/utils/grafana.js";
+import { isAdmin } from "./module/utils/role_admin.js";
 
 const token = localStorage.getItem("token");
 
 
 sessionStorage.removeItem("option");
 
-const logoutButton = document.getElementById("logout-btn");
+const nomeEmpresaElement = document.getElementById("company-name");
+const nomePessoaElement = document.getElementById("person-name");
+const cnpj = document.getElementById("cnpj");
+const postalCode = document.getElementById("postal-code");
+const street = document.getElementById("street");
+const city = document.getElementById("city");
+const state = document.getElementById("state");
+const organizationalControls = document.querySelector(
+  "#organizational-controls"
+);
+const controlsForPeople = document.querySelector("#controls-for-people");
+const physicalControls = document.querySelector("#physical-controls");
+const technologicalControls = document.querySelector("#technological-controls");
+
+const logoutButton = document.querySelector("#logout-btn");
 
 logoutButton.addEventListener("click", () => {
   logout();
 });
 
+organizationalControls.addEventListener("click", () => {
+  const option = 5;
+  sessionStorage.setItem("option", option);
+  window.location.href = "../pages/question.html";
+});
+
+controlsForPeople.addEventListener("click", () => {
+  const option = 6;
+  sessionStorage.setItem("option", option);
+  window.location.href = "../pages/question.html";
+});
+
+physicalControls.addEventListener("click", () => {
+  const option = 7;
+  sessionStorage.setItem("option", option);
+  window.location.href = "../pages/question.html";
+});
+
+technologicalControls.addEventListener("click", () => {
+  const option = 8;
+  sessionStorage.setItem("option", option);
+  window.location.href = "../pages/question.html";
+});
+
+const resultButton = document.querySelector("#result");
+
 async function init() {
-  const nomeEmpresaElement = document.getElementById("nome-empresa");
-  const nomePessoaElement = document.getElementById("nome-pessoa");
   tokenNotExists(token);
   expirationTime(token);
   const employee = await fetchEmployee(token);
+  isAdmin(token);
   nomeEmpresaElement.textContent = employee.company.name;
-  nomePessoaElement.textContent = `Bem-vindo(a), ${employee.name}`;
-}
+  nomePessoaElement.innerHTML = `Bem-vindo(a), ${employee.name}<br>Escolha uma das opções abaixo para responder o questionário.`;
+  cnpj.textContent = `CNPJ: ${employee.company.cnpj}`;
+  postalCode.textContent = `CEP: ${employee.company.address.postalCode}`;
+  street.textContent = `Rua: ${employee.company.address.street}`;
+  city.textContent = `Cidade: ${employee.company.address.city}`;
+  state.textContent = `Estado: ${employee.company.address.state}`;
 
+  resultDashboard(employee, resultButton);
+}
 setTimeout(() => {
   init();
 }, 300);

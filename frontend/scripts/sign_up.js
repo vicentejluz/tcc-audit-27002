@@ -10,9 +10,12 @@ import {
   clickDropDown,
   hideDropDown,
 } from "./module/utils/drop_down.js";
-
-import { expirationTime, tokenNotExists } from "./module/utils/token.js";
-import roleAdmin from "./module/utils/role_admin.js";
+import {
+  expirationTime,
+  tokenNotExists,
+  handleToken,
+} from "./module/utils/token.js";
+import { roleAdmin } from "./module/utils/role_admin.js";
 
 const token = localStorage.getItem("token");
 const form = document.querySelector("#sign-up-form");
@@ -23,17 +26,11 @@ const inputEmail = document.querySelector("#email");
 
 const h1Company = document.querySelector("#company");
 const employeeDropdown = document.querySelector(".header-dropdown ul");
-const employeeName = document.getElementById("employee-name");
+const employeeName = document.querySelector("#employee-name");
 const eye_password = document.querySelector("#eye-password");
 const password_type = document.querySelector("#password");
 const eye_confirm_senha = document.querySelector("#eye-confirm-password");
 const confirm_password_type = document.querySelector("#confirm-password");
-
-setTimeout(async () => {
-  const employee = await fetchEmployee(token);
-  h1Company.textContent = employee.company.name;
-  employeeName.textContent = employee.name;
-}, 300);
 
 // Adiciona opção vazia ao menu suspenso
 const defaultOption = document.createElement("option");
@@ -112,12 +109,13 @@ async function init() {
   expirationTime(token);
   await fetchEmployee(token);
   roleAdmin(token);
+  h1Company.textContent = handleToken(token).tokenCompany;
+  employeeName.textContent = handleToken(token).tokenName;
   dropDown(employeeDropdown);
   clickDropDown(employeeName, employeeDropdown);
   hideDropDown(employeeDropdown);
   getDepartments(select);
 }
-
 setTimeout(() => {
   init();
 }, 300);

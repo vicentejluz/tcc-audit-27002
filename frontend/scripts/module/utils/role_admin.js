@@ -8,4 +8,14 @@ function roleAdmin(token) {
   }
 }
 
-export default roleAdmin;
+function isAdmin(token) {
+  const buttonEmployeeRegistration = document.getElementById(
+    "button-employee-registration"
+  );
+  const role = JSON.parse(atob(token.split(".")[1])).role;
+  if (role != "ROLE_ADMIN") {
+    buttonEmployeeRegistration.remove();
+  }
+}
+
+export { roleAdmin, isAdmin };

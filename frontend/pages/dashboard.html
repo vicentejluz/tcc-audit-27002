@@ -26,11 +26,14 @@
       <div class="header-content">
         <a href="./dashboard.html">
           <img src="../icons/icons8-survey-50.png" alt="Logo" />
-          <h1>TCC AUDIT 27002</h1>
+          <h1 id="company-name"></h1>
         </a>
         <div class="header-buttons">
-          <button onclick="window.location.href='./dashboard.html'">
-            <p id="nome-empresa"></p>
+          <button
+            id="button-employee-registration"
+            onclick="window.location.href='./sign-up.html'"
+          >
+            <p>Cadastrar Funcionário</p>
           </button>
           <button id="logout-btn">Logout</button>
         </div>
@@ -39,22 +42,39 @@
 
     <main>
       <h1>Seja bem-vindo!</h1>
-      <p id="nome-empresa"></p>
-      <p id="nome-pessoa"></p>
+      <p id="person-name"></p>
 
       <div class="options">
-        <button onclick="window.location.href='./question.html'">
-          Questionário
+        <button id="organizational-controls">
+          5. Controles Organizacionais
         </button>
-        <button onclick="window.open('//localhost:3000/login','blank')">
-          Resultados
-        </button>
+        <button id="controls-for-people">6. Controles de pessoas</button>
+        <button id="physical-controls">7. Controles físicos</button>
+        <button id="technological-controls">8. Controles tecnológicos</button>
+        <button id="result">Resultados</button>
       </div>
     </main>
 
     <footer>
-      <p>Desenvolvido por SEGMA6 - 2023</p>
-      <p>Fatec São Caetano do Sul</p>
+      <div class="top-row">
+        <div class="column">
+          <p id="cnpj"></p>
+        </div>
+        <div class="column">
+          <p id="postal-code"></p>
+        </div>
+        <div class="column">
+          <p id="street"></p>
+        </div>
+      </div>
+      <div class="bottom-row">
+        <div class="column">
+          <p id="city"></p>
+        </div>
+        <div class="column">
+          <p id="state"></p>
+        </div>
+      </div>
     </footer>
 
     <script type="module" src="../scripts/dashboard.js"></script>

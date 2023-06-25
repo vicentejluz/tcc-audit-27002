@@ -7,18 +7,18 @@
 
 html,
 body {
-  font-family: 'Lexend';
+  font-family: "Lexend";
 }
 
 body {
   /* display: none; */
   overflow-x: hidden;
-  background-color: #E0E7FF;
+  background-color: #e0e7ff;
 }
 
 header {
   background-color: #0047ab;
-  color: #F1F1F1;
+  color: #f1f1f1;
   height: 10vh;
   display: flex;
   justify-content: space-between;
@@ -34,7 +34,7 @@ header {
 
 .header-content a {
   text-decoration: none;
-  color: #F1F1F1;
+  color: #f1f1f1;
   display: flex;
   align-items: center;
 }
@@ -47,7 +47,7 @@ header {
 
 .header-content h1 {
   font-size: 1.2rem;
-  font-family: 'Lexend';
+  font-family: "Lexend";
 }
 
 .header-buttons {
@@ -56,7 +56,7 @@ header {
 }
 
 .header-buttons button {
-  color: #F1F1F1;
+  color: #f1f1f1;
   font-weight: bold;
   border: none;
   background: none;
@@ -64,11 +64,11 @@ header {
   font-size: 1rem;
   padding: 1vh 2vw;
   scale: 1;
-  transition: .4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 .header-content button:hover {
-  color: #A5B4FC;
+  color: #a5b4fc;
   scale: 1.1;
 }
 
@@ -81,49 +81,70 @@ main {
   align-items: center;
 }
 
-main > h1, main > p {
+main > h1,
+main > p {
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
+}
+
+main > p {
+  text-align: center;
 }
 
 .options {
   width: 100vw;
   display: flex;
   justify-content: center;
-  gap: 10rem;
+  gap: 3rem;
 }
 
 .options > button {
   border: none;
-  background-color: #5C93E0;
-  color: #F1F1F1;
-  font-family: 'Lexend';
-  border-radius: .8rem;
+  cursor: pointer;
+  background-color: #5c93e0;
+  color: #f1f1f1;
+  font-family: "Lexend";
+  border-radius: 0.8rem;
   height: 5rem;
-  width: 8rem;
+  width: 10rem;
   scale: 1;
-  transition: .4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 .options > button:hover {
   scale: 1.1;
-  background-color: #5498F7;
+  background-color: #5498f7;
 }
 
 footer {
   height: 10vh;
-  background-color: #0047AB;
+  background-color: #0047ab;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 1rem;
+  padding-bottom: 1vh;
 }
 
-footer > p {
-  color: #F1F1F1;
+.top-row,
+.bottom-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1vh; /* Ajuste o valor conforme desejado */
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+footer p {
+  color: #f1f1f1;
   font-size: 1rem;
   font-weight: bold;
-  padding-top: 1rem;
-  font-family: 'Inter';
+  padding-top: 0.5rem;
+  font-family: "Inter";
+  white-space: nowrap; /* Evita que o texto quebre linha */
 }

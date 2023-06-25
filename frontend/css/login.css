@@ -4,16 +4,16 @@
   box-sizing: border-box;
 }
 body {
-  font-family: 'Lexend';
+  font-family: "Lexend";
   display: none;
   max-width: 100%;
   overflow-x: hidden;
-  background-color: #E0E7FF;
+  background-color: #e0e7ff;
 }
 
 header {
   background-color: #0047ab;
-  color: #F1F1F1;
+  color: #f1f1f1;
   height: 10vh;
   display: flex;
   justify-content: space-between;
@@ -28,7 +28,7 @@ header {
 
 .header-content a {
   text-decoration: none;
-  color: #F1F1F1;
+  color: #f1f1f1;
   display: flex;
   align-items: center;
 }
@@ -41,7 +41,7 @@ header {
 
 .header-content h1 {
   font-size: 1.2rem;
-  font-family: 'Lexend';
+  font-family: "Lexend";
 }
 
 .header-buttons {
@@ -50,7 +50,7 @@ header {
 }
 
 .header-buttons button {
-  color: #F1F1F1;
+  color: #f1f1f1;
   font-weight: bold;
   border: none;
   background: none;
@@ -58,11 +58,11 @@ header {
   font-size: 1rem;
   padding: 1vh 2vw;
   scale: 1;
-  transition: .4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 .header-content button:hover {
-  color: #A5B4FC;
+  color: #a5b4fc;
   scale: 1.1;
 }
 
@@ -74,7 +74,7 @@ main {
 }
 
 .main-content h1 {
-  font-size: 'Lexend';
+  font-size: "Lexend";
   text-align: center;
   font-size: 2rem;
 }
@@ -82,7 +82,7 @@ main {
 .main-content form {
   margin: 0 auto;
   padding: 2rem;
-  border: .1rem solid #F1F1F1;
+  border: 0.1rem solid #f1f1f1;
   max-width: 25rem;
   display: flex;
   flex-direction: column;
@@ -109,7 +109,7 @@ main {
   outline: none;
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: 'Inter';
+  font-family: "Inter";
 }
 
 .main-content input#password {
@@ -145,7 +145,7 @@ main {
 
 footer {
   background-color: #0047ab;
-  color: #F1F1F1;
+  color: #f1f1f1;
   height: 10vh;
   display: flex;
   flex-direction: column;
@@ -158,7 +158,7 @@ footer p {
   margin: 1vh 0;
 }
 
-button:hover {
+.main-content button:hover {
   background-color: #0069d9;
 }
 

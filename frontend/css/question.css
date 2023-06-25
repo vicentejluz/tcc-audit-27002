@@ -6,27 +6,27 @@
 }
 
 :root {
-    --color-text: #F1F1F1;
-    --color-background: #E0E7FF;
+  --color-text: #f1f1f1;
+  --color-background: #e0e7ff;
 
-    --text-zinc-700: #3F3F46;
-    --text-zinc-800: #27272A;
+  --text-zinc-700: #3f3f46;
+  --text-zinc-800: #27272a;
 
-    --bg-indigo-300: #A5B4FC;
-    --bg-indigo-400: #818CF8;
-    --bg-indigo-500: #6366F1;
-    --bg-indigo-600: #4646E5;
+  --bg-indigo-300: #a5b4fc;
+  --bg-indigo-400: #818cf8;
+  --bg-indigo-500: #6366f1;
+  --bg-indigo-600: #4646e5;
 }
 
 body {
   display: none;
-  font-family: 'Lexend';
-  background-color: #E0E7FF;
+  font-family: "Lexend";
+  background-color: #e0e7ff;
 }
 
 header {
   background-color: #0047ab;
-  color: #F1F1F1;
+  color: #f1f1f1;
   height: 10vh;
   display: flex;
   justify-content: space-between;
@@ -42,7 +42,7 @@ header {
 
 .header-content a {
   text-decoration: none;
-  color: #F1F1F1;
+  color: #f1f1f1;
   display: flex;
   align-items: center;
 }
@@ -55,8 +55,8 @@ header {
 
 .header-content h1 {
   font-size: 1.2rem;
-  font-family: 'Lexend';
-  color: #F1F1F1;
+  font-family: "Lexend";
+  color: #f1f1f1;
 }
 
 .header-buttons {
@@ -65,7 +65,7 @@ header {
 }
 
 .header-buttons button {
-  color: #F1F1F1;
+  color: #f1f1f1;
   font-weight: bold;
   border: none;
   background: none;
@@ -73,12 +73,21 @@ header {
   font-size: 1rem;
   padding: 1vh 2vw;
   scale: 1;
-  transition: .4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 .header-content button:hover {
-  color: #A5B4FC;
+  color: #a5b4fc;
   scale: 1.1;
+}
+
+.employee-name {
+  display: inline-block;
+  color: #f1f1f1;
+  font-weight: bold;
+  background: none;
+  font-size: 1rem;
+  padding: 1vh 2vw;
 }
 
 div#header {
@@ -103,9 +112,8 @@ button#organizational-controls:hover,
 button#controls-for-people:hover,
 button#physical-controls:hover,
 button#technological-controls:hover,
-
-select#topic-dropdown:hover,
-button#result:hover {
+button#result:hover,
+select#topic-dropdown:hover {
   background-color: #cfcfcf;
 }
 
@@ -216,9 +224,23 @@ td a {
   cursor: default;
 }
 
-.disabled {
+#confirm-button[disabled] {
+  background-color: #ddd;
+  cursor: default;
+  color: #adadad;
+  border: 0.5px solid #adadad;
+}
+
+#confirm-button[disabled]:hover {
+  background-color: #ddd;
+}
+
+.disabled,
+.disabled:hover {
   pointer-events: none;
   opacity: 0.36;
+  cursor: default;
+  text-decoration: none;
 }
 
 a:visited {
@@ -231,14 +253,14 @@ a:hover {
 
 #table-container {
   position: relative;
-  padding-bottom: 10vh; /* ou qualquer outro valor adequado */
+  padding-bottom: 10vh;
 }
 
 div#buttons {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 1vh; /* ou qualquer outro valor adequado */
+  bottom: 1vh;
 }
 
 button#prev-button,
@@ -345,7 +367,7 @@ h3 {
 
 footer {
   background-color: #0047ab;
-  color: #F1F1F1;
+  color: #f1f1f1;
   height: 10vh;
   display: flex;
   flex-direction: column;
@@ -356,4 +378,33 @@ footer {
 
 footer p {
   margin: 1vh 0;
+}
+
+h3 {
+  margin-top: 1vh;
+}
+
+.uploading::after,
+.deleting::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 0.8s infinite linear;
+  margin-left: 5px;
+}
+
+.deleting::after {
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

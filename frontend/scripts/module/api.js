@@ -22,6 +22,37 @@ async function fetchEmployee(token) {
   }
 }
 
+async function fetchTopics(topic) {
+  const apiUrl = `http://localhost:8080/topics/${topic}`;
+  try {
+    const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching topics: ${error.message}`);
+  }
+}
+
+async function fetchSummaries(topic, summaries, currentPages) {
+  const apiUrl = `http://localhost:8080/summaries/${topic}`;
+  try {
+    const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
+    const data = await response.json();
+    const summariesObj = {}; // Criar um objeto vazio
+    data.forEach((summary) => {
+      if (!(summary.idSummary in summariesObj)) {
+        // Usar o objeto vazio
+        summariesObj[summary.idSummary] = summary;
+        currentPages[summary.idSummary] ||= 0;
+      }
+    });
+    summaries = Object.values(summariesObj); // Converter de volta para um array
+    return summaries;
+  } catch (error) {
+    console.error(`Error fetching summaries: ${error.message}`);
+  }
+}
+
 async function login(email, password, loginForm) {
   const error = document.querySelector("#error");
   const apiUrl = "http://localhost:8080/login";
@@ -290,11 +321,46 @@ async function fetchQuestionsBySummaryAndPage(idSummary, page, pageSize) {
   }
 }
 
-async function uploadFile(file, idAnswer, downloadLink, deleteButton, index) {
+async function createAnswer(data) {
+  const apiUrl = "http://localhost:8080/answers";
+  try {
+    const response = await fetchWithInterceptor(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error creating answer");
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(`Error creating answer: ${error.message}`);
+    alert("Error creating answer");
+  }
+}
+
+async function uploadFile(
+  file,
+  idAnswer,
+  downloadLink,
+  deleteButton,
+  index,
+  uploadButton
+) {
   const apiUrl = "http://localhost:8080/evidences/upload";
   const formData = new FormData();
   formData.append("file", file);
   formData.append("idAnswer", idAnswer);
+
+  // Adicionar classe para indicar o upload em andamento
+  downloadLink.innerText = "Enviando...";
+  downloadLink.classList.add("uploading");
+
+  uploadButton.disabled = true;
 
   try {
     const response = await fetchWithInterceptor(apiUrl, {
@@ -320,9 +386,15 @@ async function uploadFile(file, idAnswer, downloadLink, deleteButton, index) {
         radio2.disabled = true;
       }
     });
+    uploadButton.disabled = false;
     return await response.json();
   } catch (error) {
+    downloadLink.innerText = "Inclua evidência";
+    uploadButton.disabled = false;
     console.error(`Error: ${error}`);
+  } finally {
+    // Remover a classe de upload em andamento
+    downloadLink.classList.remove("uploading");
   }
 }
 
@@ -363,13 +435,26 @@ async function downloadFile(idEvidence) {
   }
 }
 
-async function deleteFile(idEvidence, downloadLink, deleteButton, index) {
+async function deleteFile(
+  idEvidence,
+  downloadLink,
+  deleteButton,
+  index,
+  confirmButton,
+  uploadButton
+) {
   const apiUrl = `http://localhost:8080/evidences/delete/${idEvidence}`;
+  downloadLink.innerText = "Deletando...";
   try {
+    // Adicionar classe para indicar a exclusão em andamento
+    confirmButton.classList.add("deleting");
+    confirmButton.disabled = true;
+    uploadButton.disabled = true;
+    downloadLink.classList.add("disabled");
+
     const response = await fetchWithInterceptor(apiUrl, { method: "DELETE" });
     if (response.ok) {
       downloadLink.innerText = "Inclua evidência";
-      downloadLink.classList.add("disabled");
       downloadLink.removeAttribute("href");
       deleteButton.disabled = true;
       const radio1 = document.querySelector(
@@ -380,21 +465,30 @@ async function deleteFile(idEvidence, downloadLink, deleteButton, index) {
       );
       radio1.disabled = false;
       radio2.disabled = false;
+      confirmButton.disabled = false;
+      uploadButton.disabled = false;
       console.log("Evidência deletada com sucesso");
     }
   } catch (error) {
+    downloadLink.innerText = "Inclua evidência";
+    confirmButton.disabled = false;
+    uploadButton.disabled = false;
     console.error(error);
+  } finally {
+    // Remover a classe de exclusão em andamento
+    confirmButton.classList.remove("deleting");
   }
 }
 
-async function fetchAnswers() {
-  const apiUrl = "http://localhost:8080/answers";
+async function fetchAnswersLikeTopic(idCompany, topic) {
+  const apiUrl = `http://localhost:8080/answers/by-topic?idCompany=${idCompany}&topic=${topic}`;
   try {
-    const response = await fetchWithInterceptor(apiUrl, { method: "DELETE" });
+    const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
 
     if (!response.ok) {
       throw new Error("Error fetching answers");
     }
+
     const responseData = await response.json();
     return responseData;
   } catch (error) {
@@ -405,6 +499,8 @@ async function fetchAnswers() {
 
 export {
   fetchEmployee,
+  fetchTopics,
+  fetchSummaries,
   searchCep,
   login,
   registerCompany,
@@ -413,8 +509,9 @@ export {
   getEvidenceById,
   fetchAnswersLikeTopicForButtonTds,
   fetchQuestionsBySummaryAndPage,
+  createAnswer,
   uploadFile,
   downloadFile,
   deleteFile,
-  fetchAnswers,
+  fetchAnswersLikeTopic,
 };

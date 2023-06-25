@@ -62,13 +62,17 @@ header {
 
 .header-dropdown li {
   display: block;
-  padding: 12px 16px;
   text-decoration: none;
   cursor: pointer;
 }
 
+.header-dropdown li a {
+  text-decoration: none;
+  padding: 12px 16px;
+}
+
 .header-dropdown span {
-  color: #161618;
+  color: #fff;
   padding: 1vh 2vw;
   border-radius: 4px;
   font-weight: bold;
@@ -76,12 +80,13 @@ header {
 }
 
 .header-dropdown span:hover {
-  background-color: #161618;
+  background-color: #5498f7;
+  scale: 1.1;
   color: #fff;
 }
 
 .header-dropdown li:hover {
-  background-color: #161618;
+  background-color: #5498f7;
 }
 
 .header-dropdown ul.show {
