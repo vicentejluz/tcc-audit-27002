@@ -9,6 +9,7 @@ import { isAdmin } from "./module/utils/role_admin.js";
 
 const token = localStorage.getItem("token");
 
+
 sessionStorage.removeItem("option");
 
 const nomeEmpresaElement = document.getElementById("company-name");

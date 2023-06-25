@@ -23,6 +23,7 @@ let selectedSummary = 0;
 let currentPages = {};
 let currentSummary = 0;
 let summaries = [];
+
 let option = parseInt(sessionStorage.getItem("option")) || 5;
 
 const allowedExtensions = [
@@ -48,6 +49,7 @@ const prevButton = document.getElementById("prev-button");
 const nextButton = document.getElementById("next-button");
 const prevButtonSummary = document.getElementById("prev-button-summary");
 const nextButtonSummary = document.getElementById("next-button-summary");
+
 const organizationalControls = document.getElementById(
   "organizational-controls"
 );
@@ -55,6 +57,7 @@ const controlsForPeople = document.getElementById("controls-for-people");
 const physicalControls = document.getElementById("physical-controls");
 const technologicalControls = document.getElementById("technological-controls");
 const resultButton = document.getElementById("result");
+
 const summary = document.getElementById("summary");
 const topic = document.getElementById("topic");
 const dropdown = document.getElementById("topic-dropdown");
@@ -66,6 +69,7 @@ dropdown.addEventListener("change", () => {
   if (selectedTopicId !== previousSelectedTopicId) {
     currentSummary = summaries.findIndex(
       (summary) => summary.idTopic === selectedTopicId
+
     );
     previousSelectedTopicId = selectedTopicId;
   } else {
@@ -169,9 +173,7 @@ async function updateTable() {
     summaries = await fetchSummaries(topic, summaries, currentPages);
     selectedSummary = summaries[currentSummary];
     if (!selectedSummary) {
-      console.log(
-        `Summary for topic ${selectedSummary.topic.idTopic} not found`
-      );
+      console.log(`Summary for topic not found`);
       return;
     }
     const data = await fetchQuestionsBySummaryAndPage(
@@ -569,6 +571,7 @@ function variableInitialization() {
   summaries = [];
 }
 
+let isFetching = false;
 async function init() {
   tokenNotExists(token);
   expirationTime(token);
@@ -577,6 +580,13 @@ async function init() {
   await updateDropdown();
   await resultQuestion(token, resultButton);
   await updateTable();
+  isFetching = false;
 }
 
-init();
+document.addEventListener("DOMContentLoaded", function () {
+  init();
+});
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

@@ -2,6 +2,7 @@ package com.fatec.tcc.tccaudit.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fatec.tcc.tccaudit.models.dto.LoginAndSignUpDTO;
 import com.fatec.tcc.tccaudit.models.dto.LoginDTO;
+
 import com.fatec.tcc.tccaudit.services.AuthenticationService;
 
 import jakarta.validation.Valid;
@@ -25,4 +27,5 @@ public class AuthenticationController {
         LoginAndSignUpDTO login = authenticationService.LoginIn(loginDTO);
         return ResponseEntity.ok(login);
     }
+
 }
