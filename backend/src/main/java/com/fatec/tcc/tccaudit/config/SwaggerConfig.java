@@ -25,7 +25,7 @@ public class SwaggerConfig {
 
     private Info apiInfo() {
         var contact = new Contact();
-        contact.setEmail("vicente.luz@fatec.sp.gov.br");
+        contact.setEmail("f168.sinfo@fatec.sp.gov.br");
         contact.setName("Fatec São Caetano do Sul");
         contact.setUrl("http://www.fatecsaocaetano.edu.br/");
         return new Info()
@@ -33,7 +33,7 @@ public class SwaggerConfig {
                 .description("Tcc audit 27002 API")
                 // .termsOfService("")
                 .contact(contact)
-                .version("0.9");
+                .version("1.0");
     }
 
     private void addSecurity(OpenAPI openApi) {

@@ -25,19 +25,30 @@ function expirationTime(token) {
 }
 
 function handleToken(token) {
-  const tokenCompany = JSON.parse(atob(token.split(".")[1])).company;
+  const tokenIdCompany = JSON.parse(atob(token.split(".")[1])).idCompany;
 
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const decodedToken = decodeURIComponent(
-    atob(base64)
+  const base64UrlCompany = token.split(".")[1];
+  const base64Company = base64UrlCompany.replace(/-/g, "+").replace(/_/g, "/");
+  const decodedTokenCompany = decodeURIComponent(
+    atob(base64Company)
       .split("")
       .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
       .join("")
   );
-  const tokenName = JSON.parse(decodedToken).name;
 
-  return { tokenCompany, tokenName };
+  const tokenCompany = JSON.parse(decodedTokenCompany).company;
+
+  const base64UrlName = token.split(".")[1];
+  const base64Name = base64UrlName.replace(/-/g, "+").replace(/_/g, "/");
+  const decodedTokenName = decodeURIComponent(
+    atob(base64Name)
+      .split("")
+      .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+      .join("")
+  );
+  const tokenName = JSON.parse(decodedTokenName).name;
+
+  return { tokenCompany, tokenName, tokenIdCompany };
 }
 
 function logout() {

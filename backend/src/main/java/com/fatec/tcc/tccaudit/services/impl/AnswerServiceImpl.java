@@ -128,4 +128,12 @@ public class AnswerServiceImpl implements AnswerService {
             weight.setWeight(1d);
         }
     }
+
+    @Override
+    public int getAnswerCountByIdCompany(Long idCompany) {
+
+        int answerCount = answerRepository.getAnswerCountByIdCompany(idCompany);
+
+        return answerCount;
+    }
 }

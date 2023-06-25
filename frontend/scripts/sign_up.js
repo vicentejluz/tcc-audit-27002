@@ -17,6 +17,7 @@ import {
 import { roleAdmin } from "./module/utils/role_admin.js";
 
 const token = localStorage.getItem("token");
+sessionStorage.removeItem("congratulation");
 const form = document.querySelector("#sign-up-form");
 const select = document.querySelector("#department");
 const msg = document.querySelector("#msg");

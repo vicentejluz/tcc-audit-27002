@@ -10,6 +10,7 @@ import {
   fetchTopics,
   fetchSummaries,
   fetchAnswersLikeTopic,
+  fetchAnswerCountByIdCompany,
 } from "./module/api.js";
 import {
   expirationTime,
@@ -17,8 +18,12 @@ import {
   logout,
   handleToken,
 } from "./module/utils/token.js";
-import { resultQuestion } from "./module/utils/grafana.js";
+import {
+  resultQuestion,
+  updateIframeVarCompany,
+} from "./module/utils/grafana.js";
 
+const totalAnswer = 319;
 let selectedSummary = 0;
 let currentPages = {};
 let currentSummary = 0;
@@ -69,9 +74,9 @@ dropdown.addEventListener("change", () => {
     );
     previousSelectedTopicId = selectedTopicId;
   } else {
-    console.clear();
     currentSummary = summaries.findIndex((summary) => summary.idTopic);
   }
+  console.clear();
   updateTable();
 });
 
@@ -166,6 +171,7 @@ async function updateTable() {
     const employee = await fetchEmployee(token);
     const companyId = employee.company.idCompany;
     const topic = option;
+
     summaries = await fetchSummaries(topic, summaries, currentPages);
     selectedSummary = summaries[currentSummary];
     if (!selectedSummary) {
@@ -276,17 +282,26 @@ function createRadioInput(item, index, optionIndex) {
           partiallyMet: optionIndex === 3 ? true : false,
           fullyMet: optionIndex === 4 ? true : false,
         };
-        createAnswer(data);
-        const uploadButton = document.querySelector(`#upload${index}`);
-        if (optionIndex === 3 || optionIndex === 4) {
-          if (uploadButton) {
-            uploadButton.disabled = false;
+        createAnswer(data).then(() => {
+          if (!sessionStorage.getItem("congratulation")) {
+            fetchAnswerCountByIdCompany(companyId).then((answerCount) => {
+              if (answerCount === totalAnswer) {
+                congratulationPopup(companyId);
+                sessionStorage.setItem("congratulation", true);
+              }
+            });
           }
-        } else {
-          if (uploadButton) {
-            uploadButton.disabled = true;
+          const uploadButton = document.querySelector(`#upload${index}`);
+          if (optionIndex === 3 || optionIndex === 4) {
+            if (uploadButton) {
+              uploadButton.disabled = false;
+            }
+          } else {
+            if (uploadButton) {
+              uploadButton.disabled = true;
+            }
           }
-        }
+        });
       });
     })
     .catch((error) => {
@@ -569,14 +584,48 @@ function variableInitialization() {
   summaries = [];
 }
 
+async function checkAnswerCount(idCompany) {
+  const answerCount = await fetchAnswerCountByIdCompany(idCompany);
+
+  if (
+    answerCount === totalAnswer &&
+    !sessionStorage.getItem("congratulation")
+  ) {
+    congratulationPopup(idCompany);
+    sessionStorage.setItem("congratulation", true);
+  }
+}
+
+function congratulationPopup(idCompany) {
+  const popupContainer = document.getElementById("congratulations-popup");
+  const popupCloseButton = document.getElementById("popup-close");
+  const popupResultButton = document.getElementById("result-popup");
+  resultQuestion(idCompany, popupResultButton);
+  updateIframeVarCompany(idCompany);
+
+  popupContainer.style.display = "block";
+
+  popupContainer.addEventListener("click", function (event) {
+    if (event.target === popupContainer) {
+      popupContainer.style.display = "none";
+    }
+  });
+
+  popupCloseButton.addEventListener("click", function () {
+    popupContainer.style.display = "none";
+  });
+}
+
 async function init() {
   tokenNotExists(token);
   expirationTime(token);
+  const idCompany = handleToken(token).tokenIdCompany;
   companyName.textContent = handleToken(token).tokenCompany;
   employeeName.textContent = handleToken(token).tokenName;
   await updateDropdown();
-  await resultQuestion(token, resultButton);
+  await resultQuestion(idCompany, resultButton);
   await updateTable();
+  await checkAnswerCount(idCompany);
 }
 
 init();

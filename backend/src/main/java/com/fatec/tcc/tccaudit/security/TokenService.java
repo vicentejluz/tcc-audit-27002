@@ -25,6 +25,7 @@ public class TokenService {
                     .withClaim("id", employee.getIdEmployee())
                     .withClaim("name", employee.getName())
                     .withSubject(employee.getEmail())
+                    .withClaim("idCompany", employee.getCompany().getIdCompany())
                     .withClaim("company", employee.getCompany().getName())
                     .withClaim("role", employee.getRole().name())
                     .withIssuedAt(Instant.now())

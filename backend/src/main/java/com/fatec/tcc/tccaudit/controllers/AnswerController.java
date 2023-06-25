@@ -50,4 +50,10 @@ public class AnswerController {
         Answer answer = answerService.findById(id);
         return ResponseEntity.ok().body(answer);
     }
+
+    @GetMapping("/count/{idCompany}")
+    public ResponseEntity<Integer> getAnswerCountByIdCompany(@PathVariable("idCompany") Long idCompany) {
+        int answerCountDTO = answerService.getAnswerCountByIdCompany(idCompany);
+        return ResponseEntity.ok(answerCountDTO);
+    }
 }

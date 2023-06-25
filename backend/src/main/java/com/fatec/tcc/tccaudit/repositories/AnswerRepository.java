@@ -20,4 +20,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     List<AnswerLikeTopicDTO> findByAnswerLikeTopic(@Param("idCompany") Long idCompany,
             @Param("topic") String topic);
 
+    @Query("SELECT COUNT(a) FROM Answer a WHERE a.company.idCompany = :idCompany")
+    int getAnswerCountByIdCompany(@Param("idCompany") Long idCompany);
 }

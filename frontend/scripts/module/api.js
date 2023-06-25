@@ -2,7 +2,7 @@ import { fetchWithInterceptor } from "./utils/interceptor.js";
 
 async function fetchEmployee(token) {
   const employeeId = JSON.parse(atob(token.split(".")[1])).id;
-  const apiUrl = `http://localhost:8080/employee/${employeeId}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/employee/${employeeId}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     if (response.ok) {
@@ -23,7 +23,7 @@ async function fetchEmployee(token) {
 }
 
 async function fetchTopics(topic) {
-  const apiUrl = `http://localhost:8080/topics/${topic}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/topics/${topic}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     const data = await response.json();
@@ -34,7 +34,7 @@ async function fetchTopics(topic) {
 }
 
 async function fetchSummaries(topic, summaries, currentPages) {
-  const apiUrl = `http://localhost:8080/summaries/${topic}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/summaries/${topic}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     const data = await response.json();
@@ -55,7 +55,7 @@ async function fetchSummaries(topic, summaries, currentPages) {
 
 async function login(email, password, loginForm) {
   const error = document.querySelector("#error");
-  const apiUrl = "http://localhost:8080/login";
+  const apiUrl = "http://localhost:8080/tcc-audit/login";
   try {
     const response = await fetchWithInterceptor(apiUrl, {
       method: "POST",
@@ -98,7 +98,7 @@ async function registerCompany(
   password
 ) {
   const msg = document.querySelector("#msg");
-  const apiUrl = "http://localhost:8080/sign-up-company";
+  const apiUrl = "http://localhost:8080/tcc-audit/sign-up-company";
   try {
     const response = await fetchWithInterceptor(apiUrl, {
       method: "POST",
@@ -157,7 +157,7 @@ async function searchCep(cep, streetInput, cityInput, option, button) {
   cityInput.value = "Buscando...";
   option.textContent = "Buscando...";
 
-  const apiUrl = `http://localhost:8080/via-cep?postalCode=${cep}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/via-cep?postalCode=${cep}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     if (response.ok) {
@@ -176,7 +176,7 @@ async function searchCep(cep, streetInput, cityInput, option, button) {
 }
 
 async function getDepartments(select) {
-  const apiUrl = "http://localhost:8080/departments";
+  const apiUrl = "http://localhost:8080/tcc-audit/departments";
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     if (response.ok) {
@@ -211,7 +211,7 @@ async function registerEmployee(
   eye_password,
   eye_confirm_senha
 ) {
-  const apiUrl = "http://localhost:8080/sign-up";
+  const apiUrl = "http://localhost:8080/tcc-audit/sign-up";
   try {
     const response = await fetchWithInterceptor(apiUrl, {
       method: "POST",
@@ -270,7 +270,7 @@ async function registerEmployee(
 }
 
 async function getEvidenceById(id) {
-  const apiUrl = `http://localhost:8080/evidences/${id}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/evidences/${id}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     if (response.ok) {
@@ -283,7 +283,7 @@ async function getEvidenceById(id) {
 }
 
 async function fetchAnswersLikeTopicForButtonTds(idCompany, topic) {
-  const apiUrl = `http://localhost:8080/answers/by-topic?idCompany=${idCompany}&topic=${topic}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/answers/by-topic?idCompany=${idCompany}&topic=${topic}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
 
@@ -304,7 +304,7 @@ async function fetchAnswersLikeTopicForButtonTds(idCompany, topic) {
 }
 
 async function fetchQuestionsBySummaryAndPage(idSummary, page, pageSize) {
-  const apiUrl = `http://localhost:8080/questions/summaries/${idSummary}?page=${page}&size=${pageSize}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/questions/summaries/${idSummary}?page=${page}&size=${pageSize}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     if (!response.ok) {
@@ -322,7 +322,7 @@ async function fetchQuestionsBySummaryAndPage(idSummary, page, pageSize) {
 }
 
 async function createAnswer(data) {
-  const apiUrl = "http://localhost:8080/answers";
+  const apiUrl = "http://localhost:8080/tcc-audit/answers";
   try {
     const response = await fetchWithInterceptor(apiUrl, {
       method: "POST",
@@ -351,7 +351,7 @@ async function uploadFile(
   index,
   uploadButton
 ) {
-  const apiUrl = "http://localhost:8080/evidences/upload";
+  const apiUrl = "http://localhost:8080/tcc-audit/evidences/upload";
   const formData = new FormData();
   formData.append("file", file);
   formData.append("idAnswer", idAnswer);
@@ -400,7 +400,7 @@ async function uploadFile(
 
 async function downloadFile(idEvidence) {
   // Faz a requisição para o endpoint de download
-  const apiUrl = `http://localhost:8080/evidences/download/${idEvidence}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/evidences/download/${idEvidence}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
     // Verifica se o header Content-Disposition está presente na resposta
@@ -443,7 +443,7 @@ async function deleteFile(
   confirmButton,
   uploadButton
 ) {
-  const apiUrl = `http://localhost:8080/evidences/delete/${idEvidence}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/evidences/delete/${idEvidence}`;
   downloadLink.innerText = "Deletando...";
   try {
     // Adicionar classe para indicar a exclusão em andamento
@@ -481,7 +481,7 @@ async function deleteFile(
 }
 
 async function fetchAnswersLikeTopic(idCompany, topic) {
-  const apiUrl = `http://localhost:8080/answers/by-topic?idCompany=${idCompany}&topic=${topic}`;
+  const apiUrl = `http://localhost:8080/tcc-audit/answers/by-topic?idCompany=${idCompany}&topic=${topic}`;
   try {
     const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
 
@@ -494,6 +494,24 @@ async function fetchAnswersLikeTopic(idCompany, topic) {
   } catch (error) {
     console.error(`Error fetching answers: ${error.message}`);
     alert("Error fetching answers");
+  }
+}
+
+async function fetchAnswerCountByIdCompany(idCompany) {
+  const apiUrl = `http://localhost:8080/tcc-audit/answers/count/${idCompany}`;
+
+  try {
+    const response = await fetchWithInterceptor(apiUrl, { method: "GET" });
+
+    if (!response.ok) {
+      throw new Error("Error fetching answer count");
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(`Error fetching answer count: ${error.message}`);
+    alert("Error fetching answer count");
   }
 }
 
@@ -514,4 +532,5 @@ export {
   downloadFile,
   deleteFile,
   fetchAnswersLikeTopic,
+  fetchAnswerCountByIdCompany,
 };

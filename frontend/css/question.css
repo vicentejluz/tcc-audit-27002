@@ -364,6 +364,84 @@ h3 {
   color: #616161;
 }
 
+#congratulations-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+#popup-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.graph-container {
+  display: flex;
+  justify-content: space-between;
+  width: 500px; /* Ajuste a largura conforme necessário */
+  margin-bottom: 1vh; /* Adicione margem inferior para separar dos outros gráficos */
+}
+
+.graph-container iframe {
+  width: 200px; /* Ajuste a largura conforme necessário */
+  height: 200px;
+}
+
+#popup-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+#popup-close {
+  position: absolute;
+  top: 0.2vh;
+  right: 1.5vh;
+  font-size: 3.3vh;
+  cursor: pointer;
+}
+
+#popup-close:hover {
+  color: #616161;
+}
+
+#result-popup {
+  border: none;
+  cursor: pointer;
+  background-color: #5c93e0;
+  color: #f1f1f1;
+  font-family: "Lexend";
+  border-radius: 0.8rem;
+  height: 3rem;
+  width: 7rem;
+  transition: 0.4s ease-in-out;
+  margin-bottom: 1vh;
+}
+
+#result-popup:hover {
+  background-color: #4487e6;
+}
+
+#trophy {
+  padding: 1.5vh;
+}
+
 footer {
   background-color: #0047ab;
   color: #f1f1f1;

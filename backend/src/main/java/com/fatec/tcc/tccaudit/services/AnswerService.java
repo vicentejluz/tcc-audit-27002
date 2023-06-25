@@ -14,4 +14,6 @@ public interface AnswerService {
     AnswerDTO createOrUpdateAnswer(AnswerDTO answerDTO);
 
     Answer findById(Long id);
+
+    int getAnswerCountByIdCompany(Long idCompany);
 }

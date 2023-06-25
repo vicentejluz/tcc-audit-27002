@@ -592,7 +592,6 @@ insert into tb_question  values(default,"a) É realizado o planejamento de audit
 insert into tb_question  values(default,"b) Quais são as medidas de segurança adotadas para proteger os sistemas de informação durante os testes de auditoria?",	93	);
 insert into tb_question  values(default,"c) É feita a gestão dos registros e evidências dos testes de auditoria para garantir a integridade e confidencialidade das informações envolvidas?	",	93	);
 
-
 insert into tb_department values(default,"Administrator");
 insert into tb_department values(default,"TI");
 insert into tb_department values(default,"RH");
