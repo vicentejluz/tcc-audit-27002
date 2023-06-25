@@ -4,41 +4,44 @@
   box-sizing: border-box;
 }
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Lexend';
   display: none;
   max-width: 100%;
+  overflow-x: hidden;
+  background-color: #E0E7FF;
 }
 
 header {
   background-color: #0047ab;
-  color: #fff;
-  height: calc(15vh + 1px);
+  color: #F1F1F1;
+  height: 10vh;
   display: flex;
   justify-content: space-between;
-  padding: 0 3vw;
+  align-items: center;
 }
 
 .header-content {
   display: flex;
   align-items: center;
+  padding: 0 5vw 0 5vw;
 }
 
 .header-content a {
   text-decoration: none;
-  color: #fff;
+  color: #F1F1F1;
   display: flex;
   align-items: center;
 }
 
 .header-content img {
   padding-right: 1vw;
-  width: 6vw;
-  height: 5vw;
+  width: 4vw;
+  height: 6vh;
 }
 
 .header-content h1 {
-  font-size: 2rem;
-  align-items: center;
+  font-size: 1.2rem;
+  font-family: 'Lexend';
 }
 
 .header-buttons {
@@ -46,36 +49,40 @@ header {
   right: 1vw;
 }
 
-.header-content button {
-  color: #161618;
+.header-buttons button {
+  color: #F1F1F1;
+  font-weight: bold;
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 1vh 2vw;
-  border-radius: 4px;
+  scale: 1;
+  transition: .4s ease-in-out;
 }
 
 .header-content button:hover {
-  background-color: #161618;
-  color: #fff;
+  color: #A5B4FC;
+  scale: 1.1;
 }
 
-.main-content {
-  margin-top: 1.782rem;
-  height: calc(70vh - 30px);
+main {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-content h1 {
+  font-size: 'Lexend';
   text-align: center;
-  padding: 1%;
   font-size: 2rem;
 }
 
 .main-content form {
   margin: 0 auto;
   padding: 2rem;
-  border: 1px solid #ccc;
+  border: .1rem solid #F1F1F1;
   max-width: 25rem;
   display: flex;
   flex-direction: column;
@@ -99,8 +106,10 @@ header {
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
+  outline: none;
   box-sizing: border-box;
   font-size: 1rem;
+  font-family: 'Inter';
 }
 
 .main-content input#password {
@@ -136,8 +145,8 @@ header {
 
 footer {
   background-color: #0047ab;
-  color: #fff;
-  height: calc(15vh + 1px);
+  color: #F1F1F1;
+  height: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

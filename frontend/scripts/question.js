@@ -8,7 +8,11 @@ import {
   fetchAnswersLikeTopicForButtonTds,
   fetchQuestionsBySummaryAndPage,
 } from "./module/api.js";
-import { expirationTime, tokenNotExists } from "./module/utils/token.js";
+import {
+  expirationTime,
+  tokenNotExists,
+  logout,
+} from "./module/utils/token.js";
 
 let selectedSummary = 0;
 let currentPages = {};
@@ -28,7 +32,18 @@ const allowedExtensions = [
   ".txt",
 ];
 
-//dropdown.value = selectedSummary.topic.idTopic;
+const logoutButton = document.getElementById("logout-btn");
+
+logoutButton.addEventListener("click", () => {
+  logout();
+});
+
+const ResultButton = document.getElementById("result");
+
+ResultButton.addEventListener("click", () => {
+  window.open("http://localhost:3000/?orgId=1", "_blank");
+});
+
 const token = localStorage.getItem("token");
 const rowsPerPage = 3;
 const prevButton = document.getElementById("prev-button");
@@ -150,25 +165,6 @@ async function fetchSummaries(topic) {
     console.error(`Error fetching summaries: ${error.message}`);
   }
 }
-
-const fetchQuestionsBySummaryAndPage = async (idSummary, page, pageSize) => {
-  try {
-    const response = await fetch(
-      `http://localhost:8080/questions/summaries/${idSummary}?page=${page}&size=${pageSize}`
-    );
-    if (!response.ok) {
-      throw new Error("Error fetching API data");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching API data:", error);
-    return {
-      totalPages: 0,
-      content: [],
-    };
-  }
-};
 
 async function fetchTopics(topic) {
   const url = `http://localhost:8080/topics/${topic}`;
@@ -485,10 +481,10 @@ function selectAndUploadFile(idAnswer, downloadLink, deleteButton, index) {
       if (
         !allowedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))
       ) {
-        alert("The selected file is not allowed.");
+        alert("A extensão do arquivo não é permitida.");
         fileInput.value = "";
       } else if (file.size > fileInput.size) {
-        alert("The selected file is larger than the maximum allowed size.");
+        alert("O Arquivo é maior do que 5MB");
         fileInput.value = "";
       } else {
         await uploadFile(file, idAnswer, downloadLink, deleteButton, index);
@@ -618,14 +614,8 @@ function variableInitialization() {
 
 let isFetching = false;
 async function init() {
-  if (isFetching) {
-    return; // Se já houver uma solicitação em andamento, ignorar
-  }
-
-  isFetching = true;
   tokenNotExists(token);
   expirationTime(token);
-  await wait(1000);
   await updateDropdown();
   await updateTable();
   isFetching = false;

@@ -1,10 +1,84 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+:root {
+    --color-text: #F1F1F1;
+    --color-background: #E0E7FF;
+
+    --text-zinc-700: #3F3F46;
+    --text-zinc-800: #27272A;
+
+    --bg-indigo-300: #A5B4FC;
+    --bg-indigo-400: #818CF8;
+    --bg-indigo-500: #6366F1;
+    --bg-indigo-600: #4646E5;
 }
 
 body {
   display: none;
+  font-family: 'Lexend';
+  background-color: #E0E7FF;
+}
+
+header {
+  background-color: #0047ab;
+  color: #F1F1F1;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 0 3vw; */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  padding: 0 5vw 0 5vw;
+}
+
+.header-content a {
+  text-decoration: none;
+  color: #F1F1F1;
+  display: flex;
+  align-items: center;
+}
+
+.header-content img {
+  padding-right: 1vw;
+  width: 4vw;
+  height: 6vh;
+}
+
+.header-content h1 {
+  font-size: 1.2rem;
+  font-family: 'Lexend';
+  color: #F1F1F1;
+}
+
+.header-buttons {
+  position: absolute;
+  right: 1vw;
+}
+
+.header-buttons button {
+  color: #F1F1F1;
+  font-weight: bold;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 1vh 2vw;
+  scale: 1;
+  transition: .4s ease-in-out;
+}
+
+.header-content button:hover {
+  color: #A5B4FC;
+  scale: 1.1;
 }
 
 div#header {
@@ -17,6 +91,8 @@ button#organizational-controls,
 button#controls-for-people,
 button#physical-controls,
 button#technological-controls,
+
+button#result,
 select#topic-dropdown {
   padding: 8px;
   border-radius: 10px;
@@ -27,7 +103,9 @@ button#organizational-controls:hover,
 button#controls-for-people:hover,
 button#physical-controls:hover,
 button#technological-controls:hover,
-select#topic-dropdown:hover {
+
+select#topic-dropdown:hover,
+button#result:hover {
   background-color: #cfcfcf;
 }
 
@@ -263,4 +341,19 @@ h3 {
 
 #close-button:hover {
   color: #616161;
+}
+
+footer {
+  background-color: #0047ab;
+  color: #F1F1F1;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+footer p {
+  margin: 1vh 0;
 }
