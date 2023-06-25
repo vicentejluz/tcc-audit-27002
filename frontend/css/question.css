@@ -91,6 +91,7 @@ button#organizational-controls,
 button#controls-for-people,
 button#physical-controls,
 button#technological-controls,
+
 button#result,
 select#topic-dropdown {
   padding: 8px;
@@ -102,6 +103,7 @@ button#organizational-controls:hover,
 button#controls-for-people:hover,
 button#physical-controls:hover,
 button#technological-controls:hover,
+
 select#topic-dropdown:hover,
 button#result:hover {
   background-color: #cfcfcf;

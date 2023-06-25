@@ -202,9 +202,7 @@ async function updateTable() {
     summaries = await fetchSummaries(topic);
     selectedSummary = summaries[currentSummary];
     if (!selectedSummary) {
-      console.log(
-        `Summary for topic ${selectedSummary.topic.idTopic} not found`
-      );
+      console.log(`Summary for topic not found`);
       return;
     }
     const data = await fetchQuestionsBySummaryAndPage(
@@ -614,11 +612,19 @@ function variableInitialization() {
   summaries = [];
 }
 
+let isFetching = false;
 async function init() {
   tokenNotExists(token);
   expirationTime(token);
   await updateDropdown();
   await updateTable();
+  isFetching = false;
 }
 
-init();
+document.addEventListener("DOMContentLoaded", function () {
+  init();
+});
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
