@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lexend:wght@400;500;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/question.css" />
+  <body>
+    <header>
+      <div class="header-content">
+        <a href="./dashboard.html">
+          <img src="../icons/icons8-survey-50.png" alt="Logo" />
+          <h1 id="company-name"></h1>
+        </a>
+        <div class="header-buttons">
+          <p class="employee-name"></p>
+          <button onclick="window.location.href='./dashboard.html'">
+            Painel
+          </button>
+          <button id="logout-btn">Logout</button>
+        </div>
+      </div>
+    </header>
+
+  <div id="header">
+    <button id="organizational-controls">5. Controles Organizacionais</button>
+    <button id="controls-for-people">6. Controles de pessoas</button>
+    <button id="physical-controls">7. Controles físicos</button>
+    <button id="technological-controls">8. Controles tecnológicos</button>
+    <select id="topic-dropdown"></select>
+    <button id="result">Resultados</button>
+  </div>
+  <div id="table-container">
+    <h3 id="topic"></h3>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2" id="summary"></th>
+          <th>Não se aplica</th>
+          <th>Não atende</th>
+          <th>Atende parcialmente</th>
+          <th>Atende totalmente</th>
+          <th>Evidência</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+
+    <h3>
+      O tamanho máximo do arquivo é de 50MB e só aceita as extensões: .pdf,
+      .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .csv, .jpg, .png.
+    </h3>
+
+  </div>
+  <div id="buttons">
+    <button id="prev-button">Anterior</button>
+    <button id="next-button">Próxima</button>
+    <button id="prev-button-summary">Voltar resumo</button>
+    <button id="next-button-summary">Próximo resumo</button>
+  </div>
+
+  <div id="popup-container">
+    <div id="popup">
+      <span id="close-button">&times;</span>
+      <h2>Tem certeza que deseja excluir esta evidência?</h2>
+      <button id="confirm-button">Confirmar</button>
+      <button id="cancel-button">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="congratulations-popup">
+    <div id="popup-content">
+      <h2>Parabéns você concluiu o questionário!</h2>
+      <span id="popup-close">&times;</span>
+      <img id="trophy" src="../icons/Elegantthemes-Beautiful-Flat-Trophy.svg" alt="Trophy" />
+      <button id="result-popup">Resultados</button>
+
+        <div class="graph-container">
+          <iframe id="myIframeOne" frameborder="0"></iframe>
+          <iframe id="myIframeTwo" frameborder="0"></iframe>
+        </div>
+        <iframe id="myIframeThree" width="480" height="286" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/question.js"></script>
+</body>
+
+</html>

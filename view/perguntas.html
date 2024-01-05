@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplo de tabela</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #ddd;
+      }
+
+      td input[type="radio"] {
+        display: block;
+        margin: 0 auto;
+      }
+
+      h3 {
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <select id="topic-dropdown"></select>
+    <h3 id="topic"></h3>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2" id="summary"></th>
+          <th>Não se aplica</th>
+          <th>Não atende</th>
+          <th>Atende parcialmente</th>
+          <th>Atende totalmente</th>
+          <th>Evidência</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <div>
+      <button id="prev-button">Anterior</button>
+      <button id="next-button">Próxima</button>
+      <button id="prev-button-summary">Voltar resumo</button>
+      <button id="next-button-summary">Próximo resumo</button>
+    </div>
+
+    <script src="script_perguntas.js"></script>
+  </body>
+</html>

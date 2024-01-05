@@ -1,0 +1,3161 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Dash TCC",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": true,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "P211906C1C32DB77E"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 1,
+        "x": 11,
+        "y": 0
+      },
+      "id": 22,
+      "options": {
+        "SVGBaseFix": true,
+        "add100Percentage": true,
+        "calcsMutation": "standard",
+        "centerAlignContent": true,
+        "codeData": "{\n  \"text\": \"Random text\"\n}",
+        "css": "",
+        "dynamicData": false,
+        "dynamicFieldDisplayValues": false,
+        "dynamicHtmlGraphics": false,
+        "dynamicProps": false,
+        "html": "",
+        "onInit": "// Obtenha o valor da variável do Grafana (certifique-se de que a variável esteja configurada no painel do Grafana)\nconst valorCompany = getGrafanaVariableValue(\"$company\");\n\nif (sessionStorage.getItem('grafana.user.company') === null) {\n    sessionStorage.setItem('grafana.user.company', valorCompany);\n}\n\nif (sessionStorage.getItem('grafana.user.company') === \"-1\" && valorCompany == \"-1\") {\n    window.location.replace(`http://localhost:${window.location.port}/orgId=1`);\n} else {\n    // Defina o item no localStorage se for a primeira execução\n    const companyIdFromLocalStorage = sessionStorage.getItem('grafana.user.company');\n\n    const homeURL = `http://localhost:${window.location.port}/d/f29eb8e9-aa99-46b7-ba2c-7c8bdbf35eb1/aplicacao-tcc?orgId=1`;\n    const baseDesiredURL = `http://localhost:${window.location.port}/d/f29eb8e9-aa99-46b7-ba2c-7c8bdbf35eb1/aplicacao-tcc?var-company=${companyIdFromLocalStorage}&orgId=1`;\n\n\n    if (valorCompany !== companyIdFromLocalStorage || window.location.href === homeURL || window.location.href === baseDesiredURL + \"&viewPanel=22\") {\n        window.location.replace(baseDesiredURL);\n    }\n\n}\n\nfunction getGrafanaVariableValue(variable) {\n    return getTemplateSrv().replace(variable);\n}\n",
+        "onInitOnResize": false,
+        "onRender": "",
+        "overflow": "visible",
+        "panelupdateOnMount": true,
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull",
+            "last",
+            "firstNotNull",
+            "first",
+            "min",
+            "max",
+            "mean",
+            "sum",
+            "count",
+            "range",
+            "delta",
+            "step",
+            "diff",
+            "logmin",
+            "allIsZero",
+            "allIsNull",
+            "diffperc"
+          ]
+        },
+        "renderOnMount": true,
+        "rootCSS": "",
+        "useGrafanaScrollbar": true
+      },
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "P211906C1C32DB77E"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "rawSql": "",
+          "refId": "A"
+        }
+      ],
+      "type": "gapit-htmlgraphics-panel"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "P211906C1C32DB77E"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 1,
+        "x": 12,
+        "y": 0
+      },
+      "id": 21,
+      "options": {
+        "activeTheme": "Teste",
+        "disableThemePicker": true,
+        "themes": [
+          {
+            "name": "Teste",
+            "styles": [
+              {
+                "props": {
+                  "theme": "light"
+                },
+                "type": "basetheme"
+              },
+              {
+                "props": {
+                  "url": ""
+                },
+                "type": "bgimage"
+              },
+              {
+                "props": {
+                  "url": ""
+                },
+                "type": "url"
+              },
+              {
+                "props": {
+                  "text": "a.css-k008qs {\n    pointer-events: none;\n}\n\n#reactRoot>div.grafana-app>div>div.css-11s8juy>div.css-15okvyg {\n    display: none\n}\n\n#mega-menu-toggle {\n    display: none;\n}\n\na.css-13q6pv9 {\n    pointer-events: none;\n}\n\n#reactRoot>div.grafana-app>div>div.css-11s8juy>div.css-on8iy0>div.css-f6xxc0-NavToolbar-actions>div.css-ztq7l5>div:nth-child(1)>button.css-q2rhkm-button {\n    pointer-events: auto;\n}\n\n#reactRoot>div.grafana-app>div>div.css-11s8juy>div.css-on8iy0>div.css-f6xxc0-NavToolbar-actions>div.css-ztq7l5>div:nth-child(1)>button.css-fhvm-button-add-panel-button-add-panel-button-text {\n    pointer-events: none;\n}\n\n#reactRoot>div.grafana-app>div>div.css-11s8juy>div.css-on8iy0>div.css-f6xxc0-NavToolbar-actions>div.css-ztq7l5>div:nth-child(3)>button.css-1fts65t-toolbar-button {\n    display: none;\n}\n\n#reactRoot>div.grafana-app>div>div.css-11s8juy>div.css-on8iy0>div.css-f6xxc0-NavToolbar-actions>div.css-ztq7l5>div:nth-child(1)>button.css-1fts65t-toolbar-button {\n    display: none;\n}\n\n#reactRoot>div.grafana-app>div>div.css-11s8juy>div.css-on8iy0>div.css-f6xxc0-NavToolbar-actions>div.css-ztq7l5>div:nth-child(3)>button.css-i4k0e1-button {\n    pointer-events: auto;\n}\n\n#pageContent>div.css-1syiu8h-page-wrapper>div>div.scrollbar-view>div>div>div:nth-child(1)>div>div>div:nth-child(1) {\n    display: none;\n}\n\n#grafana-portal-container>div>div>div>div:nth-child(2)>div>div>button:nth-child(3).css-1n3qu6j {\n    display: none;\n}\n\n#grafana-portal-container>div>div>div>div:nth-child(2)>div>div>button:nth-child(1).css-1n3qu6j {\n    display: none;\n}\n\n#grafana-portal-container>div>div>div>div:nth-child(2)>div>div>div:nth-child(4).css-1n3qu6j {\n    display: none;\n}\n\n#pageContent>div.css-1syiu8h-page-wrapper>div>div.scrollbar-view>div>div>div:nth-child(1)>div>div>div:nth-child(2) {\n    display: none;\n}"
+                },
+                "type": "style"
+              },
+              {
+                "props": {
+                  "color": "#00000000"
+                },
+                "type": "panel-container-bg-color"
+              }
+            ]
+          }
+        ]
+      },
+      "pluginVersion": "0.2.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "P211906C1C32DB77E"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "rawSql": "",
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "yesoreyeram-boomtheme-panel"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 319,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "abf36251-678e-43bd-8909-4983765025d8"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(id_answer) AS \"Respondidos\" FROM mydb.tb_answer WHERE id_company = $company LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Respondidos\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_answer",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "Porcentagem de Questões Respondidas",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 319,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "light-blue",
+                "value": 48
+              },
+              {
+                "color": "super-light-green",
+                "value": 160
+              },
+              {
+                "color": "dark-green",
+                "value": 271
+              },
+              {
+                "color": "dark-green",
+                "value": 319
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 7,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "abf36251-678e-43bd-8909-4983765025d8"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT SUM(weight) FROM mydb.tb_weight join mydb.tb_answer on tb_weight.id_weight = tb_answer.id_answer WHERE tb_answer.id_company = $company",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "weight",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_weight"
+        }
+      ],
+      "title": "Porcentagem de Questões Respondidas",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "COUNT(fully_met)",
+                  "COUNT(partially_met)",
+                  "COUNT(not_met)"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 1,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(fully_met) AS \"Atende Totalmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND fully_met = '1' LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Totalmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "fully_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a989b98b-0123-4456-b89a-b18822234fbd",
+                  "properties": {
+                    "field": "fully_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "properties": {
+                "conjunction": "OR"
+              },
+              "type": "group"
+            },
+            "whereString": "fully_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(partially_met) AS \"Atende Pacialmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND partially_met = '1' LIMIT 50 ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Pacialmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "partially_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b8a9b9b9-cdef-4012-b456-718822561ce1",
+                  "properties": {
+                    "field": "partially_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "partially_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_met) AS \"Não Atende\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND not_met = '1' LIMIT 50 ",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Atende\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "ba9bbbaa-4567-489a-bcde-f18822574bcc",
+                  "properties": {
+                    "field": "not_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "not_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_applicable) AS \"Não Aplicavel\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND not_applicable = '1' LIMIT 50 ",
+          "refId": "D",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Aplicavel\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_applicable",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "99a9a89b-cdef-4012-b456-71882257f2c7",
+                  "properties": {
+                    "field": "not_applicable",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "not_applicable = '1'"
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "Total de Respostas por Opção",
+      "type": "piechart"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 8,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "valueMode": "text"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(id_evidence) FROM mydb.tb_evidence join mydb.tb_answer on tb_evidence.id_evidence = tb_answer.id_answer WHERE tb_answer.id_company = $company LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_evidence",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_evidence"
+        }
+      ],
+      "title": "Total de Evidências Anexadas",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 0,
+        "y": 17
+      },
+      "id": 3,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(fully_met) AS \"Atende Totalmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (fully_met = '1' AND id_question < '95') ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Totalmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "fully_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a989b98b-0123-4456-b89a-b18822234fbd",
+                  "properties": {
+                    "field": "fully_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                },
+                {
+                  "id": "b88babab-89ab-4cde-b012-318822b0fec1",
+                  "properties": {
+                    "field": "id_question",
+                    "operator": "equal",
+                    "value": [
+                      "95"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "properties": {
+                "conjunction": "AND"
+              },
+              "type": "group"
+            },
+            "whereString": "(fully_met = '1' AND id_question = '95')"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(partially_met) AS \"Atende Pacialmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND ( partially_met= '1' AND id_question < '95') ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Pacialmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "partially_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b8a9b9b9-cdef-4012-b456-718822561ce1",
+                  "properties": {
+                    "field": "partially_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "partially_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_met) AS \"Não Atende\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_met = '1' AND id_question < '95') ",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Atende\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "ba9bbbaa-4567-489a-bcde-f18822574bcc",
+                  "properties": {
+                    "field": "not_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "not_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_applicable) AS \"Não Aplicavel\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_applicable= '1' AND id_question < '95')",
+          "refId": "D",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Aplicavel\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_applicable",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "99a9a89b-cdef-4012-b456-71882257f2c7",
+                  "properties": {
+                    "field": "id_answer",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "id_answer = '1'"
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "5. Controles Organizacionais",
+      "type": "piechart"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 94,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 6,
+        "y": 17
+      },
+      "id": 9,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(id_answer) AS \"Respondidos\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND id_question <95",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Respondidos\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_answer",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "5. Controles Organizacionais - Questões Respondidas",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 94,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "light-blue",
+                "value": 14
+              },
+              {
+                "color": "super-light-green",
+                "value": 47
+              },
+              {
+                "color": "green",
+                "value": 75
+              },
+              {
+                "color": "green",
+                "value": 94
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 13,
+        "y": 17
+      },
+      "id": 10,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select sum(tb_weight.weight) from tb_weight inner join tb_answer on tb_weight.id_weight = tb_answer.id_answer WHERE tb_answer.id_company = $company AND tb_answer.id_question < 95;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "weight",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_weight"
+        }
+      ],
+      "title": "5. Controles Organizacionais - Pontuação ",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 19,
+        "y": 17
+      },
+      "id": 11,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "text": {},
+        "valueMode": "text"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(tb_evidence.id_evidence) FROM tb_evidence inner join tb_answer on tb_evidence.id_evidence = tb_answer.id_answer WHERE tb_answer.id_company = $company AND tb_answer.id_question < 95; ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_evidence",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_evidence"
+        }
+      ],
+      "title": "5. Controles Organizacionais - Evidências Anexadas",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "COUNT(fully_met)",
+                  "COUNT(partially_met)",
+                  "COUNT(not_met)"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 0,
+        "y": 26
+      },
+      "id": 4,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(fully_met) AS \"Atende Totalmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (fully_met = '1' AND id_question > '94' and id_question < '136') ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Totalmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "fully_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a989b98b-0123-4456-b89a-b18822234fbd",
+                  "properties": {
+                    "field": "fully_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                },
+                {
+                  "id": "b88babab-89ab-4cde-b012-318822b0fec1",
+                  "properties": {
+                    "field": "id_question",
+                    "operator": "equal",
+                    "value": [
+                      "95"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "properties": {
+                "conjunction": "AND"
+              },
+              "type": "group"
+            },
+            "whereString": "(fully_met = '1' AND id_question = '95')"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(partially_met) AS \"Atende Pacialmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND ( partially_met= '1' AND id_question > '94' and id_question < '136') ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Pacialmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "partially_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b8a9b9b9-cdef-4012-b456-718822561ce1",
+                  "properties": {
+                    "field": "partially_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "partially_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_met) AS \"Não Atende\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_met = '1' AND id_question > '94' and id_question < '136')",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Atende\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "ba9bbbaa-4567-489a-bcde-f18822574bcc",
+                  "properties": {
+                    "field": "not_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "not_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_applicable) AS \"Não Aplicavel\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_applicable= '1' AND id_question > '94' and id_question < '136')",
+          "refId": "D",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Aplicavel\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_applicable",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "99a9a89b-cdef-4012-b456-71882257f2c7",
+                  "properties": {
+                    "field": "id_answer",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "id_answer = '1'"
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "6. Controles de pessoas",
+      "type": "piechart"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 41,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 6,
+        "y": 26
+      },
+      "id": 12,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(id_answer) AS \"Respondidos\" FROM tb_answer WHERE tb_answer.id_company = $company AND (id_question > '94' and id_question < '136')",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Respondidos\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_answer",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "6. Controles de pessoas - Questões Respondidas",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 41,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              },
+              {
+                "color": "blue",
+                "value": 6
+              },
+              {
+                "color": "super-light-green",
+                "value": 21
+              },
+              {
+                "color": "green",
+                "value": 33
+              },
+              {
+                "color": "green",
+                "value": 41
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 13,
+        "y": 26
+      },
+      "id": 15,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select sum(tb_weight.weight) from tb_weight inner join tb_answer on tb_weight.id_weight = tb_answer.id_answer WHERE tb_answer.id_company = $company AND (tb_answer.id_question > '94' and tb_answer.id_question < '136');",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "weight",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_weight"
+        }
+      ],
+      "title": "6. Controles de pessoas - Pontuação ",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 19,
+        "y": 26
+      },
+      "id": 16,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "text": {},
+        "valueMode": "text"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(tb_evidence.id_evidence) FROM tb_evidence inner join tb_answer on tb_evidence.id_evidence = tb_answer.id_answer WHERE tb_answer.id_company = $company AND (tb_answer.id_question > '94' and tb_answer.id_question < '136'); ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_evidence",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_evidence"
+        }
+      ],
+      "title": "6. Controles de pessoas - Evidências Anexadas",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "COUNT(fully_met)",
+                  "COUNT(partially_met)",
+                  "COUNT(not_met)"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 0,
+        "y": 35
+      },
+      "id": 6,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(fully_met) AS \"Atende Totalmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (fully_met = '1' AND id_question > '135' and id_question < '203') ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Totalmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "fully_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a989b98b-0123-4456-b89a-b18822234fbd",
+                  "properties": {
+                    "field": "fully_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                },
+                {
+                  "id": "b88babab-89ab-4cde-b012-318822b0fec1",
+                  "properties": {
+                    "field": "id_question",
+                    "operator": "equal",
+                    "value": [
+                      "95"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "properties": {
+                "conjunction": "AND"
+              },
+              "type": "group"
+            },
+            "whereString": "(fully_met = '1' AND id_question = '95')"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(partially_met) AS \"Atende Pacialmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND ( partially_met= '1' AND id_question > '135' and id_question < '203') ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Pacialmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "partially_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b8a9b9b9-cdef-4012-b456-718822561ce1",
+                  "properties": {
+                    "field": "partially_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "partially_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_met) AS \"Não Atende\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_met = '1' AND id_question > '135' and id_question < '203')",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Atende\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "ba9bbbaa-4567-489a-bcde-f18822574bcc",
+                  "properties": {
+                    "field": "not_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "not_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_applicable) AS \"Não Aplicavel\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_applicable= '1' AND id_question > '135' and id_question < '203')",
+          "refId": "D",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Aplicavel\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_applicable",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "99a9a89b-cdef-4012-b456-71882257f2c7",
+                  "properties": {
+                    "field": "id_answer",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "id_answer = '1'"
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "7. Controles físicos",
+      "type": "piechart"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 67,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 7,
+        "x": 6,
+        "y": 35
+      },
+      "id": 13,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(id_answer) AS \"Respondidos\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (id_question > '135' and id_question < '203')",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Respondidos\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_answer",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "7. Controles físicos - Questões Respondidas",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 67,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              },
+              {
+                "color": "super-light-blue",
+                "value": 10
+              },
+              {
+                "color": "super-light-green",
+                "value": 34
+              },
+              {
+                "color": "green",
+                "value": 54
+              },
+              {
+                "color": "green",
+                "value": 67
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 13,
+        "y": 35
+      },
+      "id": 17,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select sum(tb_weight.weight) from tb_weight inner join tb_answer on tb_weight.id_weight = tb_answer.id_answer WHERE tb_answer.id_company = $company AND (tb_answer.id_question > '135' and tb_answer.id_question < '203');",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "weight",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_weight"
+        }
+      ],
+      "title": "7. Controles físicos - Pontuação ",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 5,
+        "x": 19,
+        "y": 35
+      },
+      "id": 18,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "text": {},
+        "valueMode": "text"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(tb_evidence.id_evidence) FROM tb_evidence inner join tb_answer on tb_evidence.id_evidence = tb_answer.id_answer WHERE tb_answer.id_company = $company AND (tb_answer.id_question > '135' and tb_answer.id_question < '203'); ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_evidence",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_evidence"
+        }
+      ],
+      "title": "7. Controles físicos - Evidências Anexadas",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 0,
+        "y": 45
+      },
+      "id": 5,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(fully_met) AS \"Atende Totalmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (fully_met = '1' AND id_question > '202' and id_question < '320') ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Totalmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "fully_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a989b98b-0123-4456-b89a-b18822234fbd",
+                  "properties": {
+                    "field": "fully_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                },
+                {
+                  "id": "b88babab-89ab-4cde-b012-318822b0fec1",
+                  "properties": {
+                    "field": "id_question",
+                    "operator": "equal",
+                    "value": [
+                      "95"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "properties": {
+                "conjunction": "AND"
+              },
+              "type": "group"
+            },
+            "whereString": "(fully_met = '1' AND id_question = '95')"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(partially_met) AS \"Atende Pacialmente\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND ( partially_met= '1' AND id_question > '202' and id_question < '320') ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Atende Pacialmente\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "partially_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b8a9b9b9-cdef-4012-b456-718822561ce1",
+                  "properties": {
+                    "field": "partially_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "partially_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_met) AS \"Não Atende\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_met = '1' AND id_question > '202' and id_question < '320')",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Atende\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_met",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "ba9bbbaa-4567-489a-bcde-f18822574bcc",
+                  "properties": {
+                    "field": "not_met",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "not_met = '1'"
+          },
+          "table": "tb_answer"
+        },
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(not_applicable) AS \"Não Aplicavel\" FROM mydb.tb_answer WHERE tb_answer.id_company = $company AND (not_applicable= '1' AND id_question > '202' and id_question < '320')",
+          "refId": "D",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Não Aplicavel\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "not_applicable",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "99a9a89b-cdef-4012-b456-71882257f2c7",
+                  "properties": {
+                    "field": "id_answer",
+                    "operator": "equal",
+                    "value": [
+                      "1"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bb88a9a9-89ab-4cde-b012-3188221ded30",
+              "type": "group"
+            },
+            "whereString": "id_answer = '1'"
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "8. Controles tecnológicos",
+      "type": "piechart"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 118,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 7,
+        "x": 6,
+        "y": 45
+      },
+      "id": 14,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(id_answer) AS \"Respondidos\" FROM tb_answer WHERE tb_answer.id_company = $company AND (id_question > '202' and id_question < '320')",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"Respondidos\"",
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_answer",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_answer"
+        }
+      ],
+      "title": "8. Controles tecnológicos - Questões Respondidas",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 118,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              },
+              {
+                "color": "super-light-blue",
+                "value": 18
+              },
+              {
+                "color": "super-light-green",
+                "value": 59
+              },
+              {
+                "color": "green",
+                "value": 94
+              },
+              {
+                "color": "green",
+                "value": 118
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 13,
+        "y": 45
+      },
+      "id": 19,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select sum(tb_weight.weight) from tb_weight inner join tb_answer on tb_weight.id_weight = tb_answer.id_answer WHERE tb_answer.id_company = $company AND (tb_answer.id_question > '202' and tb_answer.id_question < '320');",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "weight",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_weight"
+        }
+      ],
+      "title": "8. Controles tecnológicos - Pontuação ",
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 5,
+        "x": 19,
+        "y": 45
+      },
+      "id": 20,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "text": {},
+        "valueMode": "text"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "c1d5da12-13f2-48cc-aa37-bd1d058e00af"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(tb_evidence.id_evidence) FROM tb_evidence inner join tb_answer on tb_evidence.id_evidence = tb_answer.id_answer WHERE tb_answer.id_company = $company AND (tb_answer.id_question > '202' and tb_answer.id_question < '320'); ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "COUNT",
+                "parameters": [
+                  {
+                    "name": "id_evidence",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "tb_evidence"
+        }
+      ],
+      "title": "8. Controles tecnológicos - Evidências Anexadas",
+      "type": "bargauge"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "2",
+          "value": "-1"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "company",
+        "options": [],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "America/Sao_Paulo",
+  "title": "Aplicação TCC",
+  "uid": "f29eb8e9-aa99-46b7-ba2c-7c8bdbf35eb1",
+  "version": 18,
+  "weekStart": ""
+}

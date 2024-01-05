@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: MySQL
+    type: mysql
+    orgId: 1
+    isDefault: true
+    url: $GF_MYSQL_URL
+    user: $GF_MYSQL_USER
+    jsonData:
+      database: $GF_MYSQL_DATABASE
+    secureJsonData:
+      password: $GF_MYSQL_PASSWORD

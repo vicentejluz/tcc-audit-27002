@@ -1,0 +1,11 @@
+**/target/
+**/.git
+**/README.md
+**/.vscode
+**/.env
+**/META-INF/
+**/grafana/
+**/.gitattributes
+**/.gitignore
+**/LICENSE
+**/view

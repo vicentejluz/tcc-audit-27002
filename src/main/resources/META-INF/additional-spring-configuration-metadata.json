@@ -1,0 +1,9 @@
+{
+    "properties": [
+        {
+            "name": "api_token_secret",
+            "type": "java.lang.String",
+            "description": "Secret key used for signing and verifying JWT (JSON Web Tokens) in the application. This key is essential to ensure the authenticity and integrity of tokens, providing an additional layer of security in the user authentication and authorization process. Keep this key confidential to preserve system security."
+        }
+    ]
+}

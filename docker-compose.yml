@@ -1,0 +1,123 @@
+version: "3.8"
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    image: vicentejluz/mysql-tcc:1.0.0
+    container_name: mydb
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: $MYSQLDB_DATABASE
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysqldb_root_password
+      MYSQL_USER: $MYSQLDB_USER
+      MYSQL_PASSWORD_FILE: /run/secrets/mysqldb_user_password
+    secrets:
+      - mysqldb_root_password
+      - mysqldb_user_password
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - backend
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin:5.2.1
+    container_name: phpmyadmin
+    restart: on-failure
+    ports:
+      - 8888:80
+    environment:
+      - PMA_HOST=$MYSQLDB_DATABASE
+    networks:
+      - backend
+
+  backend:
+    depends_on:
+      - db
+    build:
+      context: .
+    image: vicentejluz/tcc-audit-api:1.0.0
+    working_dir: /usr/src/tcc_audit
+    container_name: tcc-audit-backend
+    restart: on-failure
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/$MYSQLDB_DATABASE?useTimezone=true&serverTimezone=America/Sao_Paulo
+      SPRING_DATASOURCE_USERNAME: $MYSQLDB_USER
+      SPRING_DATASOURCE_PASSWORD_FILE: /run/secrets/mysqldb_user_password
+      API_TOKEN_SECRET_FILE: /run/secrets/token_secret
+    secrets:
+      - mysqldb_user_password
+      - token_secret
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+      - frontend
+
+  frontend:
+    depends_on:
+      - backend
+    image: nginx:1.25.3-alpine3.18-slim
+    container_name: tcc-audit-frontend
+    restart: on-failure
+    ports:
+      - 80:80
+    volumes:
+      - ./view:/usr/share/nginx/html
+    networks:
+      - frontend
+
+  grafana:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile.grafana
+    image: vicentejluz/grafana-tcc:1.0.0
+    restart: on-failure
+    environment:
+      GF_MYSQL_PASSWORD__FILE: /run/secrets/mysqldb_user_password
+      GF_MYSQL_USER: $MYSQLDB_USER
+      GF_MYSQL_DATABASE: $MYSQLDB_DATABASE
+      GF_MYSQL_URL: db
+      GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/aplicacaoTCC.json
+      GF_USERS_DEFAULT_THEME: light
+      GF_AUTH_ANONYMOUS_ENABLED: true
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_AUTH_DISABLE_SIGNOUT_MENU: true
+      GF_AUTH_DISABLE_LOGIN_FORM: true
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboard_mysql/aplicacaoTCC.json:/var/lib/grafana/dashboards/aplicacaoTCC.json
+    secrets:
+      - mysqldb_user_password
+    container_name: grafana
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+
+volumes:
+  mysqldata:
+
+
+networks:
+  frontend:
+  backend:
+
+
+secrets:
+  mysqldb_root_password:
+    environment: MYSQLDB_ROOT_PASSWORD
+  mysqldb_user_password:
+    environment: MYSQLDB_USER_PASSWORD
+  token_secret:
+    environment: TOKEN_SECRET
