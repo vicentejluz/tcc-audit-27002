@@ -1,4 +1,4 @@
-# TCC Audit - ISO/IEC 27002/2022
+# TCC Audit - ISO/IEC 27002:2022
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Maven](https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
@@ -25,7 +25,7 @@
 
 ## About
 
-The TCC Audit is a tool developed as part of the Course Completion Project (TCC) at FATEC São Caetano do Sul, specifically within the Information Security field. Its main objective is to help organizations assess their maturity in information security best practices, based on the guidelines outlined in the ISO/IEC 27002/2022 standard.
+The TCC Audit is a tool developed as part of the Course Completion Project (TCC) at FATEC São Caetano do Sul, specifically within the Information Security field. Its main objective is to help organizations assess their maturity in information security best practices, based on the guidelines outlined in the ISO/IEC 27002:2022 standard.
 
 This standard establishes a comprehensive framework consisting of controls, guidelines, and best practices designed to improve information security in organizations. The overall objective is to ensure the confidentiality, integrity, and availability of confidential data.
 
