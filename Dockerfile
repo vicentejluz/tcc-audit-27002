@@ -15,7 +15,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21.0.1_12-jre-alpine
 
 ENV PROJECT_HOME /usr/src/tcc_audit
-ENV JAR_NAME tcc-audit-0.0.1-SNAPSHOT.jar
+ENV JAR_NAME tcc-audit-1.0.jar
 ENV NEW_JAR_NAME tcc_audit.jar
 
 RUN mkdir -p $PROJECT_HOME

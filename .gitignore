@@ -47,7 +47,8 @@ buildNumber.properties
 .classpath
 
 ### VisualStudioCode ###
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 
 # Local History for Visual Studio Code
 .history/
@@ -59,6 +60,9 @@ buildNumber.properties
 # Ignore all local history of files
 .history
 .ionide
+
+## Ignore the .env file
+.env
 
 ### Gradle ###
 .gradle
@@ -86,5 +90,3 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,visualstudiocode,gradle
-
-.env

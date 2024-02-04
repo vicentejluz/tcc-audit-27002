@@ -1,6 +1,3 @@
-FROM grafana/grafana:10.2.3
-
-ENV GF_USERS_HOME_PAGE=/d/f29eb8e9-aa99-46b7-ba2c-7c8bdbf35eb1/aplicacao-tcc?orgId=1
-ENV GF_SECURITY_ALLOW_EMBEDDING=true
+FROM grafana/grafana:10.3.1
 
 RUN grafana cli plugins install yesoreyeram-boomtheme-panel & grafana cli plugins install gapit-htmlgraphics-panel

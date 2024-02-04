@@ -2,12 +2,10 @@ version: "3.8"
 
 services:
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile.mysql
-    image: vicentejluz/mysql-tcc:1.0.0
+    image: mysql:8.3.0
     container_name: mydb
     restart: unless-stopped
+    command: [ "mysqld", "--max-allowed-packet=128M" ]
     environment:
       MYSQL_DATABASE: $MYSQLDB_DATABASE
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysqldb_root_password
@@ -20,6 +18,7 @@ services:
       - 3306:3306
     volumes:
       - mysqldata:/var/lib/mysql
+      - ./src/main/resources/db/TCC_DB_V9.sql:/docker-entrypoint-initdb.d/TCC_DB_V9.sql
     networks:
       - backend
 
@@ -81,14 +80,17 @@ services:
       context: .
       dockerfile: Dockerfile.grafana
     image: vicentejluz/grafana-tcc:1.0.0
+    container_name: grafana
     restart: on-failure
     environment:
       GF_MYSQL_PASSWORD__FILE: /run/secrets/mysqldb_user_password
       GF_MYSQL_USER: $MYSQLDB_USER
       GF_MYSQL_DATABASE: $MYSQLDB_DATABASE
       GF_MYSQL_URL: db
+      GF_SECURITY_ALLOW_EMBEDDING: true
       GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
       GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/aplicacaoTCC.json
+      GF_USERS_HOME_PAGE: /d/f29eb8e9-aa99-46b7-ba2c-7c8bdbf35eb1/aplicacao-tcc?orgId=1
       GF_USERS_DEFAULT_THEME: light
       GF_AUTH_ANONYMOUS_ENABLED: true
       GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
@@ -99,7 +101,6 @@ services:
       - ./grafana/dashboard_mysql/aplicacaoTCC.json:/var/lib/grafana/dashboards/aplicacaoTCC.json
     secrets:
       - mysqldb_user_password
-    container_name: grafana
     ports:
       - 3000:3000
     networks:

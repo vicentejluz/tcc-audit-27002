@@ -1,5 +1,0 @@
-FROM mysql:8.0.35
-
-ADD src/main/resources/db/TCC_DB_V9.sql /docker-entrypoint-initdb.d/
-
-CMD ["mysqld", "--max-allowed-packet=128M"]
