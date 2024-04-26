@@ -26,4 +26,4 @@ file_env() {
 file_env 'SPRING_DATASOURCE_PASSWORD'
 file_env 'API_TOKEN_SECRET'
 
-exec java -jar -Dspring.profiles.active=docker tcc_audit.jar
+exec java -jar -Dspring.profiles.active=build tcc_audit.jar

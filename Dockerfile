@@ -12,7 +12,7 @@ ADD . $PROJECT_HOME
 RUN mvn clean package -DskipTests
 
 # Estágio de execução
-FROM eclipse-temurin:21.0.1_12-jre-alpine
+FROM eclipse-temurin:21.0.3_9-jre-jammy
 
 ENV PROJECT_HOME /usr/src/tcc_audit
 ENV JAR_NAME tcc-audit-1.0.jar

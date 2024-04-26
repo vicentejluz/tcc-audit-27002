@@ -116,9 +116,9 @@ The API provides the following endpoints:
 - **Employee:**
 ```markdown
 GET /employees - List all employees. (ADMIN access required)
-GET /employee/{idEmployee} - Retrieve information about a specific employee based on ID. (all authenticated employees)
+GET /employee/:id - Retrieve information about a specific employee based on ID. (all authenticated employees)
 POST /sign-up - Register a new employee in the system. (ADMIN access required)
-PUT /is-enabled/{idEmployee} -  Block or unblock an employee's login. (ADMIN access required)
+PUT /is-enabled/:id - Block or unblock an employee's login. (ADMIN access required)
 ```
 
 - **Company:**
@@ -133,15 +133,15 @@ POST /login - Performs employee authentication, generating an access token. (Pub
 
 - **Evidence:**
 ```markdown
-GET /evidences/{id} - Retrieves information about a specific evidence based on its ID. (all authenticated employees)
-GET /evidences/download/{idEvidence} - Downloads the file associated with a specific evidence. (all authenticated employees)
+GET /evidences/:id - Retrieves information about a specific evidence based on its ID. (all authenticated employees)
+GET /evidences/download/:id - Downloads the file associated with a specific evidence. (all authenticated employees)
 POST /evidences/upload - Uploads a new evidence to the system. (all authenticated employees)
-DELETE /evidences/delete/{idEvidence} - Deletes a specific evidence from the system. (all authenticated employees)
+DELETE /evidences/delete/:id - Deletes a specific evidence from the system. (all authenticated employees)
 ```
 
 - **Answer:**
 ```markdown
-GET /answers/count/{idCompany} - Returns the total count of responses for a specific company. (all authenticated employees)
+GET /answers/count/:id - Returns the total count of responses for a specific company. (all authenticated employees)
 GET /answers/by-topic - Returns responses organized by topic. (all authenticated employees)
 POST /answers - Submits a new response to the system. (all authenticated employees)
 ```
@@ -153,17 +153,17 @@ GET /via-cep - Returns address information based on the provided postal code. (p
 
 - **Topic:**
 ```markdown
-GET /topics/{topic} - Returns detailed information about a specific topic. (all authenticated employees)
+GET /topics/:topic - Returns detailed information about a specific topic. (all authenticated employees)
 ```
 
 - **Summary:**
 ```markdown
-GET /summaries/{topic} - Returns a summary related to a specific topic. (all authenticated employees)
+GET /summaries/:topic - Returns a summary related to a specific topic. (all authenticated employees)
 ```
 
 - **Question:**
 ```markdown
-GET /questions/summaries/{idSummary} - Returns questions associated with a specific summary. (all authenticated employees)
+GET /questions/summaries/:id - Returns questions associated with a specific summary. (all authenticated employees)
 ```
 
 - **Department:**
@@ -174,52 +174,52 @@ GET /departments - Returns information about all departments. (ADMIN access requ
 ## Screenshots
 
 ![Logical_Data_Model_Diagram](screenshots/logical_data_model_diagram.png)
-*Representation of the logical data model illustrating entities, relationships, and attributes, providing a structured overview of the data structure within the system.*
+>*Representation of the logical data model illustrating entities, relationships, and attributes, providing a structured overview of the data structure within the system.*
 
 <br>
 
 ![Index](screenshots/index.png)
-*Home page of the system.*
+>*Home page of the system.*
 
 <br>
 
 ![Sign Up Company](screenshots/sign_up_company.png)
-*Registering a new company in the system.*
+>*Registering a new company in the system.*
 
 <br>
 
 ![Login](screenshots/login.png)
-*Logging into the system.*
+>*Logging into the system.*
 
 <br>
 
 ![Dashboard](screenshots/dashboard.png)
-*Overview of the system's dashboard.*
+>*Overview of the system's dashboard.*
 
 <br>
 
 ![Sign Up](screenshots/sign_up.png)
-*Employee registration page.*
+>*Employee registration page.*
 
 <br>
 
 ![Block/Unblock Employee](screenshots/block_unblock_employee.png)
-*Blocking or unblocking an employee in the system.*
+>*Blocking or unblocking an employee in the system.*
 
 <br>
 
 ![Question](screenshots/question.png)
-*ISO-related questionnaire form for employees to provide information about the company's adherence to ISO standards.*
+>*ISO-related questionnaire form for employees to provide information about the company's adherence to ISO standards.*
 
 <br>
 
 ![Congratulations](screenshots/congratulations.png)
-*Pop-up notification displayed upon completing all questionnaire responses.*
+>*Pop-up notification displayed upon completing all questionnaire responses.*
 
 <br>
 
 ![Grafana](screenshots/grafana.png)
-*Grafana visualization to filter and analyze data from form responses.*
+>*Grafana visualization to filter and analyze data from form responses.*
 
 ## Troubleshooting:
 
