@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:8.3.0
+    image: mysql:9.0.0
     container_name: mydb
     restart: unless-stopped
     command: [ "mysqld", "--max-allowed-packet=128M" ]
@@ -38,7 +38,7 @@ services:
       - db
     build:
       context: .
-    image: vicentejluz/tcc-audit-api:1.0.0
+    image: vicentejluz/tcc-audit-api:1.1.0
     working_dir: /usr/src/tcc_audit
     container_name: tcc-audit-backend
     restart: on-failure
@@ -61,7 +61,7 @@ services:
   frontend:
     depends_on:
       - backend
-    image: nginx:1.26.0-alpine3.19-slim
+    image: nginx:1.26.1-alpine3.19-slim
     container_name: tcc-audit-frontend
     restart: on-failure
     ports:

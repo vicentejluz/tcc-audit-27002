@@ -1,5 +1,5 @@
 # Estágio de compilação
-FROM maven:3.9.6-eclipse-temurin-21-alpine as build
+FROM maven:3.9.8-eclipse-temurin-21-alpine as build
 
 ENV PROJECT_HOME /usr/src/tcc_audit
 
@@ -15,7 +15,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21.0.3_9-jre-jammy
 
 ENV PROJECT_HOME /usr/src/tcc_audit
-ENV JAR_NAME tcc-audit-1.0.jar
+ENV JAR_NAME tcc-audit-1.1.jar
 ENV NEW_JAR_NAME tcc_audit.jar
 
 RUN mkdir -p $PROJECT_HOME

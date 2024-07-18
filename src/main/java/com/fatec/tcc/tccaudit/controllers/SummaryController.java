@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fatec.tcc.tccaudit.models.dto.SummaryDTO;
 import com.fatec.tcc.tccaudit.services.SummaryService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/summaries")
+@SecurityRequirement(name = "bearer-key")
 public class SummaryController {
     @Autowired
     private SummaryService summaryService;

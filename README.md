@@ -114,62 +114,42 @@ For more information, access the [API Documentation](http://localhost:8080/tcc-a
 The API provides the following endpoints:
 
 - **Employee:**
-```markdown
-GET /employees - List all employees. (ADMIN access required)
-GET /employee/:id - Retrieve information about a specific employee based on ID. (all authenticated employees)
-POST /sign-up - Register a new employee in the system. (ADMIN access required)
-PUT /is-enabled/:id - Block or unblock an employee's login. (ADMIN access required)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/employees` - List all employees. (ADMIN access required)  
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/employee/:id` - Retrieve information about a specific employee based on ID. (all authenticated employees)
+  - ![POST](https://img.shields.io/badge/POST-2d6a4f?style=flat-square) `/sign-up` - Register a new employee in the system. (ADMIN access required)
+  - ![PUT](https://img.shields.io/badge/PUT-335c67?style=flat-square) `/is-enabled/:id` - Block or unblock an employee's login. (ADMIN access required)
 
 - **Company:**
-```markdown
-POST /sign-up-company - Registers a new company in the system. (Public access, no authentication required.)
-```
+  - ![POST](https://img.shields.io/badge/POST-2d6a4f?style=flat-square) `/sign-up-company` - Registers a new company in the system. (Public access, no authentication required.)
 
 - **Authentication:**
-```markdown
-POST /login - Performs employee authentication, generating an access token. (Public access, no authentication required.)
-```
+  - ![POST](https://img.shields.io/badge/POST-2d6a4f?style=flat-square) `/login` - Performs employee authentication, generating an access token. (Public access, no authentication required.)
 
 - **Evidence:**
-```markdown
-GET /evidences/:id - Retrieves information about a specific evidence based on its ID. (all authenticated employees)
-GET /evidences/download/:id - Downloads the file associated with a specific evidence. (all authenticated employees)
-POST /evidences/upload - Uploads a new evidence to the system. (all authenticated employees)
-DELETE /evidences/delete/:id - Deletes a specific evidence from the system. (all authenticated employees)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/evidences/:id` - Retrieves information about a specific evidence based on its ID. (all authenticated employees)
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/evidences/download/:id` - Downloads the file associated with a specific evidence. (all authenticated employees)
+  - ![POST](https://img.shields.io/badge/POST-2d6a4f?style=flat-square) `/evidences/upload` - Uploads a new evidence to the system. (all authenticated employees)
+  - ![DELETE](https://img.shields.io/badge/DELETE-f94144?style=flat-square) `/evidences/delete/:id` - Deletes a specific evidence from the system. (all authenticated employees)
 
 - **Answer:**
-```markdown
-GET /answers/count/:id - Returns the total count of responses for a specific company. (all authenticated employees)
-GET /answers/by-topic - Returns responses organized by topic. (all authenticated employees)
-POST /answers - Submits a new response to the system. (all authenticated employees)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/answers/count/:id` - Returns the total count of responses for a specific company. (all authenticated employees)
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/answers/by-topic` - Returns responses organized by topic. (all authenticated employees)
+  - ![POST](https://img.shields.io/badge/POST-2d6a4f?style=flat-square) `/answers` - Submits a new response to the system. (all authenticated employees)
 
 - **Address:**
-```markdown
-GET /via-cep - Returns address information based on the provided postal code. (public access, no authentication required.)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/via-cep` - Returns address information based on the provided postal code. (public access, no authentication required.)
 
 - **Topic:**
-```markdown
-GET /topics/:topic - Returns detailed information about a specific topic. (all authenticated employees)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/topics/:topic` - Returns detailed information about a specific topic. (all authenticated employees)
 
 - **Summary:**
-```markdown
-GET /summaries/:topic - Returns a summary related to a specific topic. (all authenticated employees)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/summaries/:topic` - Returns a summary related to a specific topic. (all authenticated employees)
 
 - **Question:**
-```markdown
-GET /questions/summaries/:id - Returns questions associated with a specific summary. (all authenticated employees)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/questions/summaries/:id` - Returns questions associated with a specific summary. (all authenticated employees)
 
 - **Department:**
-```markdown
-GET /departments - Returns information about all departments. (ADMIN access required)
-```
+  - ![GET](https://img.shields.io/badge/GET-4472ca?style=flat-square) `/departments` - Returns information about all departments. (ADMIN access required)
 
 ## Screenshots
 

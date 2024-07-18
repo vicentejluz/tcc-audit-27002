@@ -22,8 +22,11 @@ import com.fatec.tcc.tccaudit.models.entities.Evidence;
 import com.fatec.tcc.tccaudit.services.EvidenceService;
 import com.fatec.tcc.tccaudit.services.exceptions.ResourceNotFoundException;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping(value = "/evidences")
+@SecurityRequirement(name = "bearer-key")
 public class EvidenceController {
     @Autowired
     private EvidenceService evidenceService;
@@ -35,7 +38,6 @@ public class EvidenceController {
         evidence.setMultipartFile(file);
         SaveOrUploadEvidenceDTO evidenceDTO = evidenceService.saveOrUpdateEvidence(evidence, idAnswer);
         return ResponseEntity.ok(evidenceDTO);
-
     }
 
     @GetMapping("/download/{idEvidence}")

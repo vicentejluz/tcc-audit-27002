@@ -14,8 +14,11 @@ import com.fatec.tcc.tccaudit.models.entities.Summary;
 import com.fatec.tcc.tccaudit.services.QuestionService;
 import com.fatec.tcc.tccaudit.services.SummaryService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping(value = "/questions")
+@SecurityRequirement(name = "bearer-key")
 public class QuestionController {
     @Autowired
     private QuestionService questionService;

@@ -17,9 +17,11 @@ import com.fatec.tcc.tccaudit.models.dto.SignUpEmployeeDTO;
 import com.fatec.tcc.tccaudit.models.entities.Employee;
 import com.fatec.tcc.tccaudit.services.EmployeeService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
+@SecurityRequirement(name = "bearer-key")
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;

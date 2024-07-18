@@ -16,10 +16,12 @@ import com.fatec.tcc.tccaudit.models.dto.AnswerDTO;
 import com.fatec.tcc.tccaudit.models.dto.AnswerLikeTopicDTO;
 import com.fatec.tcc.tccaudit.services.AnswerService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/answers")
+@SecurityRequirement(name = "bearer-key")
 public class AnswerController {
     @Autowired
     private AnswerService answerService;

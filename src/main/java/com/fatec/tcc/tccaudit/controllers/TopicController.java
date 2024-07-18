@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fatec.tcc.tccaudit.models.entities.Topic;
 import com.fatec.tcc.tccaudit.services.TopicService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping(value = "/topics")
+@SecurityRequirement(name = "bearer-key")
 public class TopicController {
     @Autowired
     private TopicService topicService;

@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fatec.tcc.tccaudit.models.entities.Department;
 import com.fatec.tcc.tccaudit.services.DepartmentService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping(value = "/departments")
+@SecurityRequirement(name = "bearer-key")
 public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
